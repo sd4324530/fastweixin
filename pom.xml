@@ -6,6 +6,7 @@
 
     <groupId>com.py</groupId>
     <artifactId>fastweixin</artifactId>
+    <url>https://github.com/sd4324530/fastweixin.git</url>
     <version>1.0</version>
     <packaging>jar</packaging>
     <name>fastweixin</name>
@@ -16,6 +17,34 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/sd4324530/fastweixin.git</connection>
+        <developerConnection>scm:git:git@github.com:sd4324530/fastweixin.git</developerConnection>
+        <url>https://github.com/sd4324530/fastweixin.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>peiyu</id>
+            <name>peiyu</name>
+            <email>125331682@qq.com</email>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/sd4324530/fastweixin/issues</url>
+    </issueManagement>
+
 
     <!-- 声明的常量 标识各个jar版本 -->
     <properties>
