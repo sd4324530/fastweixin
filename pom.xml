@@ -27,7 +27,7 @@
         <connection>scm:git:git://github.com/sd4324530/fastweixin.git</connection>
         <developerConnection>scm:git:git@github.com:sd4324530/fastweixin.git</developerConnection>
         <url>https://github.com/sd4324530/fastweixin.git</url>
-        <tag>HEAD</tag>
+        <tag>v1.0</tag>
     </scm>
 
     <developers>
