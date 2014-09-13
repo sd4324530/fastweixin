@@ -11,7 +11,7 @@ QQ:125331682<br>
 ```Java
 @RestController
 @RequestMapping("/weixin")
-public class WeixinController extends WeixinServletSupport {
+public class WeixinController extends WeixinControllerSupport {
         private static final Logger log = LoggerFactory.getLogger(WeixinController.class);
         private static final String TOKEN = "erhuluanzi";
         //设置TOKEN，用于绑定微信服务器
