@@ -7,51 +7,64 @@ import com.github.sd4324530.fastweixin.util.MessageUtil;
 import com.github.sd4324530.fastweixin.util.SignUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 /**
  * 微信公众平台交互操作基类，提供几乎所有微信公众平台交互方式
- * 基于javaee框架，方便使用此框架的项目集成
+ * 基于springmvc框架，方便使用此框架的项目集成
  * @author peiyu
- * @since 1.1
  */
-public abstract class WeixinServletSupport extends HttpServlet {
+@RestController
+public abstract class WeixinControllerSupport {
 
-    private static final Logger log = LoggerFactory.getLogger(WeixinServletSupport.class);
+    private static final Logger log = LoggerFactory.getLogger(WeixinControllerSupport.class);
 
+    /**
+     * 子类提供token用于绑定微信公众平台
+     * @return token值
+     */
     protected abstract String getToken();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * 绑定微信服务器
+     * @param request 请求
+     * @return 响应内容
+     * @throws ServletException
+     * @throws IOException
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    protected final String bind(HttpServletRequest request) throws ServletException, IOException {
         if (isLegal(request)) {
             log.debug("绑定微信公众平台成功!");
-            PrintWriter pw = response.getWriter();
-            pw.write(request.getParameter("echostr"));
-            pw.flush();
-            pw.close();
+            return request.getParameter("echostr");
         } else {
             log.debug("绑定微信公众平台失败!");
+            return "";
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * 微信消息交互处理
+     * @param request
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    protected final String process(HttpServletRequest request) throws ServletException, IOException {
         if (!isLegal(request)) {
-            return;
+            return "";
         }
         log.debug("开始处理微信消息.....");
         String resp = processRequest(request);
-        PrintWriter pw = response.getWriter();
-        pw.write(resp);
-        pw.flush();
-        pw.close();
+        return resp;
     }
 
     private String processRequest(HttpServletRequest request) {
