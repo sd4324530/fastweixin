@@ -48,9 +48,6 @@
     <properties>
         <junit.version>4.11</junit.version>
         <spring.version>4.1.0.RELEASE</spring.version>
-        <guava.version>18.0</guava.version>
-        <joda-time.version>2.4</joda-time.version>
-        <logback.version>1.1.2</logback.version>
     </properties>
 
     <dependencies>
@@ -66,12 +63,6 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.7</version>
         </dependency>
 
         <dependency>

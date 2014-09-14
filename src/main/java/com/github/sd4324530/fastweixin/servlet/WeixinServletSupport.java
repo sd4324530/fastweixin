@@ -5,8 +5,6 @@ import com.github.sd4324530.fastweixin.message.TextMsg;
 import com.github.sd4324530.fastweixin.message.req.*;
 import com.github.sd4324530.fastweixin.util.MessageUtil;
 import com.github.sd4324530.fastweixin.util.SignUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,26 +16,25 @@ import java.util.Map;
 
 /**
  * 微信公众平台交互操作基类，提供几乎所有微信公众平台交互方式
- * 基于javaee框架，方便使用此框架的项目集成
+ * 基于javaee servlet框架，方便使用此框架的项目集成
+ *
  * @author peiyu
  * @since 1.1
  */
 public abstract class WeixinServletSupport extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(WeixinServletSupport.class);
 
     protected abstract String getToken();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isLegal(request)) {
-            log.debug("绑定微信公众平台成功!");
+            //绑定微信服务器成功
             PrintWriter pw = response.getWriter();
             pw.write(request.getParameter("echostr"));
             pw.flush();
             pw.close();
         } else {
-            log.debug("绑定微信公众平台失败!");
+            //绑定微信服务器失败
         }
     }
 
@@ -46,7 +43,6 @@ public abstract class WeixinServletSupport extends HttpServlet {
         if (!isLegal(request)) {
             return;
         }
-        log.debug("开始处理微信消息.....");
         String resp = processRequest(request);
         PrintWriter pw = response.getWriter();
         pw.write(resp);
@@ -77,19 +73,16 @@ public abstract class WeixinServletSupport extends HttpServlet {
                 BaseEvent event = new BaseEvent();
                 buildBasicEvent(reqMap, event);
                 msg = handleSubscribe(event);
-            }
-            else if (eventType.equals(EventType.UNSUBSCRIBE)) {
+            } else if (eventType.equals(EventType.UNSUBSCRIBE)) {
                 BaseEvent event = new BaseEvent();
                 buildBasicEvent(reqMap, event);
                 msg = handleUnsubscribe(event);
-            }
-            else if (eventType.equals(EventType.CLICK)) {
+            } else if (eventType.equals(EventType.CLICK)) {
                 String eventKey = reqMap.get("EventKey");
                 MenuEvent event = new MenuEvent(eventKey);
                 buildBasicEvent(reqMap, event);
                 msg = handleMenuClickEvent(event);
-            }
-            else if (eventType.equals(EventType.VIEW)) {
+            } else if (eventType.equals(EventType.VIEW)) {
                 String eventKey = reqMap.get("EventKey");
                 MenuEvent event = new MenuEvent(eventKey);
                 buildBasicEvent(reqMap, event);
@@ -161,6 +154,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理文本消息，有需要时子类重写
+     *
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
@@ -170,6 +164,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理图片消息，有需要时子类重写
+     *
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
@@ -179,6 +174,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理语音消息，有需要时子类重写
+     *
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
@@ -188,6 +184,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理视频消息，有需要时子类重写
+     *
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
@@ -197,6 +194,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理地理位置消息，有需要时子类重写
+     *
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
@@ -206,6 +204,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理链接消息，有需要时子类重写
+     *
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
@@ -215,6 +214,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理扫描二维码事件，有需要时子类重写
+     *
      * @param event 扫描二维码事件对象
      * @return 响应消息对象
      */
@@ -224,6 +224,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理地理位置事件，有需要时子类重写
+     *
      * @param event 地理位置事件对象
      * @return 响应消息对象
      */
@@ -233,6 +234,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理菜单点击事件，有需要时子类重写
+     *
      * @param event 菜单点击事件对象
      * @return 响应消息对象
      */
@@ -242,6 +244,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理菜单跳转事件，有需要时子类重写
+     *
      * @param event 菜单跳转事件对象
      * @return 响应消息对象
      */
@@ -251,6 +254,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理添加关注事件，有需要时子类重写
+     *
      * @param event 添加关注事件对象
      * @return 响应消息对象
      */
@@ -260,6 +264,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 处理取消关注事件，有需要时子类重写
+     *
      * @param event 取消关注事件对象
      * @return 响应消息对象
      */
