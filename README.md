@@ -64,6 +64,14 @@ web.xml配置
 </servlet-mapping>
 ```
 
+Change Log
+=========
+[https://github.com/sd4324530/fastweixin/wiki/Change-Log](https://github.com/sd4324530/fastweixin/wiki/Change-Log)
+
+Why Use
+=========
+[https://github.com/sd4324530/fastweixin/wiki/Why-use](https://github.com/sd4324530/fastweixin/wiki/Why-use)
+
 Maven 项目引入
 ==========
 ```xml

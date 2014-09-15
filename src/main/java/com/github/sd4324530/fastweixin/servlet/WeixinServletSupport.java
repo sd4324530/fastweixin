@@ -25,28 +25,28 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     protected abstract String getToken();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (isLegal(request)) {
-            //绑定微信服务器成功
-            PrintWriter pw = response.getWriter();
-            pw.write(request.getParameter("echostr"));
-            pw.flush();
-            pw.close();
-        } else {
-            //绑定微信服务器失败
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            if (isLegal(request)) {
+                //绑定微信服务器成功
+                PrintWriter pw = response.getWriter();
+                pw.write(request.getParameter("echostr"));
+                pw.flush();
+                pw.close();
+            } else {
+                //绑定微信服务器失败
+            }
         }
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isLegal(request)) {
-            return;
-        }
-        String resp = processRequest(request);
-        PrintWriter pw = response.getWriter();
-        pw.write(resp);
-        pw.flush();
+        @Override
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            if (!isLegal(request)) {
+                return;
+            }
+            String resp = processRequest(request);
+            PrintWriter pw = response.getWriter();
+            pw.write(resp);
+            pw.flush();
         pw.close();
     }
 
