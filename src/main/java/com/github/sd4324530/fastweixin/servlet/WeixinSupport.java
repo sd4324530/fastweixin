@@ -8,72 +8,58 @@ import com.github.sd4324530.fastweixin.message.req.*;
 import com.github.sd4324530.fastweixin.util.MessageUtil;
 import com.github.sd4324530.fastweixin.util.SignUtil;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static com.github.sd4324530.fastweixin.util.BeanUtil.isNull;
 import static com.github.sd4324530.fastweixin.util.BeanUtil.nonNull;
+import static com.github.sd4324530.fastweixin.util.CollectionUtil.isEmpty;
 import static com.github.sd4324530.fastweixin.util.CollectionUtil.isNotEmpty;
 import static com.github.sd4324530.fastweixin.util.StrUtil.isNotBlank;
 
 /**
- * 微信公众平台交互操作基类，提供几乎所有微信公众平台交互方式
- * 基于javaee servlet框架，方便使用此框架的项目集成
+ * 将微信处理通用部分再抽象一层，使用其他框架框架的同学可以自行继承此类集成微信
  *
  * @author peiyu
  * @since 1.1
  */
-public abstract class WeixinServletSupport extends HttpServlet {
+public abstract class WeixinSupport {
 
     /**
      * 微信消息处理器列表
      */
-    private List<MessageHandle> messageHandles = new ArrayList<MessageHandle>();
+    private List<MessageHandle> messageHandles;
 
     /**
      * 微信事件处理器列表
      */
-    private List<EventHandle> eventHandles = new ArrayList<EventHandle>();
+    private List<EventHandle> eventHandles;
 
-    protected abstract List<MessageHandle> getMessageHandles();
+    /**
+     * 子类重写，加入自定义的微信消息处理器，细化消息的处理
+     * @return 微信消息处理器列表
+     */
+    protected List<MessageHandle> getMessageHandles() {
+        return null;
+    }
 
-    protected abstract List<EventHandle> getEventHandles();
+    /**
+     * 子类重写，加入自定义的微信事件处理器，细化消息的处理
+     * @return 微信事件处理器列表
+     */
+    protected List<EventHandle> getEventHandles() {
+        return null;
+    }
 
+    /**
+     * 子类提供token用于绑定微信公众平台
+     *
+     * @return token值
+     */
     protected abstract String getToken();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (isLegal(request)) {
-            //绑定微信服务器成功
-            PrintWriter pw = response.getWriter();
-            pw.write(request.getParameter("echostr"));
-            pw.flush();
-            pw.close();
-        } else {
-            //绑定微信服务器失败
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isLegal(request)) {
-            return;
-        }
-        String resp = processRequest(request);
-        PrintWriter pw = response.getWriter();
-        pw.write(resp);
-        pw.flush();
-        pw.close();
-    }
-
-    private String processRequest(HttpServletRequest request) {
+    String processRequest(HttpServletRequest request) {
         Map<String, String> reqMap = MessageUtil.parseXml(request);
         String fromUserName = reqMap.get("FromUserName");
         String toUserName = reqMap.get("ToUserName");
@@ -135,7 +121,6 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processEventHandle(event);
                 }
             }
-
         } else {
             if (msgType.equals(ReqType.TEXT)) {
                 String content = reqMap.get("Content");
@@ -197,19 +182,24 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processMessageHandle(linkReqMsg);
                 }
             }
-
         }
-
         if (isNull(msg)) {
             return "";
         }
-
         msg.setFromUserName(toUserName);
         msg.setToUserName(fromUserName);
         return msg.toXml();
     }
 
+    //充当锁
+    private Object lock = new Object();
+
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
+        if(isEmpty(this.messageHandles)) {
+            synchronized (lock) {
+                this.messageHandles = this.getMessageHandles();
+            }
+        }
         if (isNotEmpty(this.messageHandles)) {
             for (MessageHandle messageHandle : this.messageHandles) {
                 BaseMsg resultMsg = messageHandle.handle(msg);
@@ -222,6 +212,11 @@ public abstract class WeixinServletSupport extends HttpServlet {
     }
 
     private BaseMsg processEventHandle(BaseEvent event) {
+        if(isEmpty(this.eventHandles)) {
+            synchronized (lock) {
+                this.eventHandles = this.getEventHandles();
+            }
+        }
         if (isNotEmpty(this.eventHandles)) {
             for (EventHandle eventHandle : this.eventHandles) {
                 BaseMsg resultMsg = eventHandle.handle(event);
@@ -378,7 +373,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
         req.setCreateTime(Long.parseLong(reqMap.get("CreateTime")));
     }
 
-    private boolean isLegal(HttpServletRequest request) {
+    boolean isLegal(HttpServletRequest request) {
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
