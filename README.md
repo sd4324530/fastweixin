@@ -5,7 +5,7 @@ fastweixin
 QQ:125331682<br>
 #快速搭建微信公众平台服务器<br>
 简单封装了所有与微信服务器交互的消息:文本消息、图片消息、图文消息等等<br>
-1.0版本提供了一个基于`springmvc`的控制器，集成了微信服务器绑定、监听所有类型消息的方法<br>
+提供了基于`springmvc`以及基于`servlet`框架的控制器，集成了微信服务器绑定、监听所有类型消息的方法<br>
 使用时继承，重写即可，十分方便<br>
 
 ##基于`springmvc`项目的集成方法
@@ -27,6 +27,20 @@ public class WeixinController extends WeixinControllerSupport {
             log.debug("用户发送到服务器的内容:{}", content);
             return new TextMsg("服务器回复用户消息!");
         }
+        //1.1版本新增，重写父类方法，加入自定义微信消息处理器
+        @Override
+        protected List<MessageHandle> getMessageHandles() {
+                List<MessageHandle> handles = new ArrayList<MessageHandle>();
+                handles.add(new MyMessageHandle());
+                return handles;
+        }
+        //1.1版本新增，重写父类方法，加入自定义微信事件处理器
+        @Override
+        protected List<EventHandle> getEventHandles() {
+                List<EventHandle> handles = new ArrayList<EventHandle>();
+                handles.add(new MyEventHandle());
+                return handles;
+        }
 }
 ```
 
@@ -46,6 +60,20 @@ public class WeixinServlet extends WeixinServletSupport {
             String content = msg.getContent();
             log.debug("用户发送到服务器的内容:{}", content);
             return new TextMsg("服务器回复用户消息!");
+        }
+        //1.1版本新增，重写父类方法，加入自定义微信消息处理器
+        @Override
+        protected List<MessageHandle> getMessageHandles() {
+            List<MessageHandle> handles = new ArrayList<MessageHandle>();
+            handles.add(new MyMessageHandle());
+            return handles;
+        }
+        //1.1版本新增，重写父类方法，加入自定义微信事件处理器
+        @Override
+        protected List<EventHandle> getEventHandles() {
+            List<EventHandle> handles = new ArrayList<EventHandle>();
+            handles.add(new MyEventHandle());
+            return handles;
         }
 }
 ```
@@ -78,7 +106,7 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 </dependency>
 ```
 
