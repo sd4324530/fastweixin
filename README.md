@@ -27,14 +27,17 @@ public class WeixinController extends WeixinControllerSupport {
             log.debug("用户发送到服务器的内容:{}", content);
             return new TextMsg("服务器回复用户消息!");
         }
-        //1.1版本新增，重写父类方法，加入自定义微信消息处理器
+        /*1.1版本新增，重写父类方法，加入自定义微信消息处理器
+         *不是必须的，上面的方法是统一处理所有的文本消息，如果业务觉复杂，上面的会显得比较乱
+         *这个机制就是为了应对这种情况，每个MessageHandle就是一个业务，只处理指定的那部分消息
+         */
         @Override
         protected List<MessageHandle> getMessageHandles() {
                 List<MessageHandle> handles = new ArrayList<MessageHandle>();
                 handles.add(new MyMessageHandle());
                 return handles;
         }
-        //1.1版本新增，重写父类方法，加入自定义微信事件处理器
+        //1.1版本新增，重写父类方法，加入自定义微信事件处理器，同上
         @Override
         protected List<EventHandle> getEventHandles() {
                 List<EventHandle> handles = new ArrayList<EventHandle>();
