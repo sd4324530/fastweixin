@@ -42,14 +42,37 @@ public abstract class WeixinServletSupport extends HttpServlet {
      */
     private List<EventHandle> eventHandles = new ArrayList<EventHandle>();
 
+    /**
+     * 子类重写，加入自定义的微信消息处理器，细化消息的处理
+     *
+     * @return 微信消息处理器列表
+     */
     protected abstract List<MessageHandle> getMessageHandles();
 
+    /**
+     * 子类重写，加入自定义的微信事件处理器，细化消息的处理
+     *
+     * @return 微信事件处理器列表
+     */
     protected abstract List<EventHandle> getEventHandles();
 
+    /**
+     * 子类用于提供token用于绑定微信公众平台
+     *
+     * @return token值
+     */
     protected abstract String getToken();
 
+    /**
+     * 重写servlet中的get方法，用于处理微信服务器绑定，置为final方法，用户已经无需重写这个方法啦
+     *
+     * @param request  http请求对象
+     * @param response http响应对象
+     * @throws ServletException servlet异常
+     * @throws IOException      IO异常
+     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected final void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isLegal(request)) {
             //绑定微信服务器成功
             PrintWriter pw = response.getWriter();
@@ -57,12 +80,20 @@ public abstract class WeixinServletSupport extends HttpServlet {
             pw.flush();
             pw.close();
         } else {
-            //绑定微信服务器失败
+            //绑定微信服务器失败，没啥好做的，检查下是不是token写错了，重新来一次吧
         }
     }
 
+    /**
+     * 重写servlet中的post方法，用于接收微信服务器发来的消息，置为final方法，用户已经无需重写这个方法啦
+     *
+     * @param request  http请求对象
+     * @param response http响应对象
+     * @throws ServletException servlet异常
+     * @throws IOException      IO异常
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected final void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!isLegal(request)) {
             return;
         }
@@ -73,6 +104,12 @@ public abstract class WeixinServletSupport extends HttpServlet {
         pw.close();
     }
 
+    /**
+     * 处理微信服务器发来的请求方法
+     *
+     * @param request http请求对象
+     * @return 处理消息的结果，已经是接口要求的xml报文了
+     */
     private String processRequest(HttpServletRequest request) {
         Map<String, String> reqMap = MessageUtil.parseXml(request);
         String fromUserName = reqMap.get("FromUserName");
@@ -203,7 +240,6 @@ public abstract class WeixinServletSupport extends HttpServlet {
         if (isNull(msg)) {
             return "";
         }
-
         msg.setFromUserName(toUserName);
         msg.setToUserName(fromUserName);
         return msg.toXml();

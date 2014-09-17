@@ -16,8 +16,20 @@ import java.util.Map;
  *
  * @author peiyu
  */
-public class MessageUtil {
+public final class MessageUtil {
 
+    /**
+     * 此类不需要实例化
+     */
+    private MessageUtil() {
+    }
+
+    /**
+     * 解析从微信服务器来的请求，将消息或者事件返回出去
+     *
+     * @param request http请求对象
+     * @return 微信消息或者事件Map
+     */
     public static Map<String, String> parseXml(HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
 

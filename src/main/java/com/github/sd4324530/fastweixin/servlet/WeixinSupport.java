@@ -38,6 +38,7 @@ public abstract class WeixinSupport {
 
     /**
      * 子类重写，加入自定义的微信消息处理器，细化消息的处理
+     *
      * @return 微信消息处理器列表
      */
     protected List<MessageHandle> getMessageHandles() {
@@ -46,6 +47,7 @@ public abstract class WeixinSupport {
 
     /**
      * 子类重写，加入自定义的微信事件处理器，细化消息的处理
+     *
      * @return 微信事件处理器列表
      */
     protected List<EventHandle> getEventHandles() {
@@ -59,6 +61,12 @@ public abstract class WeixinSupport {
      */
     protected abstract String getToken();
 
+    /**
+     * 处理微信服务器发来的请求方法
+     *
+     * @param request http请求对象
+     * @return 处理消息的结果，已经是接口要求的xml报文了
+     */
     String processRequest(HttpServletRequest request) {
         Map<String, String> reqMap = MessageUtil.parseXml(request);
         String fromUserName = reqMap.get("FromUserName");
@@ -195,7 +203,7 @@ public abstract class WeixinSupport {
     private static Object lock = new Object();
 
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
-        if(isEmpty(this.messageHandles)) {
+        if (isEmpty(this.messageHandles)) {
             synchronized (lock) {
                 this.messageHandles = this.getMessageHandles();
             }
@@ -212,7 +220,7 @@ public abstract class WeixinSupport {
     }
 
     private BaseMsg processEventHandle(BaseEvent event) {
-        if(isEmpty(this.eventHandles)) {
+        if (isEmpty(this.eventHandles)) {
             synchronized (lock) {
                 this.eventHandles = this.getEventHandles();
             }
