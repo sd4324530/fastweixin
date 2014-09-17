@@ -192,7 +192,7 @@ public abstract class WeixinSupport {
     }
 
     //充当锁
-    private Object lock = new Object();
+    private static Object lock = new Object();
 
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
         if(isEmpty(this.messageHandles)) {
