@@ -5,7 +5,7 @@
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
     <url>https://github.com/sd4324530/fastweixin.git</url>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>fastweixin</name>
     <description>quickly department weixin server</description>
@@ -47,7 +47,7 @@
     <!-- 声明的常量 标识各个jar版本 -->
     <properties>
         <junit.version>4.11</junit.version>
-        <spring.version>4.1.0.RELEASE</spring.version>
+        <spring.version>3.2.11.RELEASE</spring.version>
     </properties>
 
     <dependencies>
