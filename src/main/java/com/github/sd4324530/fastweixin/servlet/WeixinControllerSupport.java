@@ -1,8 +1,9 @@
 package com.github.sd4324530.fastweixin.servlet;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import java.io.IOException;
  *
  * @author peiyu
  */
-@RestController
+@Controller
 public abstract class WeixinControllerSupport extends WeixinSupport {
 
     /**
@@ -22,10 +23,9 @@ public abstract class WeixinControllerSupport extends WeixinSupport {
      *
      * @param request 请求
      * @return 响应内容
-     * @throws IOException
      */
     @RequestMapping(method = RequestMethod.GET)
-    protected final String bind(HttpServletRequest request) {
+    protected final @ResponseBody String bind(HttpServletRequest request) {
         if (isLegal(request)) {
             //绑定微信服务器成功
             return request.getParameter("echostr");
@@ -38,19 +38,16 @@ public abstract class WeixinControllerSupport extends WeixinSupport {
     /**
      * 微信消息交互处理
      *
-     * @param request
-     * @return
-     * @throws ServletException
-     * @throws IOException
+     * @param request http 请求对象
+     * @return 响应给微信服务器的消息报文
+     * @throws ServletException 异常
+     * @throws IOException IO异常
      */
     @RequestMapping(method = RequestMethod.POST)
-    protected final String process(HttpServletRequest request) throws ServletException, IOException {
+    protected final @ResponseBody String process(HttpServletRequest request) throws ServletException, IOException {
         if (!isLegal(request)) {
             return "";
         }
-        String resp = processRequest(request);
-        return resp;
+        return processRequest(request);
     }
-
-
 }
