@@ -1,7 +1,7 @@
 fastweixin
 ==========
 作者:peiyu<br>
-[关注我](http://weibo.com/1728407960)<br>
+[我的微博](http://weibo.com/1728407960)<br>
 QQ:125331682<br>
 
 项目主页:[https://github.com/sd4324530/fastweixin](https://github.com/sd4324530/fastweixin)<br>
