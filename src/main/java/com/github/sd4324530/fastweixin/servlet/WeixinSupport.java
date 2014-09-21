@@ -29,12 +29,12 @@ public abstract class WeixinSupport {
     /**
      * 微信消息处理器列表
      */
-    private List<MessageHandle> messageHandles;
+    private static List<MessageHandle> messageHandles;
 
     /**
      * 微信事件处理器列表
      */
-    private List<EventHandle> eventHandles;
+    private static List<EventHandle> eventHandles;
 
     /**
      * 子类重写，加入自定义的微信消息处理器，细化消息的处理
@@ -191,25 +191,26 @@ public abstract class WeixinSupport {
                 }
             }
         }
-        if (isNull(msg)) {
-            return "";
+        String result = "";
+        if (nonNull(msg)) {
+            msg.setFromUserName(toUserName);
+            msg.setToUserName(fromUserName);
+            result = msg.toXml();
         }
-        msg.setFromUserName(toUserName);
-        msg.setToUserName(fromUserName);
-        return msg.toXml();
+        return result;
     }
 
     //充当锁
-    private static Object lock = new Object();
+    private static final Object lock = new Object();
 
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
-        if (isEmpty(this.messageHandles)) {
+        if (isEmpty(messageHandles)) {
             synchronized (lock) {
-                this.messageHandles = this.getMessageHandles();
+                messageHandles = this.getMessageHandles();
             }
         }
-        if (isNotEmpty(this.messageHandles)) {
-            for (MessageHandle messageHandle : this.messageHandles) {
+        if (isNotEmpty(messageHandles)) {
+            for (MessageHandle messageHandle : messageHandles) {
                 BaseMsg resultMsg = messageHandle.handle(msg);
                 if (nonNull(resultMsg)) {
                     return resultMsg;
@@ -220,13 +221,13 @@ public abstract class WeixinSupport {
     }
 
     private BaseMsg processEventHandle(BaseEvent event) {
-        if (isEmpty(this.eventHandles)) {
+        if (isEmpty(eventHandles)) {
             synchronized (lock) {
-                this.eventHandles = this.getEventHandles();
+                eventHandles = this.getEventHandles();
             }
         }
-        if (isNotEmpty(this.eventHandles)) {
-            for (EventHandle eventHandle : this.eventHandles) {
+        if (isNotEmpty(eventHandles)) {
+            for (EventHandle eventHandle : eventHandles) {
                 BaseMsg resultMsg = eventHandle.handle(event);
                 if (nonNull(resultMsg)) {
                     return resultMsg;

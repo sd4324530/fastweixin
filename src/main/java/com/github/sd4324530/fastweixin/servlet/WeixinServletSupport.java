@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static com.github.sd4324530.fastweixin.util.BeanUtil.isNull;
 import static com.github.sd4324530.fastweixin.util.BeanUtil.nonNull;
+import static com.github.sd4324530.fastweixin.util.CollectionUtil.isEmpty;
 import static com.github.sd4324530.fastweixin.util.CollectionUtil.isNotEmpty;
 import static com.github.sd4324530.fastweixin.util.StrUtil.isNotBlank;
 
@@ -35,12 +35,12 @@ public abstract class WeixinServletSupport extends HttpServlet {
     /**
      * 微信消息处理器列表
      */
-    private List<MessageHandle> messageHandles = new ArrayList<MessageHandle>();
+    private static List<MessageHandle> messageHandles;
 
     /**
      * 微信事件处理器列表
      */
-    private List<EventHandle> eventHandles = new ArrayList<EventHandle>();
+    private static List<EventHandle> eventHandles;
 
     /**
      * 子类重写，加入自定义的微信消息处理器，细化消息的处理
@@ -79,8 +79,6 @@ public abstract class WeixinServletSupport extends HttpServlet {
             pw.write(request.getParameter("echostr"));
             pw.flush();
             pw.close();
-        } else {
-            //绑定微信服务器失败，没啥好做的，检查下是不是token写错了，重新来一次吧
         }
     }
 
@@ -236,18 +234,26 @@ public abstract class WeixinServletSupport extends HttpServlet {
             }
 
         }
-
-        if (isNull(msg)) {
-            return "";
+        String result = "";
+        if (nonNull(msg)) {
+            msg.setFromUserName(toUserName);
+            msg.setToUserName(fromUserName);
+            result = msg.toXml();
         }
-        msg.setFromUserName(toUserName);
-        msg.setToUserName(fromUserName);
-        return msg.toXml();
+        return result;
     }
 
+    //充当锁
+    private static final Object lock = new Object();
+
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
-        if (isNotEmpty(this.messageHandles)) {
-            for (MessageHandle messageHandle : this.messageHandles) {
+        if (isEmpty(messageHandles)) {
+            synchronized (lock) {
+                messageHandles = this.getMessageHandles();
+            }
+        }
+        if (isNotEmpty(messageHandles)) {
+            for (MessageHandle messageHandle : messageHandles) {
                 BaseMsg resultMsg = messageHandle.handle(msg);
                 if (nonNull(resultMsg)) {
                     return resultMsg;
@@ -258,8 +264,13 @@ public abstract class WeixinServletSupport extends HttpServlet {
     }
 
     private BaseMsg processEventHandle(BaseEvent event) {
-        if (isNotEmpty(this.eventHandles)) {
-            for (EventHandle eventHandle : this.eventHandles) {
+        if (isEmpty(eventHandles)) {
+            synchronized (lock) {
+                eventHandles = this.getEventHandles();
+            }
+        }
+        if (isNotEmpty(eventHandles)) {
+            for (EventHandle eventHandle : eventHandles) {
                 BaseMsg resultMsg = eventHandle.handle(event);
                 if (nonNull(resultMsg)) {
                     return resultMsg;
