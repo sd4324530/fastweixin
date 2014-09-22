@@ -47,14 +47,18 @@ public abstract class WeixinServletSupport extends HttpServlet {
      *
      * @return 微信消息处理器列表
      */
-    protected abstract List<MessageHandle> getMessageHandles();
+    protected List<MessageHandle> getMessageHandles() {
+        return null;
+    }
 
     /**
      * 子类重写，加入自定义的微信事件处理器，细化消息的处理
      *
      * @return 微信事件处理器列表
      */
-    protected abstract List<EventHandle> getEventHandles();
+    protected List<EventHandle> getEventHandles() {
+        return null;
+    }
 
     /**
      * 子类用于提供token用于绑定微信公众平台
