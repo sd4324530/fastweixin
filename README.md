@@ -117,6 +117,10 @@ Maven 项目引入
 </dependency>
 ```
 
+v1.2.0开始支持高级接口的API
+框架中提供MenuAPI、MessageAPI、QrcodeAPI、UserAPI用于实现所有高级接口功能，使用极其简单<br>
+内部实现token过期自动刷新，不用再关注token细节
+
 开源协议
 ==========
 [Apache License](http://www.apache.org/licenses/LICENSE-2.0)
