@@ -99,6 +99,10 @@ web.xml配置
 </servlet-mapping>
 ```
 
+v1.2.0开始支持高级接口的API
+框架中提供MenuAPI、MessageAPI、QrcodeAPI、UserAPI用于实现所有高级接口功能，使用极其简单<br>
+内部实现token过期自动刷新，不用再关注token细节
+
 Change Log
 =========
 [https://github.com/sd4324530/fastweixin/wiki/Change-Log](https://github.com/sd4324530/fastweixin/wiki/Change-Log)
@@ -113,13 +117,9 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.1.3</version>
+    <version>1.2.0</version>
 </dependency>
 ```
-
-v1.2.0开始支持高级接口的API
-框架中提供MenuAPI、MessageAPI、QrcodeAPI、UserAPI用于实现所有高级接口功能，使用极其简单<br>
-内部实现token过期自动刷新，不用再关注token细节
 
 开源协议
 ==========
