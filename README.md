@@ -11,6 +11,9 @@ csdn主页:[https://code.csdn.net/sd4324530/fastweixin](https://code.csdn.net/sd
 简单封装了所有与微信服务器交互的消息:文本消息、图片消息、图文消息等等<br>
 提供了基于`springmvc`以及基于`servlet`框架的控制器，集成了微信服务器绑定、监听所有类型消息的方法<br>
 使用时继承，重写即可，十分方便<br>
+v1.2.0开始支持高级接口的API，https请求基于org.apache.httpcomponents 4.3.X，json解析基于fastjson 1.1.44<br>
+框架中提供MenuAPI、MessageAPI、QrcodeAPI、UserAPI用于实现所有高级接口功能，使用极其简单<br>
+内部实现token过期自动刷新，不用再关注token细节<br>
 
 ##基于`springmvc`项目的集成方法
 ```Java
@@ -99,9 +102,6 @@ web.xml配置
 </servlet-mapping>
 ```
 
-v1.2.0开始支持高级接口的API
-框架中提供MenuAPI、MessageAPI、QrcodeAPI、UserAPI用于实现所有高级接口功能，使用极其简单<br>
-内部实现token过期自动刷新，不用再关注token细节
 
 Change Log
 =========
