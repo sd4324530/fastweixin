@@ -32,4 +32,17 @@ public final class BeanUtil {
     public static boolean nonNull(Object object) {
         return null != object;
     }
+
+    /**
+     * 判断对象是否为空，如果为空，直接抛出异常
+     * @param object 需要检查的对象
+     * @param errorMessage 异常信息
+     * @return 非空的对象
+     */
+    public static Object requireNonNull(Object object, String errorMessage) {
+        if(null == object) {
+            throw new NullPointerException(errorMessage);
+        }
+        return object;
+    }
 }
