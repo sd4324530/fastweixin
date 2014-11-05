@@ -1,7 +1,6 @@
 package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
-import com.github.sd4324530.fastweixin.api.response.BaseAPI;
 import com.github.sd4324530.fastweixin.message.*;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
@@ -12,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 消息相关API
  * @author peiyu
  */
 public class MessageAPI extends BaseAPI {
@@ -20,6 +20,11 @@ public class MessageAPI extends BaseAPI {
         super(config);
     }
 
+    /**
+     * 发布客服消息
+     * @param openid 关注者ID
+     * @param message 消息对象，支持各种消息类型
+     */
     public void sendCustomMessage(String openid, BaseMsg message) {
         BeanUtil.requireNonNull(openid, "openid为空");
         BeanUtil.requireNonNull(message, "message为空");

@@ -4,13 +4,13 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.response.*;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
-import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 用户管理相关API
  * @author peiyu
  */
 public class UserAPI extends BaseAPI {
@@ -19,6 +19,11 @@ public class UserAPI extends BaseAPI {
         super(config);
     }
 
+    /**
+     * 获取关注者列表
+     * @param next_openid 下一个用户的ID
+     * @return
+     */
     public GetUsersResponse getUsers(String next_openid) {
         GetUsersResponse response = null;
         String url = BASE_API_URL + "cgi-bin/user/get?access_token=#";
@@ -33,6 +38,11 @@ public class UserAPI extends BaseAPI {
         return response;
     }
 
+    /**
+     * 设置关注者备注
+     * @param openid 关注者ID
+     * @param remark 备注内容
+     */
     public void setUserRemark(String openid, String remark) {
         BeanUtil.requireNonNull(openid, "openid is null");
         String url = BASE_API_URL + "cgi-bin/user/info/updateremark?access_token=#";
@@ -42,6 +52,11 @@ public class UserAPI extends BaseAPI {
         BaseResponse response = executePost(url, JSONUtil.toJson(param));
     }
 
+    /**
+     * 创建分组
+     * @param name 分组名称
+     * @return 返回对象，包含分组的ID和名称信息
+     */
     public CreateGroupResponse createGroup(String name) {
         CreateGroupResponse response = null;
         BeanUtil.requireNonNull(name, "name is null");
@@ -57,6 +72,10 @@ public class UserAPI extends BaseAPI {
         return response;
     }
 
+    /**
+     * 获取所有分组信息
+     * @return 所有分组信息列表对象
+     */
     public GetGroupsResponse getGroups() {
         GetGroupsResponse response = null;
         String url = BASE_API_URL + "cgi-bin/groups/get?access_token=#";
@@ -68,6 +87,11 @@ public class UserAPI extends BaseAPI {
         return response;
     }
 
+    /**
+     * 通过关注者ID获取所在分组信息
+     * @param openid 关注者ID
+     * @return 所在分组信息
+     */
     public String getGroupIdByOpenid(String openid) {
         BeanUtil.requireNonNull(openid, "openid is null");
         String result = "";
@@ -82,6 +106,11 @@ public class UserAPI extends BaseAPI {
         return result;
     }
 
+    /**
+     * 修改分组信息
+     * @param groupid 分组ID
+     * @param name 新名称
+     */
     public void updateGroup(Integer groupid, String name) {
         BeanUtil.requireNonNull(groupid, "groupid is null");
         BeanUtil.requireNonNull(name, "name is null");
@@ -95,6 +124,11 @@ public class UserAPI extends BaseAPI {
         executePost(url, JSONUtil.toJson(param));
     }
 
+    /**
+     * 移动关注者所在分组
+     * @param openid 关注者ID
+     * @param toGroupid 新分组ID
+     */
     public void moveGroupUser(String openid, String toGroupid) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(toGroupid, "toGroupid is null");
@@ -107,6 +141,11 @@ public class UserAPI extends BaseAPI {
         executePost(url, JSONUtil.toJson(param));
     }
 
+    /**
+     * 获取关注者信息
+     * @param openid 关注者ID
+     * @return 关注者信息对象
+     */
     public GetUserInfoResponse getUserInfo(String openid) {
         BeanUtil.requireNonNull(openid, "openid is null");
 

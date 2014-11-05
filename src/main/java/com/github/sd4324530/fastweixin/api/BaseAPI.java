@@ -1,6 +1,8 @@
-package com.github.sd4324530.fastweixin.api.response;
+package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.response.BaseResponse;
+import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
@@ -10,6 +12,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
+ * API基类，提供一些通用方法
+ * 包含自动刷新token、通用get post请求等
  * @author peiyu
  */
 public abstract class BaseAPI {
@@ -38,12 +42,13 @@ public abstract class BaseAPI {
         this.config = config;
     }
 
-    protected boolean refreshToken() {
+    /**
+     * 刷新token
+     */
+    protected void refreshToken() {
         writeLock.lock();
-        final boolean[] result;
         try {
             config.refreshing = true;
-            result = new boolean[]{false};
             String url = BASE_API_URL + "cgi-bin/token?grant_type=client_credential&appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret();
             NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
                 @Override
@@ -51,7 +56,6 @@ public abstract class BaseAPI {
                     if (200 == resultCode) {
                         GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                         BaseAPI.this.config.setAccess_token(response.getAccess_token());
-                        result[0] = true;
                     }
                 }
             });
@@ -59,9 +63,14 @@ public abstract class BaseAPI {
             config.refreshing = false;
             writeLock.unlock();
         }
-        return result[0];
     }
 
+    /**
+     * 通用post请求
+     * @param url 地址，其中token用#代替
+     * @param json 参数，json格式
+     * @return 请求结果
+     */
     protected BaseResponse executePost(String url, String json) {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
@@ -97,7 +106,11 @@ public abstract class BaseAPI {
         return response;
     }
 
-
+    /**
+     * 通用post请求
+     * @param url 地址，其中token用#代替
+     * @return 请求结果
+     */
     protected BaseResponse executeGet(String url) {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");

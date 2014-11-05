@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 菜单按钮对象
  * @author peiyu
  */
 public class MenuButton implements Model {

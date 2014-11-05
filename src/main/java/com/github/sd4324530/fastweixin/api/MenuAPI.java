@@ -2,14 +2,13 @@ package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.request.MenuRequest;
-import com.github.sd4324530.fastweixin.api.response.BaseAPI;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.GetMenuResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
-import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 
 /**
+ * 菜单相关API
  * @author peiyu
  */
 public class MenuAPI extends BaseAPI {
@@ -36,12 +35,20 @@ public class MenuAPI extends BaseAPI {
         super(config);
     }
 
+    /**
+     * 创建菜单
+     * @param request 请求对象
+     */
     public void createMenu(MenuRequest request) {
         BeanUtil.requireNonNull(request, "request is null");
         String url = BASE_API_URL + "cgi-bin/menu/create?access_token=#";
         executePost(url, request.toJsonString());
     }
 
+    /**
+     * 获取所有菜单
+     * @return 菜单列表对象
+     */
     public GetMenuResponse getMenu() {
         GetMenuResponse response = null;
         String url = BASE_API_URL + "cgi-bin/menu/get?access_token=#";
@@ -53,6 +60,9 @@ public class MenuAPI extends BaseAPI {
         return response;
     }
 
+    /**
+     * 删除所有菜单
+     */
     public void deleteMenu() {
         String url = BASE_API_URL + "cgi-bin/menu/delete?access_token=#";
         executeGet(url);
