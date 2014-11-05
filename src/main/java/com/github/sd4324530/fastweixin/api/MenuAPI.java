@@ -12,25 +12,6 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
  * @author peiyu
  */
 public class MenuAPI extends BaseAPI {
-
-    public static final String CLICK = "click";
-
-    public static final String VIEW = "view";
-
-    //******************以下事件只支持iPhone5.4.1以上以及android5.4以上版本***************************************
-
-    public static final String SCANCODE_PUSH = "scancode_push";
-
-    public static final String SCANCODE_WAITMSG = "scancode_waitmsg";
-
-    public static final String PIC_SYSPHOTO = "pic_sysphoto";
-
-    public static final String PIC_PHOTO_OR_ALBUM = "pic_photo_or_album";
-
-    public static final String PIC_WEIXIN = "pic_weixin";
-
-    public static final String LOCATION_SELECT = "location_select";
-
     public MenuAPI(ApiConfig config) {
         super(config);
     }
@@ -67,7 +48,4 @@ public class MenuAPI extends BaseAPI {
         String url = BASE_API_URL + "cgi-bin/menu/delete?access_token=#";
         executeGet(url);
     }
-
-
-
 }

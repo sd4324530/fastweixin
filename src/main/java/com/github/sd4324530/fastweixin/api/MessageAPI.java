@@ -26,9 +26,9 @@ public class MessageAPI extends BaseAPI {
      * @param message 消息对象，支持各种消息类型
      */
     public void sendCustomMessage(String openid, BaseMsg message) {
-        BeanUtil.requireNonNull(openid, "openid为空");
-        BeanUtil.requireNonNull(message, "message为空");
-        String url = BASE_API_URL + "cgi-bin/message/custom/send?access_token=" + this.config.getAccess_token();
+        BeanUtil.requireNonNull(openid, "openid is null");
+        BeanUtil.requireNonNull(message, "message is null");
+        String url = BASE_API_URL + "cgi-bin/message/custom/send?access_token=#";
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("touser",openid);
         if(message instanceof TextMsg) {

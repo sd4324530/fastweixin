@@ -78,9 +78,6 @@ public abstract class BaseAPI {
         if(null == config.getAccess_token()) {
             refreshToken();
         }
-
-        System.out.println(config.getAccess_token());
-
         readLock.lock();
         try {
            //需要传token
@@ -118,8 +115,6 @@ public abstract class BaseAPI {
         if(null == config.getAccess_token()) {
             refreshToken();
         }
-        System.out.println(config.getAccess_token());
-
         readLock.lock();
         try {
             //需要传token

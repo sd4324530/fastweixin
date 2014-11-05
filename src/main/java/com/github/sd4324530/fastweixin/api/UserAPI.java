@@ -22,7 +22,7 @@ public class UserAPI extends BaseAPI {
     /**
      * 获取关注者列表
      * @param next_openid 下一个用户的ID
-     * @return
+     * @return 关注者列表对象
      */
     public GetUsersResponse getUsers(String next_openid) {
         GetUsersResponse response = null;
@@ -30,7 +30,6 @@ public class UserAPI extends BaseAPI {
         if(StrUtil.isNotBlank(next_openid)) {
             url+= "&next_openid=" + next_openid;
         }
-
         BaseResponse r = executeGet(url);
         if(null == r.getErrcode() || "".equals(r.getErrcode())) {
             response = JSONUtil.toBean(r.getErrmsg(), GetUsersResponse.class);
@@ -94,11 +93,10 @@ public class UserAPI extends BaseAPI {
      */
     public String getGroupIdByOpenid(String openid) {
         BeanUtil.requireNonNull(openid, "openid is null");
-        String result = "";
+        String result = null;
         String url = BASE_API_URL + "cgi-bin/groups/getid?access_token=#";
         Map<String, String> params = new HashMap<String, String>();
         params.put("openid",openid);
-
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         if(null == r.getErrcode() || "".equals(r.getErrcode())) {
             result = JSONUtil.toMap(r.getErrmsg()).get("groupid").toString();
@@ -114,7 +112,6 @@ public class UserAPI extends BaseAPI {
     public void updateGroup(Integer groupid, String name) {
         BeanUtil.requireNonNull(groupid, "groupid is null");
         BeanUtil.requireNonNull(name, "name is null");
-
         String url = BASE_API_URL + "cgi-bin/groups/update?access_token=#";
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, Object> group = new HashMap<String, Object>();
@@ -132,7 +129,6 @@ public class UserAPI extends BaseAPI {
     public void moveGroupUser(String openid, String toGroupid) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(toGroupid, "toGroupid is null");
-
         String url = BASE_API_URL + "cgi-bin/groups/members/update?access_token=#";
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("openid",openid);
@@ -148,11 +144,8 @@ public class UserAPI extends BaseAPI {
      */
     public GetUserInfoResponse getUserInfo(String openid) {
         BeanUtil.requireNonNull(openid, "openid is null");
-
         GetUserInfoResponse response = null;
-
         String url = BASE_API_URL + "cgi-bin/user/info?access_token=#&lang=zh_CN&openid=" + openid;
-
         BaseResponse r = executeGet(url);
         if(null == r.getErrcode() || "".equals(r.getErrcode())) {
             response = JSONUtil.toBean(r.getErrmsg(), GetUserInfoResponse.class);
