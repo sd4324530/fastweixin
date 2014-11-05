@@ -13,6 +13,7 @@ import java.util.Map;
 /**
  * 消息相关API
  * @author peiyu
+ * @since 1.2
  */
 public class MessageAPI extends BaseAPI {
 

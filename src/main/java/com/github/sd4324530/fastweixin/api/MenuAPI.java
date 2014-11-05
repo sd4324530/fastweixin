@@ -10,6 +10,7 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
 /**
  * 菜单相关API
  * @author peiyu
+ * @since 1.2
  */
 public class MenuAPI extends BaseAPI {
     public MenuAPI(ApiConfig config) {

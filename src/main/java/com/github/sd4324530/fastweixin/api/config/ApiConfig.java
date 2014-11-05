@@ -3,6 +3,7 @@ package com.github.sd4324530.fastweixin.api.config;
 /**
  * API配置类，项目中请保证其为单例
  * @author peiyu
+ * @since 1.2
  */
 public final class ApiConfig {
 

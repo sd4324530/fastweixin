@@ -9,6 +9,7 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
 /**
  * 二维码相关API
  * @author peiyu
+ * @since 1.2
  */
 public class QrcodeAPI extends BaseAPI {
     public QrcodeAPI(ApiConfig config) {

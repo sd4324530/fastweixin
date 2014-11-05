@@ -15,6 +15,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * API基类，提供一些通用方法
  * 包含自动刷新token、通用get post请求等
  * @author peiyu
+ * @since 1.2
  */
 public abstract class BaseAPI {
     protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
