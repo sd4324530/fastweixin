@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class MenuButton implements Model {
 
-    private String type;
+    private MenuType type;
 
     private String name;
 
@@ -21,11 +21,11 @@ public class MenuButton implements Model {
 
     private List<MenuButton> sub_button;
 
-    public String getType() {
+    public MenuType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(MenuType type) {
         this.type = type;
     }
 
