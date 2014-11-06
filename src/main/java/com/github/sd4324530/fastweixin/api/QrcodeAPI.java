@@ -18,10 +18,10 @@ public class QrcodeAPI extends BaseAPI {
 
     /**
      * 创建二维码
-     * @param actionName
-     * @param actionInfo
-     * @param expireSeconds
-     * @return
+     * @param actionName 二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久
+     * @param actionInfo 二维码详细信息
+     * @param expireSeconds 该二维码有效时间，以秒为单位。 最大不超过1800
+     * @return 二维码对象
      */
     public QrcodeResponse createQrcode(String actionName, String actionInfo, Integer expireSeconds) {
         BeanUtil.requireNonNull(actionName, "actionName is null");

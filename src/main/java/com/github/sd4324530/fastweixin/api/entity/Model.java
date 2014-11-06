@@ -10,7 +10,7 @@ public interface Model extends Serializable {
 
     /**
      * 将model转成json字符串
-     * @return
+     * @return json字符串
      */
     String toJsonString();
 }

@@ -58,9 +58,10 @@ public abstract class JSONUtil {
         jo.put(JSON.DEFAULT_TYPE_KEY, beanClass.getName());
         return JSON.parseObject(jo.toJSONString(), beanClass);
     }
-    
+
     /**
      * @param obj 需要转换的java bean
+     * @param <T> 入参对象类型泛型
      * @return 对应的json字符串
      */
     public static <T> String toJson(T obj) {

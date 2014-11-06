@@ -27,22 +27,6 @@ import java.util.Map;
 
 /**
  * HTTP请求客户端操作类，基于org.apache.http.client包4.3.x版本实现
- * POM文件配置
- * <dependency>
- * <groupId>org.apache.httpcomponents</groupId>
- * <artifactId>httpmime</artifactId>
- * <version>4.3.5</version>
- * </dependency>
- * 使用方式如下所示
- * NetWorkCenter.post(url, paramData, new ResponseCallback() {
- *
- * @author peiyu
- * @Override public void onResponse(int resultCode, String resultJson) {
- * log.debug("onResponse");
- * log.debug("resultCode:{}", resultCode);
- * log.debug("resultData:{}", resultData);
- * }
- * });
  */
 public final class NetWorkCenter {
 
@@ -111,7 +95,6 @@ public final class NetWorkCenter {
      * @param paramData 请求所带参数，目前支持JSON格式的参数
      * @param callback  请求收到响应后回调函数，参数有2个，第一个为resultCode，即响应码，比如200为成功，404为不存在，500为服务器发生错误；
      *                  第二个为resultJson,即响应回来的数据报文
-     * @see org.apache.http.HttpStatus, {@link RequestMethod}, {@link ResponseCallback}
      */
     public static void post(String url, String paramData,
                             ResponseCallback callback) {
@@ -143,7 +126,6 @@ public final class NetWorkCenter {
      * @param fileList  需要一起发送的文件列表
      * @param callback  请求收到响应后回调函数，参数有2个，第一个为resultCode，即响应码，比如200为成功，404为不存在，500为服务器发生错误；
      *                  第二个为resultJson,即响应回来的数据报文
-     * @see org.apache.http.HttpStatus, {@link RequestMethod}, {@link ResponseCallback}
      */
     public static void post(String url, String paramData, List<File> fileList,
                             ResponseCallback callback) {
@@ -160,7 +142,6 @@ public final class NetWorkCenter {
      * @param paramMap GET请求所带参数Map，即URL地址问号后面所带的键值对，很蛋疼的实现方式，后续得改进，还没什么好的方案
      * @param callback 请求收到响应后回调函数，参数有2个，第一个为resultCode，即响应码，比如200为成功，404为不存在，500为服务器发生错误；
      *                 第二个为resultJson,即响应回来的数据报文
-     * @see org.apache.http.HttpStatus, {@link RequestMethod}, {@link ResponseCallback}
      */
     public static void get(String url, Map<String, String> paramMap, ResponseCallback callback) {
         String paramData = null;
@@ -202,7 +183,6 @@ public final class NetWorkCenter {
      * @param fileList  需要一起发送的文件列表
      * @param callback  请求收到响应后回调函数，参数有2个，第一个为resultCode，即响应码，比如200为成功，404为不存在，500为服务器发生错误；
      *                  第二个为resultJson,即响应回来的数据报文
-     * @see org.apache.http.HttpStatus, {@link RequestMethod}, {@link ResponseCallback}
      */
     private static void doRequest(final RequestMethod method, final String url,
                                   final String paramData, final List<File> fileList, final ResponseCallback callback) {

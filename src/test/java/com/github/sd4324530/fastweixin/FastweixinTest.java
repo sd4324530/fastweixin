@@ -18,10 +18,12 @@ public class FastweixinTest {
         config.setSecret("34ea880e3b7a98d0db12d75ff016a39b");
 
         UserAPI userAPI = new UserAPI(config);
-        GetUserInfoResponse userInfo = userAPI.getUserInfo("oV1ogt3UrUgvImtmLifSE4qzSzJQ");
-        System.out.println(userInfo.toJsonString());
-        GetUserInfoResponse userInfo2 = userAPI.getUserInfo("oV1ogt3UrUgvImtmLifSE4qzSzJQ");
-        System.out.println(userInfo2.toJsonString());
+//        GetUserInfoResponse userInfo = userAPI.getUserInfo("oV1ogt3UrUgvImtmLifSE4qzSzJQ");
+//        System.out.println(userInfo.toJsonString());
+//        GetUserInfoResponse userInfo2 = userAPI.getUserInfo("oV1ogt3UrUgvImtmLifSE4qzSzJQ");
+//        System.out.println(userInfo2.toJsonString());
+
+        System.out.println("OK");
 
     }
 }
