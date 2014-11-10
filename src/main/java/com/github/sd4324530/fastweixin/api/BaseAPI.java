@@ -8,6 +8,7 @@ import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -40,19 +41,20 @@ public abstract class BaseAPI {
     protected void refreshToken() {
         writeLock.lock();
         try {
-            config.refreshing = true;
-            String url = BASE_API_URL + "cgi-bin/token?grant_type=client_credential&appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret();
-            NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
-                @Override
-                public void onResponse(int resultCode, String resultJson) {
-                    if (200 == resultCode) {
-                        GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
-                        BaseAPI.this.config.setAccess_token(response.getAccess_token());
+            if(config.refreshing.compareAndSet(false, true)) {
+                String url = BASE_API_URL + "cgi-bin/token?grant_type=client_credential&appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret();
+                NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
+                    @Override
+                    public void onResponse(int resultCode, String resultJson) {
+                        if (200 == resultCode) {
+                            GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
+                            BaseAPI.this.config.setAccess_token(response.getAccess_token());
+                        }
                     }
-                }
-            });
+                });
+            }
         } finally {
-            config.refreshing = false;
+            config.refreshing.set(false);
             writeLock.unlock();
         }
     }
@@ -77,13 +79,15 @@ public abstract class BaseAPI {
         }
 
         if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.toString().equals(response.getErrcode())) {
-            if(!config.refreshing) {
+            if(!config.refreshing.get()) {
                 refreshToken();
             }
-
             readLock.lock();
             try {
+                TimeUnit.SECONDS.sleep(1);
                 response = NetWorkCenter.post(url, json);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             } finally {
                 readLock.unlock();
             }
@@ -111,12 +115,15 @@ public abstract class BaseAPI {
         }
 
         if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.toString().equals(response.getErrcode())) {
-            if (!config.refreshing) {
+            if (!config.refreshing.get()) {
                 refreshToken();
             }
             readLock.lock();
             try {
+                TimeUnit.SECONDS.sleep(1);
                 response = NetWorkCenter.get(url);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             } finally {
                 readLock.unlock();
             }

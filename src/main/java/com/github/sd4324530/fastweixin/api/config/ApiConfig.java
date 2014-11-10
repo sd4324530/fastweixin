@@ -4,6 +4,8 @@ import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * API配置类，项目中请保证其为单例
  * @author peiyu
@@ -17,7 +19,7 @@ public final class ApiConfig {
 
     private String access_token;
 
-    public volatile boolean refreshing = false;
+    public AtomicBoolean refreshing = new AtomicBoolean(false);
 
     /**
      * 唯一构造方法，实现同时获取access_token
