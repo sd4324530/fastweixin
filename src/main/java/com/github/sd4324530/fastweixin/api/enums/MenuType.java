@@ -1,4 +1,4 @@
-package com.github.sd4324530.fastweixin.api.entity;
+package com.github.sd4324530.fastweixin.api.enums;
 
 /**
  * 微信菜单类型枚举

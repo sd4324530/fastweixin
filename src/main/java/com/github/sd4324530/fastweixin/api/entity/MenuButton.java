@@ -1,8 +1,8 @@
 package com.github.sd4324530.fastweixin.api.entity;
 
+import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
