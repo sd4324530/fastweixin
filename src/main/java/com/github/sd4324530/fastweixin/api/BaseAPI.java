@@ -1,6 +1,7 @@
 package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
@@ -19,16 +20,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public abstract class BaseAPI {
     protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
-
-    protected static final String SYS_BUSY = "-1";
-
-    protected static final String SUCCESS = "0";
-
-    protected static final String TOKEN_ERROR = "40001";
-
-    protected static final String TOKEN_TYPE_ERROR = "40002";
-
-    protected static final String TOKEN_TIMEOUT = "42001";
 
     protected final ApiConfig config;
 
@@ -76,9 +67,6 @@ public abstract class BaseAPI {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
 
-        if(null == config.getAccess_token()) {
-            refreshToken();
-        }
         readLock.lock();
         try {
            //需要传token
@@ -88,7 +76,7 @@ public abstract class BaseAPI {
             readLock.unlock();
         }
 
-        if(null == response || TOKEN_TIMEOUT.equals(response.getErrcode())) {
+        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.toString().equals(response.getErrcode())) {
             if(!config.refreshing) {
                 refreshToken();
             }
@@ -113,9 +101,6 @@ public abstract class BaseAPI {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
 
-        if(null == config.getAccess_token()) {
-            refreshToken();
-        }
         readLock.lock();
         try {
             //需要传token
@@ -125,7 +110,7 @@ public abstract class BaseAPI {
             readLock.unlock();
         }
 
-        if(null == response || TOKEN_TIMEOUT.equals(response.getErrcode())) {
+        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.toString().equals(response.getErrcode())) {
             if (!config.refreshing) {
                 refreshToken();
             }
