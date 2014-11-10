@@ -172,7 +172,7 @@ public enum ResultType {
     ILLEGAL_OPENID_LIST_LENTH(40032),
 
     /**
-     * 不合法的请求字符，不能包含\uxxxx格式的字符
+     * 不合法的请求字符
      */
     ILLEGAL_REQUEST_STRING(40033),
 
