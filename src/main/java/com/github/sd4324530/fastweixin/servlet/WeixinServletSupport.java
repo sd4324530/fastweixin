@@ -99,6 +99,8 @@ public abstract class WeixinServletSupport extends HttpServlet {
         if (!isLegal(request)) {
             return;
         }
+        //设置响应编码格式
+        response.setCharacterEncoding("UTF-8");
         String resp = processRequest(request);
         PrintWriter pw = response.getWriter();
         pw.write(resp);
