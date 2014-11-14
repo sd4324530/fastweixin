@@ -1,7 +1,7 @@
 package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
-import com.github.sd4324530.fastweixin.api.request.MenuRequest;
+import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.GetMenuResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
@@ -9,6 +9,7 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 /**
  * 菜单相关API
+ *
  * @author peiyu
  * @since 1.2
  */
@@ -19,16 +20,18 @@ public class MenuAPI extends BaseAPI {
 
     /**
      * 创建菜单
-     * @param request 请求对象
+     *
+     * @param menu 菜单对象
      */
-    public void createMenu(MenuRequest request) {
-        BeanUtil.requireNonNull(request, "request is null");
+    public void createMenu(Menu menu) {
+        BeanUtil.requireNonNull(menu, "menu is null");
         String url = BASE_API_URL + "cgi-bin/menu/create?access_token=#";
-        executePost(url, request.toJsonString());
+        executePost(url, menu.toJsonString());
     }
 
     /**
      * 获取所有菜单
+     *
      * @return 菜单列表对象
      */
     public GetMenuResponse getMenu() {
@@ -36,7 +39,7 @@ public class MenuAPI extends BaseAPI {
         String url = BASE_API_URL + "cgi-bin/menu/get?access_token=#";
 
         BaseResponse r = executeGet(url);
-        if(null == r.getErrcode() || "".equals(r.getErrcode())) {
+        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
             response = JSONUtil.toBean(r.getErrmsg(), GetMenuResponse.class);
         }
         return response;

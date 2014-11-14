@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class Menu implements Model {
 
+    /**
+     * 一级菜单列表，最多3个
+     */
     private List<MenuButton> button;
 
     public List<MenuButton> getButton() {

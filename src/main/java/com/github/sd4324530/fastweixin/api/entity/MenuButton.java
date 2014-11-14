@@ -11,14 +11,29 @@ import java.util.List;
  */
 public class MenuButton implements Model {
 
+    /**
+     * 菜单类别
+     */
     private MenuType type;
 
+    /**
+     * 菜单上显示的文字
+     */
     private String name;
 
+    /**
+     * 菜单key，当MenuType值为CLICK时用于区别菜单
+     */
     private String key;
 
+    /**
+     * 菜单跳转的URL，当MenuType值为VIEW时用
+     */
     private String url;
 
+    /**
+     * 二级菜单列表，每个一级菜单下最多5个
+     */
     private List<MenuButton> sub_button;
 
     public MenuType getType() {
