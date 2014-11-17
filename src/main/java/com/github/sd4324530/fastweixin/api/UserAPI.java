@@ -1,6 +1,7 @@
 package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
@@ -42,14 +43,16 @@ public class UserAPI extends BaseAPI {
      * 设置关注者备注
      * @param openid 关注者ID
      * @param remark 备注内容
+     * @return 调用结果
      */
-    public void setUserRemark(String openid, String remark) {
+    public ResultType setUserRemark(String openid, String remark) {
         BeanUtil.requireNonNull(openid, "openid is null");
         String url = BASE_API_URL + "cgi-bin/user/info/updateremark?access_token=#";
         Map<String, String> param = new HashMap<String, String>();
         param.put("openid",openid);
         param.put("remark",remark);
         BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.valueOf(response.getErrcode());
     }
 
     /**
@@ -109,8 +112,9 @@ public class UserAPI extends BaseAPI {
      * 修改分组信息
      * @param groupid 分组ID
      * @param name 新名称
+     * @return 调用结果
      */
-    public void updateGroup(Integer groupid, String name) {
+    public ResultType updateGroup(Integer groupid, String name) {
         BeanUtil.requireNonNull(groupid, "groupid is null");
         BeanUtil.requireNonNull(name, "name is null");
         String url = BASE_API_URL + "cgi-bin/groups/update?access_token=#";
@@ -119,15 +123,17 @@ public class UserAPI extends BaseAPI {
         group.put("id",groupid);
         group.put("name", name);
         param.put("group", group);
-        executePost(url, JSONUtil.toJson(param));
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.valueOf(response.getErrcode());
     }
 
     /**
      * 移动关注者所在分组
      * @param openid 关注者ID
      * @param toGroupid 新分组ID
+     * @return 调用结果
      */
-    public void moveGroupUser(String openid, String toGroupid) {
+    public ResultType moveGroupUser(String openid, String toGroupid) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(toGroupid, "toGroupid is null");
         String url = BASE_API_URL + "cgi-bin/groups/members/update?access_token=#";
@@ -135,7 +141,8 @@ public class UserAPI extends BaseAPI {
         param.put("openid",openid);
         param.put("to_groupid", toGroupid);
 
-        executePost(url, JSONUtil.toJson(param));
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.valueOf(response.getErrcode());
     }
 
     /**
