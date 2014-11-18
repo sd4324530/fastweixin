@@ -23,6 +23,7 @@ public class Menu implements Model {
         if(null == button || button.size() > 3) {
             throw new RuntimeException("主菜单最多3个");
         }
+        this.button = button;
     }
 
     @Override
