@@ -92,7 +92,6 @@ public class MessageAPI extends BaseAPI {
             params.put("news", news);
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
-        return ResultType.valueOf(response.getErrcode());
+        return ResultType.get(response.getErrcode());
     }
-
 }

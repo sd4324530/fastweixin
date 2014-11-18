@@ -1,7 +1,10 @@
 package com.github.sd4324530.fastweixin.api.enums;
 
+import com.github.sd4324530.fastweixin.util.BeanUtil;
+
 /**
  * 微信接口全局返回码枚举
+ *
  * @author peiyu
  * @since 1.2
  */
@@ -9,416 +12,469 @@ public enum ResultType {
     /**
      * 系统繁忙
      */
-    SYSTEM_BUSY(-1),
+    SYSTEM_BUSY(-1, "系统繁忙"),
 
     /**
      * 请求成功
      */
-    SUCCESS(0),
+    SUCCESS(0, "请求成功"),
 
     /**
      * 获取access_token时AppSecret错误，或者access_token无效
      */
-    APP_SECRET_ERROR(40001),
+    APP_SECRET_ERROR(40001, "获取access_token时AppSecret错误，或者access_token无效"),
 
     /**
      * 不合法的凭证类型
      */
-    ILLEGAL_TOKEN_TYPE(40002),
+    ILLEGAL_TOKEN_TYPE(40002, "不合法的凭证类型"),
 
     /**
      * 不合法的OpenID
      */
-    ILLEGAL_OPEN_ID(40003),
+    ILLEGAL_OPEN_ID(40003, "不合法的OpenID"),
 
     /**
      * 不合法的媒体文件类型
      */
-    ILLEGAL_MEDIA_TYPE(40004),
+    ILLEGAL_MEDIA_TYPE(40004, "不合法的媒体文件类型"),
 
     /**
      * 不合法的文件类型
      */
-    ILLEGAL_FILE_TYPE(40005),
+    ILLEGAL_FILE_TYPE(40005, "不合法的文件类型"),
 
     /**
      * 不合法的文件大小
      */
-    ILLEGAL_FILE_SIZE(40006),
+    ILLEGAL_FILE_SIZE(40006, "不合法的文件大小"),
 
     /**
      * 不合法的媒体文件id
      */
-    ILLEGAL_MEDIA_ID(40007),
+    ILLEGAL_MEDIA_ID(40007, "不合法的媒体文件id"),
 
     /**
      * 不合法的消息类型
      */
-    ILLEGAL_MESSAGE_TYPE(40008),
+    ILLEGAL_MESSAGE_TYPE(40008, "不合法的消息类型"),
 
     /**
      * 不合法的图片文件大小
      */
-    ILLEGAL_PICTURE_SIZE(40009),
+    ILLEGAL_PICTURE_SIZE(40009, "不合法的图片文件大小"),
 
     /**
      * 不合法的语音文件大小
      */
-    ILLEGAL_VOICE_SIZE(40010),
+    ILLEGAL_VOICE_SIZE(40010, "不合法的语音文件大小"),
 
     /**
      * 不合法的视频文件大小
      */
-    ILLEGAL_VIDEO_SIZE(40011),
+    ILLEGAL_VIDEO_SIZE(40011, "不合法的视频文件大小"),
 
     /**
      * 不合法的缩略图文件大小
      */
-    ILLEGAL_THUMBNAIL_SIZE(40012),
+    ILLEGAL_THUMBNAIL_SIZE(40012, "不合法的缩略图文件大小"),
 
     /**
      * 不合法的APPID
      */
-    ILLEGAL_APP_ID(40013),
+    ILLEGAL_APP_ID(40013, "不合法的APPID"),
 
     /**
      * 不合法的access_token
      */
-    ILLEGAL_ACCESS_TOKEN(40014),
+    ILLEGAL_ACCESS_TOKEN(40014, "不合法的access_token"),
 
     /**
      * 不合法的菜单类型
      */
-    ILLEGAL_MENU_TYPE(40015),
+    ILLEGAL_MENU_TYPE(40015, "不合法的菜单类型"),
 
     /**
      * 不合法的按钮个数
      */
-    ILLEGAL_MENU_NUMBER(40016),
+    ILLEGAL_MENU_NUMBER(40016, "不合法的按钮个数"),
 
     /**
      * 不合法的按钮名字长度
      */
-    ILLEGAL_BUTTON_NAME_LENTH(40018),
+    ILLEGAL_BUTTON_NAME_LENTH(40018, "不合法的按钮名字长度"),
 
     /**
      * 不合法的按钮KEY长度
      */
-    ILLEGAL_BUTTON_KEY_LENTH(40019),
+    ILLEGAL_BUTTON_KEY_LENTH(40019, "不合法的按钮KEY长度"),
 
     /**
      * 不合法的按钮URL长度
      */
-    ILLEGAL_BUTTON_URL_LENTH(40020),
+    ILLEGAL_BUTTON_URL_LENTH(40020, "不合法的按钮URL长度"),
 
     /**
      * 不合法的菜单版本号
      */
-    ILLEGAL_MENU_VERSION(40021),
+    ILLEGAL_MENU_VERSION(40021, "不合法的菜单版本号"),
 
     /**
      * 不合法的子菜单级数
      */
-    ILLEGAL_SUB_MENU_LEVEL(40022),
+    ILLEGAL_SUB_MENU_LEVEL(40022, "不合法的子菜单级数"),
 
     /**
      * 不合法的子菜单按钮个数
      */
-    ILLEGAL_SUB_MENU_NUMBER(40023),
+    ILLEGAL_SUB_MENU_NUMBER(40023, "不合法的子菜单按钮个数"),
 
     /**
      * 不合法的子菜单按钮类型
      */
-    ILLEGAL_SUB_MENU_TYPE(40024),
+    ILLEGAL_SUB_MENU_TYPE(40024, "不合法的子菜单按钮类型"),
 
     /**
      * 不合法的子菜单按钮名字长度
      */
-    ILLEGAL_SUB_MENU_LENTH(40025),
+    ILLEGAL_SUB_MENU_LENTH(40025, "不合法的子菜单按钮名字长度"),
 
     /**
      * 不合法的子菜单按钮KEY长度
      */
-    ILLEGAL_SUB_MENU_KEY_LENTH(40026),
+    ILLEGAL_SUB_MENU_KEY_LENTH(40026, "不合法的子菜单按钮KEY长度"),
 
     /**
      * 不合法的子菜单按钮URL长度
      */
-    ILLEGAL_SUB_MENU_URL_LENTH(40027),
+    ILLEGAL_SUB_MENU_URL_LENTH(40027, "不合法的子菜单按钮URL长度"),
 
     /**
      * 不合法的自定义菜单使用用户
      */
-    ILLEGAL_MENU_USER(40028),
+    ILLEGAL_MENU_USER(40028, "不合法的自定义菜单使用用户"),
 
     /**
      * 不合法的oauth_code
      */
-    ILLEGAL_OAUTH_CODE(40029),
+    ILLEGAL_OAUTH_CODE(40029, "不合法的oauth_code"),
 
     /**
      * 不合法的refresh_token
      */
-    ILLEGAL_REFRESH_TOKEN(40030),
+    ILLEGAL_REFRESH_TOKEN(40030, "不合法的refresh_token"),
 
     /**
      * 不合法的openid列表
      */
-    ILLEGAL_OPENID_LIST(40031),
+    ILLEGAL_OPENID_LIST(40031, "不合法的openid列表"),
 
     /**
      * 不合法的openid列表长度
      */
-    ILLEGAL_OPENID_LIST_LENTH(40032),
+    ILLEGAL_OPENID_LIST_LENTH(40032, "不合法的openid列表长度"),
 
     /**
      * 不合法的请求字符
      */
-    ILLEGAL_REQUEST_STRING(40033),
+    ILLEGAL_REQUEST_STRING(40033, "不合法的请求字符"),
 
     /**
      * 不合法的参数
      */
-    ILLEGAL_PARAM(40035),
+    ILLEGAL_PARAM(40035, "不合法的参数"),
 
     /**
      * 不合法的请求格式
      */
-    ILLEGAL_REQUEST_TYPE(40038),
+    ILLEGAL_REQUEST_TYPE(40038, "不合法的请求格式"),
 
     /**
      * 不合法的URL长度
      */
-    ILLEGAL_URL_LENTH(40039),
+    ILLEGAL_URL_LENTH(40039, "不合法的URL长度"),
 
     /**
      * 不合法的分组id
      */
-    ILLEGAL_GROUP_ID(40050),
+    ILLEGAL_GROUP_ID(40050, "不合法的分组id"),
 
     /**
      * 分组名字不合法
      */
-    ILLEGAL_GROUP_NAME(40051),
+    ILLEGAL_GROUP_NAME(40051, "分组名字不合法"),
 
     /**
      * 缺少access_token参数
      */
-    NO_ACCESS_TOKEN(41001),
+    NO_ACCESS_TOKEN(41001, "缺少access_token参数"),
 
     /**
      * 缺少appid参数
      */
-    NO_APPID(41002),
+    NO_APPID(41002, "缺少appid参数"),
 
     /**
      * 缺少refresh_token参数
      */
-    NO_REFRESH_TOKEN(41003),
+    NO_REFRESH_TOKEN(41003, "缺少refresh_token参数"),
 
     /**
      * 缺少secret参数
      */
-    NO_SECRET(41004),
+    NO_SECRET(41004, "缺少secret参数"),
 
     /**
      * 缺少多媒体文件数据
      */
-    NO_MEDIA_DATA(41005),
+    NO_MEDIA_DATA(41005, "缺少多媒体文件数据"),
 
     /**
      * 缺少media_id参数
      */
-    NO_MEDIA_ID(41006),
+    NO_MEDIA_ID(41006, "缺少media_id参数"),
 
     /**
      * 缺少子菜单数据
      */
-    NO_SUB_MENU_DATA(41007),
+    NO_SUB_MENU_DATA(41007, "缺少子菜单数据"),
 
     /**
      * 缺少oauth code
      */
-    NO_OAUTH_CODE(41008),
+    NO_OAUTH_CODE(41008, "缺少oauth code"),
 
     /**
      * 缺少openid
      */
-    NO_OPEN_ID(41009),
+    NO_OPEN_ID(41009, "缺少openid"),
 
     /**
      * access_token超时
      */
-    ACCESS_TOKEN_TIMEOUT(42001),
+    ACCESS_TOKEN_TIMEOUT(42001, "access_token超时"),
 
     /**
      * refresh_token超时
      */
-    REFRESH_TOKEN_TIMEOUT(42002),
+    REFRESH_TOKEN_TIMEOUT(42002, "refresh_token超时"),
 
     /**
      * oauth_code超时
      */
-    OAUTH_CODE_TIMEOUT(42003),
+    OAUTH_CODE_TIMEOUT(42003, "oauth_code超时"),
 
     /**
      * 需要GET请求
      */
-    NEED_REQUEST_GET(43001),
+    NEED_REQUEST_GET(43001, "需要GET请求"),
 
     /**
      * 需要POST请求
      */
-    NEED_REQUEST_POST(43002),
+    NEED_REQUEST_POST(43002, "需要POST请求"),
 
     /**
      * 需要HTTPS请求
      */
-    NEED_REQUEST_HTTPS(43003),
+    NEED_REQUEST_HTTPS(43003, "需要HTTPS请求"),
 
     /**
      * 需要接收者关注
      */
-    NEED_USER_FOLLOW(43004),
+    NEED_USER_FOLLOW(43004, "需要接收者关注"),
 
     /**
      * 需要好友关系
      */
-    NEED_FRIEND(43005),
+    NEED_FRIEND(43005, "需要好友关系"),
 
     /**
      * 多媒体文件为空
      */
-    MEDIA_FILE_IS_NULL(44001),
+    MEDIA_FILE_IS_NULL(44001, "多媒体文件为空"),
 
     /**
      * POST的数据包为空
      */
-    POST_DATA_IS_NULL(44002),
+    POST_DATA_IS_NULL(44002, "POST的数据包为空"),
 
     /**
      * 图文消息内容为空
      */
-    NEWS_MESSAGE_IS_NULL(44003),
+    NEWS_MESSAGE_IS_NULL(44003, "图文消息内容为空"),
 
     /**
      * 文本消息内容为空
      */
-    TEXT_MESSAGE_IS_NULL(44004),
+    TEXT_MESSAGE_IS_NULL(44004, "文本消息内容为空"),
 
     /**
      * 多媒体文件大小超过限制
      */
-    MEDIA_DATA_OVER_LIMIT(45001),
+    MEDIA_DATA_OVER_LIMIT(45001, "多媒体文件大小超过限制"),
 
     /**
      * 消息内容超过限制
      */
-    MESSAGE_CONTENT_OVER_LIMIT(45002),
+    MESSAGE_CONTENT_OVER_LIMIT(45002, "消息内容超过限制"),
 
     /**
      * 标题字段超过限制
      */
-    TITLE_OVER_LIMIT(45003),
+    TITLE_OVER_LIMIT(45003, "标题字段超过限制"),
 
     /**
      * 描述字段超过限制
      */
-    DESCRIPTION_OVER_LIMIT(45004),
+    DESCRIPTION_OVER_LIMIT(45004, "描述字段超过限制"),
 
     /**
      * 链接字段超过限制
      */
-    LINK_OVER_LIMIT(45005),
+    LINK_OVER_LIMIT(45005, "链接字段超过限制"),
 
     /**
      * 图片链接字段超过限制
      */
-    PICTURE_LINK_OVER_LIMIT(45006),
+    PICTURE_LINK_OVER_LIMIT(45006, "图片链接字段超过限制"),
 
     /**
      * 语音播放时间超过限制
      */
-    VOICE_TIME_OVER_LIMIT(45007),
+    VOICE_TIME_OVER_LIMIT(45007, "语音播放时间超过限制"),
 
     /**
      * 图文消息超过限制
      */
-    NEWS_MESSAGE_OVER_LIMIT(45008),
+    NEWS_MESSAGE_OVER_LIMIT(45008, "图文消息超过限制"),
 
     /**
      * 接口调用超过限制
      */
-    INTERFACE_OVER_LIMIT(45009),
+    INTERFACE_OVER_LIMIT(45009, "接口调用超过限制"),
 
     /**
      * 创建菜单个数超过限制
      */
-    MENU_OVER_LIMIT(45010),
+    MENU_OVER_LIMIT(45010, "创建菜单个数超过限制"),
 
     /**
      * 回复时间超过限制
      */
-    REVIEW_TIME_OVER_LIMIT(45015),
+    REVIEW_TIME_OVER_LIMIT(45015, "回复时间超过限制"),
 
     /**
      * 系统分组，不允许修改
      */
-    NO_MODIFY_SYSTEM_GROUP(45016),
+    NO_MODIFY_SYSTEM_GROUP(45016, "系统分组，不允许修改"),
 
     /**
      * 分组名字过长
      */
-    GROUP_NAME_TOO_LONG(45017),
+    GROUP_NAME_TOO_LONG(45017, "分组名字过长"),
 
     /**
      * 分组数量超过上限
      */
-    GROUP_COUNT_TOO_MANY(45018),
+    GROUP_COUNT_TOO_MANY(45018, "分组数量超过上限"),
 
     /**
      * 不存在媒体数据
      */
-    NOT_EXIST_MEDIA_DATA(46001),
+    NOT_EXIST_MEDIA_DATA(46001, "不存在媒体数据"),
 
     /**
      * 不存在的菜单版本
      */
-    NOT_EXIST_MENU_VERSION(46002),
+    NOT_EXIST_MENU_VERSION(46002, "不存在的菜单版本"),
 
     /**
      * 不存在的菜单数据
      */
-    NOT_EXIST_MENU_DATA(46003),
+    NOT_EXIST_MENU_DATA(46003, "不存在的菜单数据"),
 
     /**
      * 不存在的用户
      */
-    NOT_EXIST_USER(46004),
+    NOT_EXIST_USER(46004, "不存在的用户"),
 
     /**
      * 解析JSON/XML内容错误
      */
-    JSON_OR_XML_ERROR(47001),
+    JSON_OR_XML_ERROR(47001, "解析JSON/XML内容错误"),
 
     /**
      * api功能未授权
      */
-    API_NOT_ALLOW_CALL(48001),
+    API_NOT_ALLOW_CALL(48001, "api功能未授权"),
 
     /**
      * 用户未授权该api
      */
-    USER_NOT_ALLOW_API(50001);
+    USER_NOT_ALLOW_API(50001, "用户未授权该api");
 
+    /**
+     * 结果码
+     */
     Integer code;
 
-    private ResultType(Integer code) {
+    /**
+     * 结果描述
+     */
+    String description;
+
+    /**
+     * 返回结果枚举构造方法
+     *
+     * @param code        结果码
+     * @param description 结果描述
+     */
+    private ResultType(Integer code, String description) {
         this.code = code;
+        this.description = description;
+    }
+
+    /**
+     * 通过code得到返回结果对象
+     *
+     * @param code 结果码
+     * @return 结果枚举对象
+     */
+    public static ResultType get(String code) {
+        BeanUtil.requireNonNull(code, "code is null");
+        ResultType[] list = values();
+        for (ResultType resultType : list) {
+            if (code.equals(resultType.getCode().toString())) {
+                return resultType;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获得结果码
+     *
+     * @return 结果码
+     */
+    public Integer getCode() {
+        return code;
+    }
+
+    /**
+     * 获得结果描述
+     *
+     * @return 结果描述
+     */
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public String toString() {
-        return code.toString();
+        return "ResultType{" +
+                "code=" + code +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -73,6 +73,9 @@ public class MenuButton implements Model {
     }
 
     public void setSub_button(List<MenuButton> sub_button) {
+        if(null == sub_button || sub_button.size() > 5) {
+            throw new RuntimeException("子菜单最多只有5个");
+        }
         this.sub_button = sub_button;
     }
 

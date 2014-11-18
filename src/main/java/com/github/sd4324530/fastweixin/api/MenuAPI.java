@@ -29,7 +29,7 @@ public class MenuAPI extends BaseAPI {
         BeanUtil.requireNonNull(menu, "menu is null");
         String url = BASE_API_URL + "cgi-bin/menu/create?access_token=#";
         BaseResponse response = executePost(url, menu.toJsonString());
-        return ResultType.valueOf(response.getErrcode());
+        return ResultType.get(response.getErrcode());
     }
 
     /**
@@ -55,6 +55,6 @@ public class MenuAPI extends BaseAPI {
     public ResultType deleteMenu() {
         String url = BASE_API_URL + "cgi-bin/menu/delete?access_token=#";
         BaseResponse response = executeGet(url);
-        return ResultType.valueOf(response.getErrcode());
+        return ResultType.get(response.getErrcode());
     }
 }
