@@ -3,6 +3,7 @@ package com.github.sd4324530.fastweixin.api.config;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
+import org.apache.http.HttpStatus;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -56,7 +57,7 @@ public final class ApiConfig {
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
             public void onResponse(int resultCode, String resultJson) {
-                if (200 == resultCode) {
+                if (HttpStatus.SC_OK == resultCode) {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                     ApiConfig.this.access_token = response.getAccess_token();
                 }
