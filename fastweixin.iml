@@ -24,7 +24,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-context-support:3.2.12.RELEASE" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-web:3.2.12.RELEASE" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-webmvc:3.2.12.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.1.45" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.1.46" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.3.3" level="project" />
