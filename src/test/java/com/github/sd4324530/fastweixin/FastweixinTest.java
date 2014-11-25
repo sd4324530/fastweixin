@@ -1,11 +1,13 @@
 package com.github.sd4324530.fastweixin;
 
 import com.github.sd4324530.fastweixin.api.MenuAPI;
+import com.github.sd4324530.fastweixin.api.UserAPI;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.entity.MenuButton;
 import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
+import com.github.sd4324530.fastweixin.api.response.GetUsersResponse;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ public class FastweixinTest {
         String appid = "wxa4deabaf24e6caab";
         String secret = "34ea880e3b7a98d0db12d75ff016a39b";
         ApiConfig config = new ApiConfig(appid, secret);
-        createMenu(config);
+//        createMenu(config);
+        getUserList(config);
     }
 
     /**
@@ -58,5 +61,20 @@ public class FastweixinTest {
         //创建菜单
         ResultType resultType = menuAPI.createMenu(request);
         System.out.println(resultType.toString());
+    }
+
+    /**
+     * 获取关注者列表
+     * @param config API配置
+     */
+    public void getUserList(ApiConfig config) {
+        UserAPI userAPI = new UserAPI(config);
+        GetUsersResponse users = userAPI.getUsers(null);
+        System.out.println(users.getCount());
+        System.out.println(users.getTotal());
+        String[] openids = users.getData().getOpenid();
+        for(String id : openids) {
+            System.out.println(id);
+        }
     }
 }
