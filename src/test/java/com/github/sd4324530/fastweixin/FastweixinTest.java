@@ -9,6 +9,8 @@ import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.GetUsersResponse;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.List;
  * @author peiyu
  */
 public class FastweixinTest {
+
+    private static final Logger log = LoggerFactory.getLogger(FastweixinTest.class);
 
     @Test
     public void test() {
@@ -60,7 +64,7 @@ public class FastweixinTest {
         request.setButton(mainList);
         //创建菜单
         ResultType resultType = menuAPI.createMenu(request);
-        System.out.println(resultType.toString());
+        log.debug(resultType.toString());
     }
 
     /**
@@ -70,11 +74,11 @@ public class FastweixinTest {
     public void getUserList(ApiConfig config) {
         UserAPI userAPI = new UserAPI(config);
         GetUsersResponse users = userAPI.getUsers(null);
-        System.out.println(users.getCount());
-        System.out.println(users.getTotal());
+        log.debug("user count:{}", users.getCount());
+        log.debug("user total:{}", users.getTotal());
         String[] openids = users.getData().getOpenid();
         for(String id : openids) {
-            System.out.println(id);
+            log.debug("id:{}", id);
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.github.sd4324530.fastweixin.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +16,8 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isHasBlank;
  * @author peiyu
  */
 public final class SignUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(SignUtil.class);
 
     /**
      * 此类不需要实例化
@@ -43,7 +48,7 @@ public final class SignUtil {
         for (int i = 0; i < arr.length; i++) {
             content.append(arr[i]);
         }
-        MessageDigest md = null;
+        MessageDigest md;
         String tmpStr = null;
 
         try {
@@ -51,9 +56,9 @@ public final class SignUtil {
             byte[] digest = md.digest(content.toString().getBytes("UTF-8"));
             tmpStr = byteToStr(digest);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            log.error("加密方式异常", e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.error("编码格式不支持", e);
         }
         return tmpStr != null && tmpStr.equalsIgnoreCase(signature);
     }

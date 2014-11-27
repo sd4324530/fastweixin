@@ -4,6 +4,8 @@ import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -13,6 +15,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @since 1.2
  */
 public final class ApiConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(ApiConfig.class);
 
     private final String appid;
 
@@ -53,12 +57,14 @@ public final class ApiConfig {
      * 初始化微信配置，即第一次获取access_token
      */
     public void init() {
+        log.debug("开始第一次初始化access_token........");
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + this.appid + "&secret=" + this.secret;
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
             public void onResponse(int resultCode, String resultJson) {
                 if (HttpStatus.SC_OK == resultCode) {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
+                    log.debug("获取access_token:{}", response.getAccess_token());
                     ApiConfig.this.access_token = response.getAccess_token();
                 }
             }

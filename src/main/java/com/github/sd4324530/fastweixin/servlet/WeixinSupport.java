@@ -7,6 +7,8 @@ import com.github.sd4324530.fastweixin.message.TextMsg;
 import com.github.sd4324530.fastweixin.message.req.*;
 import com.github.sd4324530.fastweixin.util.MessageUtil;
 import com.github.sd4324530.fastweixin.util.SignUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,6 +27,8 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isNotBlank;
  * @since 1.1
  */
 public abstract class WeixinSupport {
+
+    private static final Logger log = LoggerFactory.getLogger(WeixinSupport.class);
 
     /**
      * 微信消息处理器列表
@@ -73,6 +77,8 @@ public abstract class WeixinSupport {
         String toUserName = reqMap.get("ToUserName");
         String msgType = reqMap.get("MsgType");
 
+        log.debug("收到消息,消息类型:{}", msgType);
+
         BaseMsg msg = null;
 
         if (msgType.equals(ReqType.EVENT)) {
@@ -80,6 +86,8 @@ public abstract class WeixinSupport {
             String ticket = reqMap.get("Ticket");
             if (isNotBlank(ticket)) {
                 String eventKey = reqMap.get("EventKey");
+                log.debug("eventKey:{}", eventKey);
+                log.debug("ticket:{}", ticket);
                 QrCodeEvent event = new QrCodeEvent(eventKey, ticket);
                 buildBasicEvent(reqMap, event);
                 msg = handleQrCodeEvent(event);
@@ -103,6 +111,7 @@ public abstract class WeixinSupport {
                 }
             } else if (eventType.equals(EventType.CLICK)) {
                 String eventKey = reqMap.get("EventKey");
+                log.debug("eventKey:{}", eventKey);
                 MenuEvent event = new MenuEvent(eventKey);
                 buildBasicEvent(reqMap, event);
                 msg = handleMenuClickEvent(event);
@@ -111,6 +120,7 @@ public abstract class WeixinSupport {
                 }
             } else if (eventType.equals(EventType.VIEW)) {
                 String eventKey = reqMap.get("EventKey");
+                log.debug("eventKey:{}", eventKey);
                 MenuEvent event = new MenuEvent(eventKey);
                 buildBasicEvent(reqMap, event);
                 msg = handleMenuViewEvent(event);
@@ -132,6 +142,7 @@ public abstract class WeixinSupport {
         } else {
             if (msgType.equals(ReqType.TEXT)) {
                 String content = reqMap.get("Content");
+                log.debug("文本消息内容:{}", content);
                 TextReqMsg textReqMsg = new TextReqMsg(content);
                 buildBasicReqMsg(reqMap, textReqMsg);
                 msg = handleTextMsg(textReqMsg);
@@ -183,6 +194,7 @@ public abstract class WeixinSupport {
                 String title = reqMap.get("Title");
                 String description = reqMap.get("Description");
                 String url = reqMap.get("Url");
+                log.debug("链接消息地址:{}", url);
                 LinkReqMsg linkReqMsg = new LinkReqMsg(title, description, url);
                 buildBasicReqMsg(reqMap, linkReqMsg);
                 msg = handleLinkMsg(linkReqMsg);

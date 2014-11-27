@@ -6,6 +6,8 @@ import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.QrcodeResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,9 @@ import java.util.Map;
  * @since 1.2
  */
 public class QrcodeAPI extends BaseAPI {
+
+    private static final Logger log = LoggerFactory.getLogger(QrcodeAPI.class);
+
     public QrcodeAPI(ApiConfig config) {
         super(config);
     }
@@ -32,6 +37,8 @@ public class QrcodeAPI extends BaseAPI {
     public QrcodeResponse createQrcode(QrcodeType actionName, String sceneId, Integer expireSeconds) {
         BeanUtil.requireNonNull(actionName, "actionName is null");
         BeanUtil.requireNonNull(sceneId, "actionInfo is null");
+
+        log.debug("创建二维码信息.....");
 
         QrcodeResponse response = null;
         String url = BASE_API_URL + "cgi-bin/qrcode/create?access_token=#";

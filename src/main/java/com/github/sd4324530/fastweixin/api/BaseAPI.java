@@ -8,6 +8,8 @@ import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -21,6 +23,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @since 1.2
  */
 public abstract class BaseAPI {
+
+    private static final Logger log = LoggerFactory.getLogger(BaseAPI.class);
+
     protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
 
     protected final ApiConfig config;
@@ -40,6 +45,7 @@ public abstract class BaseAPI {
      * 刷新token
      */
     protected void refreshToken() {
+        log.debug("开始刷新access_token......");
         writeLock.lock();
         try {
             if(config.refreshing.compareAndSet(false, true)) {
@@ -50,6 +56,11 @@ public abstract class BaseAPI {
                         if (HttpStatus.SC_OK == resultCode) {
                             GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                             BaseAPI.this.config.setAccess_token(response.getAccess_token());
+                            log.debug("刷新access_token成功.....");
+                        }
+                        else {
+                            log.warn("获取access_token失败....");
+                            log.warn("信息:{}", resultJson);
                         }
                     }
                 });
@@ -85,10 +96,13 @@ public abstract class BaseAPI {
             }
             readLock.lock();
             try {
+                log.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
                 response = NetWorkCenter.post(url, json);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("线程休眠异常", e);
+            } catch (Exception e) {
+                log.error("请求出现异常", e);
             } finally {
                 readLock.unlock();
             }
@@ -121,11 +135,14 @@ public abstract class BaseAPI {
             }
             readLock.lock();
             try {
+                log.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
                 response = NetWorkCenter.get(url);
             } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
+                log.error("线程休眠异常", e);
+            } catch (Exception e) {
+                log.error("请求出现异常", e);
+            }finally {
                 readLock.unlock();
             }
         }

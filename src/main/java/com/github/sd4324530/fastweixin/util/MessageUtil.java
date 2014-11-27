@@ -1,5 +1,8 @@
 package com.github.sd4324530.fastweixin.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -17,6 +20,8 @@ import java.util.Map;
  * @author peiyu
  */
 public final class MessageUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(MessageUtil.class);
 
     /**
      * 此类不需要实例化
@@ -50,16 +55,16 @@ public final class MessageUtil {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IO出现异常", e);
         } catch (XMLStreamException e) {
-            e.printStackTrace();
+            log.error("XML解析出现异常", e);
         } finally {
             try {
                 if (inputStream != null) {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("IO出现异常", e);
             }
         }
         return map;
