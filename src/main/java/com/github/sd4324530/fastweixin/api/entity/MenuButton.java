@@ -1,6 +1,7 @@
 package com.github.sd4324530.fastweixin.api.entity;
 
 import com.github.sd4324530.fastweixin.api.enums.MenuType;
+import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 import java.util.List;
@@ -74,7 +75,7 @@ public class MenuButton implements Model {
 
     public void setSub_button(List<MenuButton> sub_button) {
         if(null == sub_button || sub_button.size() > 5) {
-            throw new RuntimeException("子菜单最多只有5个");
+            throw new WeixinException("子菜单最多只有5个");
         }
         this.sub_button = sub_button;
     }

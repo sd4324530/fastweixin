@@ -1,5 +1,6 @@
 package com.github.sd4324530.fastweixin.api.entity;
 
+import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class Menu implements Model {
 
     public void setButton(List<MenuButton> button) {
         if(null == button || button.size() > 3) {
-            throw new RuntimeException("主菜单最多3个");
+            throw new WeixinException("主菜单最多3个");
         }
         this.button = button;
     }
