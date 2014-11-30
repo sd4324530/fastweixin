@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class QrcodeAPI extends BaseAPI {
 
-    private static final Logger log = LoggerFactory.getLogger(QrcodeAPI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(QrcodeAPI.class);
 
     public QrcodeAPI(ApiConfig config) {
         super(config);
@@ -38,7 +38,7 @@ public class QrcodeAPI extends BaseAPI {
         BeanUtil.requireNonNull(actionName, "actionName is null");
         BeanUtil.requireNonNull(sceneId, "actionInfo is null");
 
-        log.debug("创建二维码信息.....");
+        LOG.debug("创建二维码信息.....");
 
         QrcodeResponse response = null;
         String url = BASE_API_URL + "cgi-bin/qrcode/create?access_token=#";

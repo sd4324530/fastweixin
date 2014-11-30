@@ -35,7 +35,7 @@ public final class NetWorkCenter {
     /**
      * 日志输出组件
      */
-	private static final Logger log = LoggerFactory.getLogger(NetWorkCenter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(NetWorkCenter.class);
 
     /**
      * 默认连接超时时间(毫秒)
@@ -53,9 +53,9 @@ public final class NetWorkCenter {
      * 不允许外界创建实例
      */
     private NetWorkCenter() {
-//		log.warn("Oh,my god!!!How do you call this method?!");
-//		log.warn("You shouldn't create me!!!");
-//		log.warn("Look my doc again!!!");
+		LOG.warn("Oh,my god!!!How do you call this method?!");
+		LOG.warn("You shouldn't create me!!!");
+		LOG.warn("Look my doc again!!!");
     }
 
     /**
@@ -190,7 +190,7 @@ public final class NetWorkCenter {
                                   final String paramData, final List<File> fileList, final ResponseCallback callback) {
         //如果url没有传入，则直接返回
         if (null == url || url.isEmpty()) {
-			log.warn("The url is null or empty!!You must give it to me!OK?");
+			LOG.warn("The url is null or empty!!You must give it to me!OK?");
             return;
         }
 
@@ -201,11 +201,11 @@ public final class NetWorkCenter {
 		 * 用于一些不需要后续处理的请求，比如只是发送一个心跳包等等
 		 */
         if (null == callback) {
-			log.warn("--------------no callback block!--------------");
+			LOG.warn("--------------no callback block!--------------");
             haveCallback = false;
         }
 
-		log.debug("-----------------请求地址:{}-----------------", url);
+		LOG.debug("-----------------请求地址:{}-----------------", url);
         //配置请求参数
         RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(CONNECT_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(CONNECT_TIMEOUT).build();
         CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
@@ -219,8 +219,8 @@ public final class NetWorkCenter {
                 request = new HttpGet(getUrl);
                 break;
             case POST:
-			log.debug("请求入参:");
-			log.debug(paramData);
+			LOG.debug("请求入参:");
+			LOG.debug(paramData);
                 request = new HttpPost(url);
                 //上传文件
                 if (null != fileList && !fileList.isEmpty()) {
@@ -233,7 +233,7 @@ public final class NetWorkCenter {
                         }
                         //如果上传内容有不是文件的，则不发起本次请求
                         else {
-						log.warn("The target '{}' not a file,please check and try again!", file.getPath());
+						LOG.warn("The target '{}' not a file,please check and try again!", file.getPath());
                             return;
                         }
                     }
@@ -254,7 +254,7 @@ public final class NetWorkCenter {
             case PUT:
             case DELETE:
             default:
-//			log.warn("-----------------请求类型:{} 暂不支持-----------------", method.toString());
+			LOG.warn("-----------------请求类型:{} 暂不支持-----------------", method.toString());
                 break;
         }
         CloseableHttpResponse response = null;
@@ -263,9 +263,8 @@ public final class NetWorkCenter {
             //发起请求
             response = client.execute(request);
             long time = System.currentTimeMillis() - start;
-			log.debug("本次请求'{}'耗时:{}ms", url.substring(url.lastIndexOf("/") + 1, url.length()), time);
+			LOG.debug("本次请求'{}'耗时:{}ms", url.substring(url.lastIndexOf("/") + 1, url.length()), time);
             int resultCode = response.getStatusLine().getStatusCode();
-//			log.debug("resultCode:{}", resultCode);
             HttpEntity entity = response.getEntity();
             //此流不是操作系统资源，不用关闭，ByteArrayOutputStream源码里close也是个空方法-0_0-
             OutputStream os = new ByteArrayOutputStream();
@@ -273,33 +272,33 @@ public final class NetWorkCenter {
             String resultJson = os.toString();
             //返回码200，请求成功；其他情况都为请求出现错误
             if (HttpStatus.SC_OK == resultCode) {
-				log.debug("-----------------请求成功-----------------");
-				log.debug("响应结果:");
-				log.debug(resultJson);
+				LOG.debug("-----------------请求成功-----------------");
+				LOG.debug("响应结果:");
+				LOG.debug(resultJson);
                 if (haveCallback) {
                     callback.onResponse(resultCode, resultJson);
                 }
             } else {
                 if (haveCallback) {
-					log.warn("-----------------请求出现错误，错误码:{}-----------------", resultCode);
+					LOG.warn("-----------------请求出现错误，错误码:{}-----------------", resultCode);
                     callback.onResponse(resultCode, resultJson);
                 }
             }
         } catch (ClientProtocolException e) {
-			log.error("ClientProtocolException:", e);
-			log.warn("-----------------请求出现异常:{}-----------------", e.toString());
+			LOG.error("ClientProtocolException:", e);
+			LOG.warn("-----------------请求出现异常:{}-----------------", e.toString());
             if (haveCallback) {
                 callback.onResponse(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         } catch (IOException e) {
-			log.error("IOException:", e);
-			log.warn("-----------------请求出现IO异常:{}-----------------", e.toString());
+			LOG.error("IOException:", e);
+			LOG.warn("-----------------请求出现IO异常:{}-----------------", e.toString());
             if (haveCallback) {
                 callback.onResponse(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         } catch (Exception e) {
-			log.error("Exception:", e);
-			log.warn("-----------------请求出现其他异常:{}-----------------", e.toString());
+			LOG.error("Exception:", e);
+			LOG.warn("-----------------请求出现其他异常:{}-----------------", e.toString());
             if (haveCallback) {
                 callback.onResponse(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.toString());
             }

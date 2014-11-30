@@ -17,7 +17,7 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isHasBlank;
  */
 public final class SignUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(SignUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SignUtil.class);
 
     /**
      * 此类不需要实例化
@@ -56,9 +56,9 @@ public final class SignUtil {
             byte[] digest = md.digest(content.toString().getBytes("UTF-8"));
             tmpStr = byteToStr(digest);
         } catch (NoSuchAlgorithmException e) {
-            log.error("加密方式异常", e);
+            LOG.error("加密方式异常", e);
         } catch (UnsupportedEncodingException e) {
-            log.error("编码格式不支持", e);
+            LOG.error("编码格式不支持", e);
         }
         return tmpStr != null && tmpStr.equalsIgnoreCase(signature);
     }

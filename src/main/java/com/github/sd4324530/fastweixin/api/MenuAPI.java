@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MenuAPI extends BaseAPI {
 
-    private static final Logger log = LoggerFactory.getLogger(MenuAPI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MenuAPI.class);
 
     public MenuAPI(ApiConfig config) {
         super(config);
@@ -32,7 +32,7 @@ public class MenuAPI extends BaseAPI {
      */
     public ResultType createMenu(Menu menu) {
         BeanUtil.requireNonNull(menu, "menu is null");
-        log.debug("创建菜单.....");
+        LOG.debug("创建菜单.....");
         String url = BASE_API_URL + "cgi-bin/menu/create?access_token=#";
         BaseResponse response = executePost(url, menu.toJsonString());
         return ResultType.get(response.getErrcode());
@@ -45,7 +45,7 @@ public class MenuAPI extends BaseAPI {
      */
     public GetMenuResponse getMenu() {
         GetMenuResponse response = null;
-        log.debug("获取菜单信息.....");
+        LOG.debug("获取菜单信息.....");
         String url = BASE_API_URL + "cgi-bin/menu/get?access_token=#";
 
         BaseResponse r = executeGet(url);
@@ -60,7 +60,7 @@ public class MenuAPI extends BaseAPI {
      * @return 调用结果
      */
     public ResultType deleteMenu() {
-        log.debug("删除菜单.....");
+        LOG.debug("删除菜单.....");
         String url = BASE_API_URL + "cgi-bin/menu/delete?access_token=#";
         BaseResponse response = executeGet(url);
         return ResultType.get(response.getErrcode());

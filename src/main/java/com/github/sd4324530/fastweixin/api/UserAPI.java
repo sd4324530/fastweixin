@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class UserAPI extends BaseAPI {
 
-    private static final Logger log = LoggerFactory.getLogger(UserAPI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserAPI.class);
 
     public UserAPI(ApiConfig config) {
         super(config);
@@ -34,7 +34,7 @@ public class UserAPI extends BaseAPI {
      */
     public GetUsersResponse getUsers(String next_openid) {
         GetUsersResponse response = null;
-        log.debug("获取关注者列表.....");
+        LOG.debug("获取关注者列表.....");
         String url = BASE_API_URL + "cgi-bin/user/get?access_token=#";
         if (StrUtil.isNotBlank(next_openid)) {
             url += "&next_openid=" + next_openid;
@@ -55,7 +55,7 @@ public class UserAPI extends BaseAPI {
      */
     public ResultType setUserRemark(String openid, String remark) {
         BeanUtil.requireNonNull(openid, "openid is null");
-        log.debug("设置关注者备注.....");
+        LOG.debug("设置关注者备注.....");
         String url = BASE_API_URL + "cgi-bin/user/info/updateremark?access_token=#";
         Map<String, String> param = new HashMap<String, String>();
         param.put("openid", openid);
@@ -73,7 +73,7 @@ public class UserAPI extends BaseAPI {
     public CreateGroupResponse createGroup(String name) {
         CreateGroupResponse response = null;
         BeanUtil.requireNonNull(name, "name is null");
-        log.debug("创建分组.....");
+        LOG.debug("创建分组.....");
         String url = BASE_API_URL + "cgi-bin/groups/create?access_token=#";
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, Object> group = new HashMap<String, Object>();
@@ -93,7 +93,7 @@ public class UserAPI extends BaseAPI {
      */
     public GetGroupsResponse getGroups() {
         GetGroupsResponse response = null;
-        log.debug("获取所有分组信息.....");
+        LOG.debug("获取所有分组信息.....");
         String url = BASE_API_URL + "cgi-bin/groups/get?access_token=#";
         BaseResponse r = executeGet(url);
         if (null == r.getErrcode() || "".equals(r.getErrcode())) {
@@ -110,7 +110,7 @@ public class UserAPI extends BaseAPI {
      */
     public String getGroupIdByOpenid(String openid) {
         BeanUtil.requireNonNull(openid, "openid is null");
-        log.debug("通过关注者ID获取所在分组信息.....");
+        LOG.debug("通过关注者ID获取所在分组信息.....");
         String result = null;
         String url = BASE_API_URL + "cgi-bin/groups/getid?access_token=#";
         Map<String, String> params = new HashMap<String, String>();
@@ -132,7 +132,7 @@ public class UserAPI extends BaseAPI {
     public ResultType updateGroup(Integer groupid, String name) {
         BeanUtil.requireNonNull(groupid, "groupid is null");
         BeanUtil.requireNonNull(name, "name is null");
-        log.debug("修改分组信息.....");
+        LOG.debug("修改分组信息.....");
         String url = BASE_API_URL + "cgi-bin/groups/update?access_token=#";
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, Object> group = new HashMap<String, Object>();
@@ -153,7 +153,7 @@ public class UserAPI extends BaseAPI {
     public ResultType moveGroupUser(String openid, String toGroupid) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(toGroupid, "toGroupid is null");
-        log.debug("移动关注者所在分组.....");
+        LOG.debug("移动关注者所在分组.....");
         String url = BASE_API_URL + "cgi-bin/groups/members/update?access_token=#";
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("openid", openid);
@@ -172,7 +172,7 @@ public class UserAPI extends BaseAPI {
     public GetUserInfoResponse getUserInfo(String openid) {
         BeanUtil.requireNonNull(openid, "openid is null");
         GetUserInfoResponse response = null;
-        log.debug("获取关注者信息.....");
+        LOG.debug("获取关注者信息.....");
         String url = BASE_API_URL + "cgi-bin/user/info?access_token=#&lang=zh_CN&openid=" + openid;
         BaseResponse r = executeGet(url);
         if (null == r.getErrcode() || "".equals(r.getErrcode())) {

@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class MessageAPI extends BaseAPI {
 
-    private static final Logger log = LoggerFactory.getLogger(MessageAPI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MessageAPI.class);
 
     public MessageAPI(ApiConfig config) {
         super(config);
@@ -38,7 +38,7 @@ public class MessageAPI extends BaseAPI {
     public ResultType sendCustomMessage(String openid, BaseMsg message) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(message, "message is null");
-        log.debug("发布客服消息......");
+        LOG.debug("发布客服消息......");
         String url = BASE_API_URL + "cgi-bin/message/custom/send?access_token=#";
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("touser", openid);

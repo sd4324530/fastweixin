@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public final class MessageUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(MessageUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MessageUtil.class);
 
     /**
      * 此类不需要实例化
@@ -55,16 +55,16 @@ public final class MessageUtil {
                 }
             }
         } catch (IOException e) {
-            log.error("IO出现异常", e);
+            LOG.error("IO出现异常", e);
         } catch (XMLStreamException e) {
-            log.error("XML解析出现异常", e);
+            LOG.error("XML解析出现异常", e);
         } finally {
             try {
                 if (inputStream != null) {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                log.error("IO出现异常", e);
+                LOG.error("IO出现异常", e);
             }
         }
         return map;

@@ -24,7 +24,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public abstract class BaseAPI {
 
-    private static final Logger log = LoggerFactory.getLogger(BaseAPI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseAPI.class);
 
     protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
 
@@ -45,7 +45,7 @@ public abstract class BaseAPI {
      * 刷新token
      */
     protected void refreshToken() {
-        log.debug("开始刷新access_token......");
+        LOG.debug("开始刷新access_token......");
         writeLock.lock();
         try {
             if(config.refreshing.compareAndSet(false, true)) {
@@ -56,11 +56,11 @@ public abstract class BaseAPI {
                         if (HttpStatus.SC_OK == resultCode) {
                             GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                             BaseAPI.this.config.setAccess_token(response.getAccess_token());
-                            log.debug("刷新access_token成功.....");
+                            LOG.debug("刷新access_token成功.....");
                         }
                         else {
-                            log.warn("获取access_token失败....");
-                            log.warn("信息:{}", resultJson);
+                            LOG.warn("获取access_token失败....");
+                            LOG.warn("信息:{}", resultJson);
                         }
                     }
                 });
@@ -96,13 +96,13 @@ public abstract class BaseAPI {
             }
             readLock.lock();
             try {
-                log.debug("接口调用重试....");
+                LOG.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
                 response = NetWorkCenter.post(url, json);
             } catch (InterruptedException e) {
-                log.error("线程休眠异常", e);
+                LOG.error("线程休眠异常", e);
             } catch (Exception e) {
-                log.error("请求出现异常", e);
+                LOG.error("请求出现异常", e);
             } finally {
                 readLock.unlock();
             }
@@ -135,13 +135,13 @@ public abstract class BaseAPI {
             }
             readLock.lock();
             try {
-                log.debug("接口调用重试....");
+                LOG.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
                 response = NetWorkCenter.get(url);
             } catch (InterruptedException e) {
-                log.error("线程休眠异常", e);
+                LOG.error("线程休眠异常", e);
             } catch (Exception e) {
-                log.error("请求出现异常", e);
+                LOG.error("请求出现异常", e);
             }finally {
                 readLock.unlock();
             }
