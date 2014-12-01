@@ -49,9 +49,7 @@ public class MenuAPI extends BaseAPI {
         String url = BASE_API_URL + "cgi-bin/menu/get?access_token=#";
 
         BaseResponse r = executeGet(url);
-        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetMenuResponse.class);
-        }
+        response = JSONUtil.toBean(r.getErrmsg(), GetMenuResponse.class);
         return response;
     }
 

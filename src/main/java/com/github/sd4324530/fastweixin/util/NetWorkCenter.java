@@ -134,6 +134,21 @@ public final class NetWorkCenter {
         doRequest(RequestMethod.POST, url, paramData, fileList, callback);
     }
 
+    public static BaseResponse post(String url, String paramData, List<File> fileList) {
+        final BaseResponse[] response = new BaseResponse[]{null};
+        post(url, paramData, fileList, new ResponseCallback() {
+            @Override
+            public void onResponse(int resultCode, String resultJson) {
+                if(200 == resultCode) {
+                    BaseResponse r = JSONUtil.toBean(resultJson, BaseResponse.class);
+                    r.setErrmsg(resultJson);
+                    response[0] = r;
+                }
+            }
+        });
+        return response[0];
+    }
+
 
     /**
      * 发起HTTP GET同步请求
@@ -224,6 +239,7 @@ public final class NetWorkCenter {
                 request = new HttpPost(url);
                 //上传文件
                 if (null != fileList && !fileList.isEmpty()) {
+                    LOG.debug("上传文件...");
                     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                     for (File file : fileList) {
                         //只能上传文件哦 ^_^
@@ -231,7 +247,7 @@ public final class NetWorkCenter {
                             FileBody fb = new FileBody(file);
                             builder.addPart("files", fb);
                         } else {//如果上传内容有不是文件的，则不发起本次请求
-						LOG.warn("The target '{}' not a file,please check and try again!", file.getPath());
+						    LOG.warn("The target '{}' not a file,please check and try again!", file.getPath());
                             return;
                         }
                     }

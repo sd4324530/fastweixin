@@ -5,12 +5,15 @@ import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
+import com.github.sd4324530.fastweixin.util.CollectionUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -77,14 +80,26 @@ public abstract class BaseAPI {
      * @return 请求结果
      */
     protected BaseResponse executePost(String url, String json) {
+        return executePost(url, json, null);
+    }
+
+    /**
+     * 通用post请求
+     * @param url 地址，其中token用#代替
+     * @param json 参数，json格式
+     * @param file 上传的文件
+     * @return 请求结果
+     */
+    protected BaseResponse executePost(String url, String json, File file) {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
         String newUrl = "";
+        List<File> files = CollectionUtil.newArrayList(file);
         readLock.lock();
         try {
-           //需要传token
+            //需要传token
             newUrl = url.replace("#",config.getAccessToken());
-            response = NetWorkCenter.post(newUrl, json);
+            response = NetWorkCenter.post(newUrl, json, files);
         } finally {
             readLock.unlock();
         }
@@ -97,7 +112,7 @@ public abstract class BaseAPI {
             try {
                 LOG.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
-                response = NetWorkCenter.post(newUrl, json);
+                response = NetWorkCenter.post(newUrl, json, files);
             } catch (InterruptedException e) {
                 LOG.error("线程休眠异常", e);
             } catch (Exception e) {
@@ -109,6 +124,9 @@ public abstract class BaseAPI {
 
         return response;
     }
+
+
+
 
     /**
      * 通用post请求
