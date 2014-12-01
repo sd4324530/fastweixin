@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.message.req;
 
-public class ReqType {
+public final class ReqType {
 
 	public static final String TEXT = "text";
 
@@ -15,5 +15,7 @@ public class ReqType {
 	public static final String VIDEO = "video";
 
 	public static final String EVENT = "event";
+
+	private ReqType(){}
 
 }

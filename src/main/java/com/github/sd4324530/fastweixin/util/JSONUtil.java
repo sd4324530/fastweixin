@@ -13,14 +13,16 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isBlank;
  * json操作工具类
  * @author peiyu
  */
-public abstract class JSONUtil {
-	
+public final class JSONUtil {
+
     /**
      * 默认json格式化方式
      */
     public static final SerializerFeature[] DEFAULT_FORMAT = { SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteEnumUsingToString,
         SerializerFeature.WriteNonStringKeyAsString, SerializerFeature.QuoteFieldNames, SerializerFeature.SkipTransientField,
         SerializerFeature.SortField, SerializerFeature.PrettyFormat };
+
+    private JSONUtil(){}
 
     /**
      * 从json获取指定key的字符串

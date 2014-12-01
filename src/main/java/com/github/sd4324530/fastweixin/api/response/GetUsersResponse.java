@@ -1,5 +1,7 @@
 package com.github.sd4324530.fastweixin.api.response;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -13,7 +15,8 @@ public class GetUsersResponse extends BaseResponse {
 
     private Openid data;
 
-    private String next_openid;
+    @JSONField(name = "next_openid")
+    private String nextOpenid;
 
     public long getTotal() {
         return total;
@@ -39,12 +42,12 @@ public class GetUsersResponse extends BaseResponse {
         this.data = data;
     }
 
-    public String getNext_openid() {
-        return next_openid;
+    public String getNextOpenid() {
+        return nextOpenid;
     }
 
-    public void setNext_openid(String next_openid) {
-        this.next_openid = next_openid;
+    public void setNextOpenid(String nextOpenid) {
+        this.nextOpenid = nextOpenid;
     }
 
     public class Openid implements Serializable {

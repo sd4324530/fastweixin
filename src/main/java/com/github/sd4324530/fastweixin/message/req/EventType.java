@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.message.req;
 
-public class EventType {
+public final class EventType {
 
 	public static final String SUBSCRIBE = "subscribe";
 
@@ -13,5 +13,7 @@ public class EventType {
 	public static final String LOCATION = "LOCATION";
 
 	public static final String SCAN = "SCAN";
+
+	private EventType(){}
 
 }

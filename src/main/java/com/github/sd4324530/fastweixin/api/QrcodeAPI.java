@@ -45,11 +45,11 @@ public class QrcodeAPI extends BaseAPI {
 
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("action_name", actionName);
-        Map<String, Object> action_info = new HashMap<String, Object>();
+        Map<String, Object> actionInfo = new HashMap<String, Object>();
         Map<String, Object> scene = new HashMap<String, Object>();
         scene.put("scene_id", sceneId);
-        action_info.put("scene", scene);
-        param.put("action_info", action_info);
+        actionInfo.put("scene", scene);
+        param.put("action_info", actionInfo);
         if (BeanUtil.nonNull(expireSeconds) && 0 != expireSeconds) {
             param.put("expire_seconds", expireSeconds);
         }

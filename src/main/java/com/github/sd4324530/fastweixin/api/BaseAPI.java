@@ -55,10 +55,9 @@ public abstract class BaseAPI {
                     public void onResponse(int resultCode, String resultJson) {
                         if (HttpStatus.SC_OK == resultCode) {
                             GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
-                            BaseAPI.this.config.setAccess_token(response.getAccess_token());
+                            BaseAPI.this.config.setAccessToken(response.getAccessToken());
                             LOG.debug("刷新access_token成功.....");
-                        }
-                        else {
+                        } else {
                             LOG.warn("获取access_token失败....");
                             LOG.warn("信息:{}", resultJson);
                         }
@@ -80,12 +79,12 @@ public abstract class BaseAPI {
     protected BaseResponse executePost(String url, String json) {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
-
+        String newUrl = "";
         readLock.lock();
         try {
            //需要传token
-           url = url.replace("#",config.getAccess_token());
-            response = NetWorkCenter.post(url, json);
+            newUrl = url.replace("#",config.getAccessToken());
+            response = NetWorkCenter.post(newUrl, json);
         } finally {
             readLock.unlock();
         }
@@ -98,7 +97,7 @@ public abstract class BaseAPI {
             try {
                 LOG.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
-                response = NetWorkCenter.post(url, json);
+                response = NetWorkCenter.post(newUrl, json);
             } catch (InterruptedException e) {
                 LOG.error("线程休眠异常", e);
             } catch (Exception e) {
@@ -119,12 +118,12 @@ public abstract class BaseAPI {
     protected BaseResponse executeGet(String url) {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
-
+        String newUrl = "";
         readLock.lock();
         try {
             //需要传token
-            url = url.replace("#",config.getAccess_token());
-            response = NetWorkCenter.get(url);
+            newUrl = url.replace("#",config.getAccessToken());
+            response = NetWorkCenter.get(newUrl);
         } finally {
             readLock.unlock();
         }
@@ -137,7 +136,7 @@ public abstract class BaseAPI {
             try {
                 LOG.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
-                response = NetWorkCenter.get(url);
+                response = NetWorkCenter.get(newUrl);
             } catch (InterruptedException e) {
                 LOG.error("线程休眠异常", e);
             } catch (Exception e) {

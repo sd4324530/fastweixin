@@ -1,26 +1,31 @@
 package com.github.sd4324530.fastweixin.api.response;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @author peiyu
  */
 public class GetTokenResponse extends BaseResponse {
-    private String access_token;
 
-    private Integer expires_in;
+    @JSONField(name = "access_token")
+    private String accessToken;
 
-    public String getAccess_token() {
-        return access_token;
+    @JSONField(name = "expires_in")
+    private Integer expiresIn;
+
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public Integer getExpires_in() {
-        return expires_in;
+    public Integer getExpiresIn() {
+        return expiresIn;
     }
 
-    public void setExpires_in(Integer expires_in) {
-        this.expires_in = expires_in;
+    public void setExpiresIn(Integer expiresIn) {
+        this.expiresIn = expiresIn;
     }
 }

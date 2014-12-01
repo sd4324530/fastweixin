@@ -213,11 +213,11 @@ public abstract class WeixinSupport {
     }
 
     //充当锁
-    private static final Object lock = new Object();
+    private static final Object LOCK = new Object();
 
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
         if (isEmpty(messageHandles)) {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 messageHandles = this.getMessageHandles();
             }
         }
@@ -234,7 +234,7 @@ public abstract class WeixinSupport {
 
     private BaseMsg processEventHandle(BaseEvent event) {
         if (isEmpty(eventHandles)) {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 eventHandles = this.getEventHandles();
             }
         }

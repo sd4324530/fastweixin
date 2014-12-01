@@ -46,7 +46,7 @@ public final class NetWorkCenter {
      * <p>
      * 或者说是否没必要定制,30秒是一个比较适中的选择，但有些请求可能就是需要快速给出结果T_T
      */
-    public static int CONNECT_TIMEOUT = 5 * 1000;
+    public static final int CONNECT_TIMEOUT = 5 * 1000;
 
     /**
      * 私有化构造器
@@ -230,9 +230,7 @@ public final class NetWorkCenter {
                         if (file.isFile()) {
                             FileBody fb = new FileBody(file);
                             builder.addPart("files", fb);
-                        }
-                        //如果上传内容有不是文件的，则不发起本次请求
-                        else {
+                        } else {//如果上传内容有不是文件的，则不发起本次请求
 						LOG.warn("The target '{}' not a file,please check and try again!", file.getPath());
                             return;
                         }
@@ -241,9 +239,7 @@ public final class NetWorkCenter {
                         builder.addPart("data", new StringBody(paramData, ContentType.APPLICATION_JSON));
                     }
                     ((HttpPost) request).setEntity(builder.build());
-                }
-                //不上传文件的普通请求
-                else {
+                } else {//不上传文件的普通请求
                     if (null != paramData) {
                         // 目前支持JSON格式的数据
                         StringEntity jsonEntity = new StringEntity(paramData, ContentType.APPLICATION_JSON);

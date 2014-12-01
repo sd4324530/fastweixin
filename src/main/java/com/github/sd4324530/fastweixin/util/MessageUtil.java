@@ -48,7 +48,7 @@ public final class MessageUtil {
                 if (event.isStartElement()) {
                     String tagName = event.asStartElement().getName()
                             .toString();
-                    if (!tagName.equals("xml")) {
+                    if (!"xml".equals(tagName)) {
                         String text = reader.getElementText();
                         map.put(tagName, text);
                     }

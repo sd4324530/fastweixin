@@ -1,5 +1,6 @@
 package com.github.sd4324530.fastweixin.api.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
@@ -35,7 +36,8 @@ public class MenuButton implements Model {
     /**
      * 二级菜单列表，每个一级菜单下最多5个
      */
-    private List<MenuButton> sub_button;
+    @JSONField(name = "sub_button")
+    private List<MenuButton> subButton;
 
     public MenuType getType() {
         return type;
@@ -69,15 +71,15 @@ public class MenuButton implements Model {
         this.url = url;
     }
 
-    public List<MenuButton> getSub_button() {
-        return sub_button;
+    public List<MenuButton> getSubButton() {
+        return subButton;
     }
 
-    public void setSub_button(List<MenuButton> sub_button) {
-        if(null == sub_button || sub_button.size() > 5) {
+    public void setSubButton(List<MenuButton> subButton) {
+        if(null == subButton || subButton.size() > 5) {
             throw new WeixinException("子菜单最多只有5个");
         }
-        this.sub_button = sub_button;
+        this.subButton = subButton;
     }
 
     @Override

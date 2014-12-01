@@ -29,15 +29,15 @@ public class UserAPI extends BaseAPI {
     /**
      * 获取关注者列表
      *
-     * @param next_openid 下一个用户的ID
+     * @param nextOpenid 下一个用户的ID
      * @return 关注者列表对象
      */
-    public GetUsersResponse getUsers(String next_openid) {
+    public GetUsersResponse getUsers(String nextOpenid) {
         GetUsersResponse response = null;
         LOG.debug("获取关注者列表.....");
         String url = BASE_API_URL + "cgi-bin/user/get?access_token=#";
-        if (StrUtil.isNotBlank(next_openid)) {
-            url += "&next_openid=" + next_openid;
+        if (StrUtil.isNotBlank(nextOpenid)) {
+            url += "&next_openid=" + nextOpenid;
         }
         BaseResponse r = executeGet(url);
         if (null == r.getErrcode() || "".equals(r.getErrcode())) {

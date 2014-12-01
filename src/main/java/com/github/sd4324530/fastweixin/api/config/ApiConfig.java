@@ -22,9 +22,9 @@ public final class ApiConfig {
 
     private final String secret;
 
-    private String access_token;
+    private String accessToken;
 
-    public AtomicBoolean refreshing = new AtomicBoolean(false);
+    public static final AtomicBoolean refreshing = new AtomicBoolean(false);
 
     /**
      * 唯一构造方法，实现同时获取access_token
@@ -45,12 +45,12 @@ public final class ApiConfig {
         return secret;
     }
 
-    public String getAccess_token() {
-        return access_token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     /**
@@ -64,8 +64,8 @@ public final class ApiConfig {
             public void onResponse(int resultCode, String resultJson) {
                 if (HttpStatus.SC_OK == resultCode) {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
-                    LOG.debug("获取access_token:{}", response.getAccess_token());
-                    ApiConfig.this.access_token = response.getAccess_token();
+                    LOG.debug("获取access_token:{}", response.getAccessToken());
+                    ApiConfig.this.accessToken = response.getAccessToken();
                 }
             }
         });
