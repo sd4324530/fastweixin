@@ -4,7 +4,7 @@
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
     <url>https://github.com/sd4324530/fastweixin.git</url>
-    <version>1.2.4-SNAPSHOT</version>
+    <version>1.2.4</version>
     <packaging>jar</packaging>
     <name>fastweixin</name>
     <description>quickly department weixin server</description>
@@ -26,7 +26,7 @@
         <connection>scm:git:git://github.com/sd4324530/fastweixin.git</connection>
         <developerConnection>scm:git:git@github.com:sd4324530/fastweixin.git</developerConnection>
         <url>https://github.com/sd4324530/fastweixin.git</url>
-        <tag>HEAD</tag>
+        <tag>v1.2.4</tag>
     </scm>
 
     <developers>
