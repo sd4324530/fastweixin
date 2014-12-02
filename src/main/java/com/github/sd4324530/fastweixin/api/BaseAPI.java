@@ -40,7 +40,7 @@ public abstract class BaseAPI {
 
     private final Lock writeLock = lock.writeLock();
 
-    public BaseAPI(ApiConfig config) {
+    protected BaseAPI(ApiConfig config) {
         this.config = config;
     }
 
