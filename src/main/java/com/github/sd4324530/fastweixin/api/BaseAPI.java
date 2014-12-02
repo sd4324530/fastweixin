@@ -93,18 +93,18 @@ public abstract class BaseAPI {
     protected BaseResponse executePost(String url, String json, File file) {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
-        String newUrl = "";
+        String postUrl;
         List<File> files = CollectionUtil.newArrayList(file);
         readLock.lock();
         try {
             //需要传token
-            newUrl = url.replace("#",config.getAccessToken());
-            response = NetWorkCenter.post(newUrl, json, files);
+            postUrl = url.replace("#",config.getAccessToken());
+            response = NetWorkCenter.post(postUrl, json, files);
         } finally {
             readLock.unlock();
         }
 
-        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.toString().equals(response.getErrcode())) {
+        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
             if(!config.refreshing.get()) {
                 refreshToken();
             }
@@ -112,7 +112,8 @@ public abstract class BaseAPI {
             try {
                 LOG.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
-                response = NetWorkCenter.post(newUrl, json, files);
+                postUrl = url.replace("#", config.getAccessToken());
+                response = NetWorkCenter.post(postUrl, json, files);
             } catch (InterruptedException e) {
                 LOG.error("线程休眠异常", e);
             } catch (Exception e) {
@@ -136,17 +137,17 @@ public abstract class BaseAPI {
     protected BaseResponse executeGet(String url) {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
-        String newUrl = "";
+        String getUrl;
         readLock.lock();
         try {
             //需要传token
-            newUrl = url.replace("#",config.getAccessToken());
-            response = NetWorkCenter.get(newUrl);
+            getUrl = url.replace("#",config.getAccessToken());
+            response = NetWorkCenter.get(getUrl);
         } finally {
             readLock.unlock();
         }
 
-        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.toString().equals(response.getErrcode())) {
+        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
             if (!config.refreshing.get()) {
                 refreshToken();
             }
@@ -154,7 +155,8 @@ public abstract class BaseAPI {
             try {
                 LOG.debug("接口调用重试....");
                 TimeUnit.SECONDS.sleep(1);
-                response = NetWorkCenter.get(newUrl);
+                getUrl = url.replace("#", config.getAccessToken());
+                response = NetWorkCenter.get(getUrl);
             } catch (InterruptedException e) {
                 LOG.error("线程休眠异常", e);
             } catch (Exception e) {
