@@ -39,14 +39,14 @@ public class WeixinController extends WeixinControllerSupport {
          *这个机制就是为了应对这种情况，每个MessageHandle就是一个业务，只处理指定的那部分消息
          */
         @Override
-        protected List<MessageHandle> getMessageHandles() {
+        protected List<MessageHandle> initMessageHandles() {
                 List<MessageHandle> handles = new ArrayList<MessageHandle>();
                 handles.add(new MyMessageHandle());
                 return handles;
         }
         //1.1版本新增，重写父类方法，加入自定义微信事件处理器，同上
         @Override
-        protected List<EventHandle> getEventHandles() {
+        protected List<EventHandle> initEventHandles() {
                 List<EventHandle> handles = new ArrayList<EventHandle>();
                 handles.add(new MyEventHandle());
                 return handles;
@@ -73,14 +73,14 @@ public class WeixinServlet extends WeixinServletSupport {
         }
         //1.1版本新增，重写父类方法，加入自定义微信消息处理器
         @Override
-        protected List<MessageHandle> getMessageHandles() {
+        protected List<MessageHandle> initMessageHandles() {
             List<MessageHandle> handles = new ArrayList<MessageHandle>();
             handles.add(new MyMessageHandle());
             return handles;
         }
         //1.1版本新增，重写父类方法，加入自定义微信事件处理器
         @Override
-        protected List<EventHandle> getEventHandles() {
+        protected List<EventHandle> initEventHandles() {
             List<EventHandle> handles = new ArrayList<EventHandle>();
             handles.add(new MyEventHandle());
             return handles;
