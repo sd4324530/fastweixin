@@ -1,8 +1,8 @@
 package com.github.sd4324530.fastweixin.api.response;
 
+import com.github.sd4324530.fastweixin.util.StreamUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StreamUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class DownloadMediaResponse extends BaseResponse {
     public void setContent(InputStream content, Integer length) {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         try {
-            StreamUtils.copy(content, byteOutputStream);
+            StreamUtil.copy(content, byteOutputStream);
             byte[] temp = byteOutputStream.toByteArray();
             if (temp.length > length) {
                 this.content = new byte[length];

@@ -7,6 +7,7 @@ import com.github.sd4324530.fastweixin.api.response.DownloadMediaResponse;
 import com.github.sd4324530.fastweixin.api.response.UploadMediaResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
+import com.github.sd4324530.fastweixin.util.StreamUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -16,7 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StreamUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,7 +71,7 @@ public class MediaAPI extends BaseAPI {
                     response.setFileName(headers[0].getElements()[0].getParameterByName("filename").getName());
                 } else {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    StreamUtils.copy(inputStream, out);
+                    StreamUtil.copy(inputStream, out);
                     String json = out.toString();
                     response = JSONUtil.toBean(json, DownloadMediaResponse.class);
                 }
