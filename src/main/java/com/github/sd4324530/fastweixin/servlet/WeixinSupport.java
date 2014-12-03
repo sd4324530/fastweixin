@@ -45,7 +45,7 @@ public abstract class WeixinSupport {
      *
      * @return 微信消息处理器列表
      */
-    protected List<MessageHandle> getMessageHandles() {
+    protected List<MessageHandle> initMessageHandles() {
         return null;
     }
 
@@ -54,7 +54,7 @@ public abstract class WeixinSupport {
      *
      * @return 微信事件处理器列表
      */
-    protected List<EventHandle> getEventHandles() {
+    protected List<EventHandle> initEventHandles() {
         return null;
     }
 
@@ -218,12 +218,21 @@ public abstract class WeixinSupport {
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
         if (isEmpty(messageHandles)) {
             synchronized (LOCK) {
-                messageHandles = this.getMessageHandles();
+                messageHandles = this.initMessageHandles();
             }
         }
         if (isNotEmpty(messageHandles)) {
             for (MessageHandle messageHandle : messageHandles) {
-                BaseMsg resultMsg = messageHandle.handle(msg);
+                BaseMsg resultMsg = null;
+                boolean result;
+                try {
+                    result = messageHandle.beforeHandle(msg);
+                } catch (Exception e) {
+                    result = false;
+                }
+                if (result) {
+                    resultMsg = messageHandle.handle(msg);
+                }
                 if (nonNull(resultMsg)) {
                     return resultMsg;
                 }
@@ -235,12 +244,21 @@ public abstract class WeixinSupport {
     private BaseMsg processEventHandle(BaseEvent event) {
         if (isEmpty(eventHandles)) {
             synchronized (LOCK) {
-                eventHandles = this.getEventHandles();
+                eventHandles = this.initEventHandles();
             }
         }
         if (isNotEmpty(eventHandles)) {
             for (EventHandle eventHandle : eventHandles) {
-                BaseMsg resultMsg = eventHandle.handle(event);
+                BaseMsg resultMsg = null;
+                boolean result;
+                try {
+                    result = eventHandle.beforeHandle(event);
+                } catch (Exception e) {
+                    result = false;
+                }
+                if (result) {
+                    resultMsg = eventHandle.handle(event);
+                }
                 if (nonNull(resultMsg)) {
                     return resultMsg;
                 }
