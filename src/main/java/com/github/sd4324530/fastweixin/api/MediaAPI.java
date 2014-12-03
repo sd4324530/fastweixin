@@ -42,7 +42,7 @@ public class MediaAPI extends BaseAPI {
      * @return 响应对象
      */
     public UploadMediaResponse uploadMedia(MediaType type, File file) {
-        UploadMediaResponse response = null;
+        UploadMediaResponse response;
         String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=#&type=" + type.toString();
         BaseResponse r = executePost(url, null, file);
         response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
