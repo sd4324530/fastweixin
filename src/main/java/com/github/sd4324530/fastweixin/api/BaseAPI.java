@@ -94,7 +94,10 @@ public abstract class BaseAPI {
         BaseResponse response = null;
         BeanUtil.requireNonNull(url, "url is null");
         String postUrl;
-        List<File> files = CollectionUtil.newArrayList(file);
+        List<File> files = null;
+        if(null != file) {
+            files = CollectionUtil.newArrayList(file);
+        }
         readLock.lock();
         try {
             //需要传token
