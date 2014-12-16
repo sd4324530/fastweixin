@@ -15,6 +15,16 @@ v1.2.0开始支持高级接口的API，https请求基于org.apache.httpcomponent
 框架中提供MenuAPI、MessageAPI、QrcodeAPI、UserAPI用于实现所有高级接口功能，使用极其简单<br>
 内部实现token过期自动刷新，不用再关注token细节<br>
 
+v1.2.6开始支持微信消息安全模式，但由于jdk的限制，导致想使用安全模式，必须修改jdk内部的jar包<br>
+在官方网站下载：<br>
+[JCE无限制权限策略文件JDK7](http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html)<br>
+[JCE无限制权限策略文件JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)<br>
+
+下载后解压，可以看到local_policy.jar和US_export_policy.jar以及readme.txt<br>
+如果安装了JRE，将两个jar文件放到%JRE_HOME%\lib\security目录下覆盖原来的文件<br>
+如果安装了JDK，将两个jar文件放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件<br>
+
+
 ##基于`springmvc`项目的集成方法
 ```Java
 @RestController
@@ -26,6 +36,16 @@ public class WeixinController extends WeixinControllerSupport {
         @Override
         protected String getToken() {
             return TOKEN;
+        }
+        //使用安全模式时设置：APPID
+        @Override
+        protected String getAppId() {
+            return null;
+        }
+        //使用安全模式时设置：密钥
+        @Override
+        protected String getAESKey() {
+            return null;
         }
         //重写父类方法，处理对应的微信消息
         @Override
@@ -63,6 +83,16 @@ public class WeixinServlet extends WeixinServletSupport {
         @Override
         protected String getToken() {
             return TOKEN;
+        }
+        //使用安全模式时设置：APPID
+        @Override
+        protected String getAppId() {
+            return null;
+        }
+        //使用安全模式时设置：密钥
+        @Override
+        protected String getAESKey() {
+            return null;
         }
         //重写父类方法，处理对应的微信消息
         @Override
@@ -117,7 +147,7 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
 </dependency>
 ```
 
