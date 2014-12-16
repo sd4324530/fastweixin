@@ -4,9 +4,12 @@ import com.github.sd4324530.fastweixin.handle.EventHandle;
 import com.github.sd4324530.fastweixin.handle.MessageHandle;
 import com.github.sd4324530.fastweixin.message.BaseMsg;
 import com.github.sd4324530.fastweixin.message.TextMsg;
+import com.github.sd4324530.fastweixin.message.aes.AesException;
+import com.github.sd4324530.fastweixin.message.aes.WXBizMsgCrypt;
 import com.github.sd4324530.fastweixin.message.req.*;
 import com.github.sd4324530.fastweixin.util.MessageUtil;
 import com.github.sd4324530.fastweixin.util.SignUtil;
+import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,13 +69,25 @@ public abstract class WeixinSupport {
     protected abstract String getToken();
 
     /**
+     * 公众号APPID，使用消息加密模式时用户自行设置
+     * @return 微信公众平台提供的appid
+     */
+    protected abstract String getAppId();
+
+    /**
+     * 加密的密钥，使用消息加密模式时用户自行设置
+     * @return 用户自定义的密钥
+     */
+    protected abstract String getAESKey();
+
+    /**
      * 处理微信服务器发来的请求方法
      *
      * @param request http请求对象
      * @return 处理消息的结果，已经是接口要求的xml报文了
      */
     String processRequest(HttpServletRequest request) {
-        Map<String, String> reqMap = MessageUtil.parseXml(request);
+        Map<String, String> reqMap = MessageUtil.parseXml(request, getToken(), getAppId(), getAESKey());
         String fromUserName = reqMap.get("FromUserName");
         String toUserName = reqMap.get("ToUserName");
         String msgType = reqMap.get("MsgType");
@@ -208,6 +223,16 @@ public abstract class WeixinSupport {
             msg.setFromUserName(toUserName);
             msg.setToUserName(fromUserName);
             result = msg.toXml();
+            if(StrUtil.isNotBlank(getAESKey())) {
+                WXBizMsgCrypt pc = null;
+                try {
+                    pc = new WXBizMsgCrypt(getToken(), getAESKey(), getAppId());
+                    result = pc.encryptMsg(result, request.getParameter("timestamp"), request.getParameter("nonce"));
+                    LOG.debug("加密后密文:{}", result);
+                } catch (AesException e) {
+                    LOG.error("加密异常", e);
+                }
+            }
         }
         return result;
     }

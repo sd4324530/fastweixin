@@ -4,9 +4,14 @@ import com.github.sd4324530.fastweixin.handle.EventHandle;
 import com.github.sd4324530.fastweixin.handle.MessageHandle;
 import com.github.sd4324530.fastweixin.message.BaseMsg;
 import com.github.sd4324530.fastweixin.message.TextMsg;
+import com.github.sd4324530.fastweixin.message.aes.AesException;
+import com.github.sd4324530.fastweixin.message.aes.WXBizMsgCrypt;
 import com.github.sd4324530.fastweixin.message.req.*;
 import com.github.sd4324530.fastweixin.util.MessageUtil;
 import com.github.sd4324530.fastweixin.util.SignUtil;
+import com.github.sd4324530.fastweixin.util.StrUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +36,8 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isNotBlank;
  * @since 1.1
  */
 public abstract class WeixinServletSupport extends HttpServlet {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WeixinServletSupport.class);
 
     /**
      * 微信消息处理器列表
@@ -66,6 +73,18 @@ public abstract class WeixinServletSupport extends HttpServlet {
      * @return token值
      */
     protected abstract String getToken();
+
+    /**
+     * 公众号APPID，使用消息加密模式时用户自行设置
+     * @return 微信公众平台提供的appid
+     */
+    protected abstract String getAppId();
+
+    /**
+     * 加密的密钥，使用消息加密模式时用户自行设置
+     * @return 用户自定义的密钥
+     */
+    protected abstract String getAESKey();
 
     /**
      * 重写servlet中的get方法，用于处理微信服务器绑定，置为final方法，用户已经无需重写这个方法啦
@@ -115,7 +134,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
      * @return 处理消息的结果，已经是接口要求的xml报文了
      */
     private String processRequest(HttpServletRequest request) {
-        Map<String, String> reqMap = MessageUtil.parseXml(request);
+        Map<String, String> reqMap = MessageUtil.parseXml(request, getToken(), getAppId(), getAESKey());
         String fromUserName = reqMap.get("FromUserName");
         String toUserName = reqMap.get("ToUserName");
         String msgType = reqMap.get("MsgType");
@@ -245,6 +264,15 @@ public abstract class WeixinServletSupport extends HttpServlet {
             msg.setFromUserName(toUserName);
             msg.setToUserName(fromUserName);
             result = msg.toXml();
+            if(StrUtil.isNotBlank(getAESKey())) {
+                WXBizMsgCrypt pc = null;
+                try {
+                    pc = new WXBizMsgCrypt(getToken(), getAESKey(), getAppId());
+                    result = pc.encryptMsg(result, request.getParameter("timestamp"), request.getParameter("nonce"));
+                } catch (AesException e) {
+                    LOG.error("加密异常", e);
+                }
+            }
         }
         return result;
     }
