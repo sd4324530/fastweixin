@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 /**
  * 套接字工具类
+ *
  * @author peiyu
  */
 public final class StreamUtil {
@@ -15,7 +16,8 @@ public final class StreamUtil {
 
     /**
      * 将输入流的内容复制到输出流里
-     * @param in 输入流
+     *
+     * @param in  输入流
      * @param out 输出流
      * @return 复制的数据字节数
      * @throws IOException IO异常

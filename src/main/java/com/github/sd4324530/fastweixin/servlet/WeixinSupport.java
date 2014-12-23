@@ -31,17 +31,17 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isNotBlank;
  */
 public abstract class WeixinSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WeixinSupport.class);
-
+    private static final Logger LOG  = LoggerFactory.getLogger(WeixinSupport.class);
+    //充当锁
+    private static final Object LOCK = new Object();
     /**
      * 微信消息处理器列表
      */
     private static List<MessageHandle> messageHandles;
-
     /**
      * 微信事件处理器列表
      */
-    private static List<EventHandle> eventHandles;
+    private static List<EventHandle>   eventHandles;
 
     /**
      * 子类重写，加入自定义的微信消息处理器，细化消息的处理
@@ -70,12 +70,14 @@ public abstract class WeixinSupport {
 
     /**
      * 公众号APPID，使用消息加密模式时用户自行设置
+     *
      * @return 微信公众平台提供的appid
      */
     protected abstract String getAppId();
 
     /**
      * 加密的密钥，使用消息加密模式时用户自行设置
+     *
      * @return 用户自定义的密钥
      */
     protected abstract String getAESKey();
@@ -223,7 +225,7 @@ public abstract class WeixinSupport {
             msg.setFromUserName(toUserName);
             msg.setToUserName(fromUserName);
             result = msg.toXml();
-            if(StrUtil.isNotBlank(getAESKey())) {
+            if (StrUtil.isNotBlank(getAESKey())) {
                 try {
                     WXBizMsgCrypt pc = new WXBizMsgCrypt(getToken(), getAESKey(), getAppId());
                     result = pc.encryptMsg(result, request.getParameter("timestamp"), request.getParameter("nonce"));
@@ -235,9 +237,6 @@ public abstract class WeixinSupport {
         }
         return result;
     }
-
-    //充当锁
-    private static final Object LOCK = new Object();
 
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
         if (isEmpty(messageHandles)) {

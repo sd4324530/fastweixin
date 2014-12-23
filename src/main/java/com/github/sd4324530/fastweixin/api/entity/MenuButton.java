@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * 菜单按钮对象
+ *
  * @author peiyu
  */
 public class MenuButton implements Model {
@@ -76,7 +77,7 @@ public class MenuButton implements Model {
     }
 
     public void setSubButton(List<MenuButton> subButton) {
-        if(null == subButton || subButton.size() > 5) {
+        if (null == subButton || subButton.size() > 5) {
             throw new WeixinException("子菜单最多只有5个");
         }
         this.subButton = subButton;

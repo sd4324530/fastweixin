@@ -37,17 +37,17 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isNotBlank;
  */
 public abstract class WeixinServletSupport extends HttpServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WeixinServletSupport.class);
-
+    private static final Logger LOG  = LoggerFactory.getLogger(WeixinServletSupport.class);
+    //充当锁
+    private static final Object lock = new Object();
     /**
      * 微信消息处理器列表
      */
     private static List<MessageHandle> messageHandles;
-
     /**
      * 微信事件处理器列表
      */
-    private static List<EventHandle> eventHandles;
+    private static List<EventHandle>   eventHandles;
 
     /**
      * 子类重写，加入自定义的微信消息处理器，细化消息的处理
@@ -76,12 +76,14 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
     /**
      * 公众号APPID，使用消息加密模式时用户自行设置
+     *
      * @return 微信公众平台提供的appid
      */
     protected abstract String getAppId();
 
     /**
      * 加密的密钥，使用消息加密模式时用户自行设置
+     *
      * @return 用户自定义的密钥
      */
     protected abstract String getAESKey();
@@ -264,7 +266,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
             msg.setFromUserName(toUserName);
             msg.setToUserName(fromUserName);
             result = msg.toXml();
-            if(StrUtil.isNotBlank(getAESKey())) {
+            if (StrUtil.isNotBlank(getAESKey())) {
                 WXBizMsgCrypt pc = null;
                 try {
                     pc = new WXBizMsgCrypt(getToken(), getAESKey(), getAppId());
@@ -276,9 +278,6 @@ public abstract class WeixinServletSupport extends HttpServlet {
         }
         return result;
     }
-
-    //充当锁
-    private static final Object lock = new Object();
 
     private BaseMsg processMessageHandle(BaseReqMsg msg) {
         if (isEmpty(messageHandles)) {

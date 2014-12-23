@@ -2,18 +2,18 @@ package com.github.sd4324530.fastweixin.message.req;
 
 public class BaseEvent extends BaseReq {
 
-	private String event;
+    private String event;
 
-	public String getEvent() {
-		return event;
-	}
+    public BaseEvent() {
+        setMsgType(ReqType.EVENT);
+    }
 
-	public void setEvent(String event) {
-		this.event = event;
-	}
+    public String getEvent() {
+        return event;
+    }
 
-	public BaseEvent() {
-		setMsgType(ReqType.EVENT);
-	}
+    public void setEvent(String event) {
+        this.event = event;
+    }
 
 }

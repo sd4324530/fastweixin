@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 菜单对象，包含所有菜单按钮
+ *
  * @author peiyu
  */
 public class Menu implements Model {
@@ -21,7 +22,7 @@ public class Menu implements Model {
     }
 
     public void setButton(List<MenuButton> button) {
-        if(null == button || button.size() > 3) {
+        if (null == button || button.size() > 3) {
             throw new WeixinException("主菜单最多3个");
         }
         this.button = button;

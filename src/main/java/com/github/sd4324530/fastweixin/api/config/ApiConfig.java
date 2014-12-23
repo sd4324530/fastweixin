@@ -11,24 +11,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * API配置类，项目中请保证其为单例
+ *
  * @author peiyu
  * @since 1.2
  */
 public final class ApiConfig {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ApiConfig.class);
-
+    public static final  AtomicBoolean refreshing = new AtomicBoolean(false);
+    private static final Logger        LOG        = LoggerFactory.getLogger(ApiConfig.class);
     private final String appid;
-
     private final String secret;
-
-    private String accessToken;
-
-    public static final AtomicBoolean refreshing = new AtomicBoolean(false);
+    private       String accessToken;
 
     /**
      * 唯一构造方法，实现同时获取access_token
-     * @param appid 公众号appid
+     *
+     * @param appid  公众号appid
      * @param secret 公众号secret
      */
     public ApiConfig(String appid, String secret) {

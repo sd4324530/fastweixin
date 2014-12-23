@@ -51,7 +51,7 @@ public class GetUsersResponse extends BaseResponse {
     }
 
     public class Openid implements Serializable {
-        private String [] openid;
+        private String[] openid;
 
         public String[] getOpenid() {
             return openid;

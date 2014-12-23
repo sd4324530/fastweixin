@@ -17,16 +17,15 @@ import static com.github.sd4324530.fastweixin.util.StrUtil.isHasBlank;
  */
 public final class SignUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SignUtil.class);
+    private static final Logger LOG   = LoggerFactory.getLogger(SignUtil.class);
+    private static final char[] digit = {'0', '1', '2', '3', '4', '5', '6',
+            '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
     /**
      * 此类不需要实例化
      */
     private SignUtil() {
     }
-
-    private static final char[] digit = {'0', '1', '2', '3', '4', '5', '6',
-            '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
     /**
      * 认证微信，可以参见微信开发者文档

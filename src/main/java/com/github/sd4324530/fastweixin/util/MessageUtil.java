@@ -41,9 +41,9 @@ public final class MessageUtil {
      * 解析从微信服务器来的请求，将消息或者事件返回出去
      *
      * @param request http请求对象
-     * @param token 用户设置的taken
-     * @param appId 公众号的APPID
-     * @param aesKey 用户设置的加密密钥
+     * @param token   用户设置的taken
+     * @param appId   公众号的APPID
+     * @param aesKey  用户设置的加密密钥
      * @return 微信消息或者事件Map
      */
     public static Map<String, String> parseXml(HttpServletRequest request, String token, String appId, String aesKey) {
@@ -52,7 +52,7 @@ public final class MessageUtil {
         InputStream inputStream = null;
         try {
             inputStream = request.getInputStream();
-            if(StrUtil.isNotBlank(aesKey)) {
+            if (StrUtil.isNotBlank(aesKey)) {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 StreamUtil.copy(inputStream, outputStream);
                 String body = outputStream.toString();

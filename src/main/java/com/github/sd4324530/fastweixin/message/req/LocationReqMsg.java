@@ -2,44 +2,44 @@ package com.github.sd4324530.fastweixin.message.req;
 
 public final class LocationReqMsg extends BaseReqMsg {
 
-	private double locationX;
-	private double locationY;
-	private int scale;
-	private String label;
+    private double locationX;
+    private double locationY;
+    private int    scale;
+    private String label;
 
-	public double getLocationX() {
-		return locationX;
-	}
+    public LocationReqMsg(double locationX, double locationY, int scale,
+                          String label) {
+        super();
+        this.locationX = locationX;
+        this.locationY = locationY;
+        this.scale = scale;
+        this.label = label;
+        setMsgType(ReqType.LOCATION);
+    }
 
-	public double getLocationY() {
-		return locationY;
-	}
+    public double getLocationX() {
+        return locationX;
+    }
 
-	public int getScale() {
-		return scale;
-	}
+    public double getLocationY() {
+        return locationY;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public int getScale() {
+        return scale;
+    }
 
-	public LocationReqMsg(double locationX, double locationY, int scale,
-			String label) {
-		super();
-		this.locationX = locationX;
-		this.locationY = locationY;
-		this.scale = scale;
-		this.label = label;
-		setMsgType(ReqType.LOCATION);
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	@Override
-	public String toString() {
-		return "LocationReqMsg [locationX=" + locationX + ", locationY="
-				+ locationY + ", scale=" + scale + ", label=" + label
-				+ ", toUserName=" + toUserName + ", fromUserName="
-				+ fromUserName + ", createTime=" + createTime + ", msgType="
-				+ msgType + ", msgId=" + msgId + "]";
-	}
+    @Override
+    public String toString() {
+        return "LocationReqMsg [locationX=" + locationX + ", locationY="
+                + locationY + ", scale=" + scale + ", label=" + label
+                + ", toUserName=" + toUserName + ", fromUserName="
+                + fromUserName + ", createTime=" + createTime + ", msgType="
+                + msgType + ", msgId=" + msgId + "]";
+    }
 
 }

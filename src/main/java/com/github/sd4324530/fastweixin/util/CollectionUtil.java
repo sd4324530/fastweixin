@@ -1,7 +1,6 @@
 package com.github.sd4324530.fastweixin.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -40,6 +39,7 @@ public final class CollectionUtil {
 
     /**
      * 创建一个空集合
+     *
      * @param <T> 泛型
      * @return 集合对象
      */
@@ -49,8 +49,9 @@ public final class CollectionUtil {
 
     /**
      * 创建一个指定大小的集合
+     *
      * @param initialCapacity 集合大小
-     * @param <T> 泛型
+     * @param <T>             泛型
      * @return 集合对象
      */
     public static <T> ArrayList<T> newArrayList(int initialCapacity) {
@@ -59,15 +60,16 @@ public final class CollectionUtil {
 
     /**
      * 创建一个有默认内容的集合
+     *
      * @param ele 内容
      * @param <T> 泛型
      * @return 集合对象
      */
     public static <T> ArrayList<T> newArrayList(T... ele) {
         ArrayList list = null;
-        if(null != ele && 0 != ele.length) {
+        if (null != ele && 0 != ele.length) {
             list = newArrayList(ele.length);
-            for(T t : ele) {
+            for (T t : ele) {
                 list.add(t);
             }
         }

@@ -1,9 +1,9 @@
 package com.github.sd4324530.fastweixin.message;
 
+import com.github.sd4324530.fastweixin.message.util.MessageBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.sd4324530.fastweixin.message.util.MessageBuilder;
 
 /**
  * @author peiyu

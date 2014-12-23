@@ -5,6 +5,7 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 /**
  * 微信API响应报文对象基类
+ *
  * @author peiyu
  */
 public class BaseResponse implements Model {

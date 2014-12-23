@@ -6,8 +6,11 @@ public class BaseMsg {
 
     private String toUserName;
     private String fromUserName;
-    private long createTime;
+    private long   createTime;
     private String msgType;
+
+    public BaseMsg() {
+    }
 
     public String getToUserName() {
         return toUserName;
@@ -39,9 +42,6 @@ public class BaseMsg {
 
     public void setMsgType(String msgType) {
         this.msgType = msgType;
-    }
-
-    public BaseMsg() {
     }
 
     public String toXml() {

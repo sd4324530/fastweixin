@@ -22,15 +22,14 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * API基类，提供一些通用方法
  * 包含自动刷新token、通用get post请求等
+ *
  * @author peiyu
  * @since 1.2
  */
 public abstract class BaseAPI {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BaseAPI.class);
-
     protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
-
+    private static final   Logger LOG          = LoggerFactory.getLogger(BaseAPI.class);
     protected final ApiConfig config;
 
     //用于刷新token时锁住config，防止多次刷新
@@ -51,7 +50,7 @@ public abstract class BaseAPI {
         LOG.debug("开始刷新access_token......");
         writeLock.lock();
         try {
-            if(config.refreshing.compareAndSet(false, true)) {
+            if (config.refreshing.compareAndSet(false, true)) {
                 String url = BASE_API_URL + "cgi-bin/token?grant_type=client_credential&appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret();
                 NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
                     @Override
@@ -75,7 +74,8 @@ public abstract class BaseAPI {
 
     /**
      * 通用post请求
-     * @param url 地址，其中token用#代替
+     *
+     * @param url  地址，其中token用#代替
      * @param json 参数，json格式
      * @return 请求结果
      */
@@ -85,7 +85,8 @@ public abstract class BaseAPI {
 
     /**
      * 通用post请求
-     * @param url 地址，其中token用#代替
+     *
+     * @param url  地址，其中token用#代替
      * @param json 参数，json格式
      * @param file 上传的文件
      * @return 请求结果
@@ -95,20 +96,20 @@ public abstract class BaseAPI {
         BeanUtil.requireNonNull(url, "url is null");
         String postUrl;
         List<File> files = null;
-        if(null != file) {
+        if (null != file) {
             files = CollectionUtil.newArrayList(file);
         }
         readLock.lock();
         try {
             //需要传token
-            postUrl = url.replace("#",config.getAccessToken());
+            postUrl = url.replace("#", config.getAccessToken());
             response = NetWorkCenter.post(postUrl, json, files);
         } finally {
             readLock.unlock();
         }
 
-        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
-            if(!config.refreshing.get()) {
+        if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
+            if (!config.refreshing.get()) {
                 refreshToken();
             }
             readLock.lock();
@@ -130,10 +131,9 @@ public abstract class BaseAPI {
     }
 
 
-
-
     /**
      * 通用post请求
+     *
      * @param url 地址，其中token用#代替
      * @return 请求结果
      */
@@ -144,13 +144,13 @@ public abstract class BaseAPI {
         readLock.lock();
         try {
             //需要传token
-            getUrl = url.replace("#",config.getAccessToken());
+            getUrl = url.replace("#", config.getAccessToken());
             response = NetWorkCenter.get(getUrl);
         } finally {
             readLock.unlock();
         }
 
-        if(null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
+        if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
             if (!config.refreshing.get()) {
                 refreshToken();
             }
@@ -164,7 +164,7 @@ public abstract class BaseAPI {
                 LOG.error("线程休眠异常", e);
             } catch (Exception e) {
                 LOG.error("请求出现异常", e);
-            }finally {
+            } finally {
                 readLock.unlock();
             }
         }

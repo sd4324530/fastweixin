@@ -25,6 +25,7 @@ import java.io.InputStream;
 
 /**
  * 多媒体资源API
+ *
  * @author peiyu
  */
 public class MediaAPI extends BaseAPI {
@@ -37,6 +38,7 @@ public class MediaAPI extends BaseAPI {
 
     /**
      * 上传资源，会在微信服务器上保存3天，之后会被删除
+     *
      * @param type 资源类型
      * @param file 需要上传的文件
      * @return 响应对象
@@ -51,6 +53,7 @@ public class MediaAPI extends BaseAPI {
 
     /**
      * 下载资源，实现的很不好，反正能用了。搞的晕了，之后会优化
+     *
      * @param mediaId 微信提供的资源唯一标识
      * @return 响应对象
      */
@@ -62,10 +65,10 @@ public class MediaAPI extends BaseAPI {
         HttpGet get = new HttpGet(url);
         try {
             CloseableHttpResponse r = client.execute(get);
-            if(HttpStatus.SC_OK == r.getStatusLine().getStatusCode()) {
+            if (HttpStatus.SC_OK == r.getStatusLine().getStatusCode()) {
                 InputStream inputStream = r.getEntity().getContent();
                 Header[] headers = r.getHeaders("Content-disposition");
-                if(null != headers && 0 != headers.length) {
+                if (null != headers && 0 != headers.length) {
                     Header length = r.getHeaders("Content-Length")[0];
                     response.setContent(inputStream, Integer.valueOf(length.getValue()));
                     response.setFileName(headers[0].getElements()[0].getParameterByName("filename").getName());

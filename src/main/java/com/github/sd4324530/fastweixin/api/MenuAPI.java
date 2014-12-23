@@ -55,6 +55,7 @@ public class MenuAPI extends BaseAPI {
 
     /**
      * 删除所有菜单
+     *
      * @return 调用结果
      */
     public ResultType deleteMenu() {
