@@ -88,7 +88,7 @@ public abstract class WeixinSupport {
      * @param request http请求对象
      * @return 处理消息的结果，已经是接口要求的xml报文了
      */
-    String processRequest(HttpServletRequest request) {
+    protected String processRequest(HttpServletRequest request) {
         Map<String, String> reqMap = MessageUtil.parseXml(request, getToken(), getAppId(), getAESKey());
         String fromUserName = reqMap.get("FromUserName");
         String toUserName = reqMap.get("ToUserName");
@@ -435,7 +435,7 @@ public abstract class WeixinSupport {
         req.setCreateTime(Long.parseLong(reqMap.get("CreateTime")));
     }
 
-    boolean isLegal(HttpServletRequest request) {
+    protected boolean isLegal(HttpServletRequest request) {
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
