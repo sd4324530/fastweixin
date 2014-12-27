@@ -11,9 +11,7 @@ import java.util.List;
 public class NewsMsg extends BaseMsg {
 
     private static final int WX_MAX_SIZE = 10;
-
-    private int maxSize = WX_MAX_SIZE;
-
+    private              int maxSize     = WX_MAX_SIZE;
     private List<Article> articles;
 
     public NewsMsg() {

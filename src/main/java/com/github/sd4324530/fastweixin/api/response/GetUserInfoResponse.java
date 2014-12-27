@@ -8,27 +8,17 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class GetUserInfoResponse extends BaseResponse {
 
     private Integer subscribe;
-
-    private String openid;
-
-    private String nickname;
-
+    private String  openid;
+    private String  nickname;
     private Integer sex;
-
-    private String language;
-
-    private String city;
-
-    private String province;
-
-    private String country;
-
-    private String headimgurl;
-
+    private String  language;
+    private String  city;
+    private String  province;
+    private String  country;
+    private String  headimgurl;
     @JSONField(name = "subscribe_time")
-    private Long subscribeTime;
-
-    private String unionid;
+    private Long    subscribeTime;
+    private String  unionid;
 
     public Integer getSubscribe() {
         return subscribe;

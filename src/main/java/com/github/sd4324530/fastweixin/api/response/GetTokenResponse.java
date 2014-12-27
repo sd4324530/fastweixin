@@ -8,8 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class GetTokenResponse extends BaseResponse {
 
     @JSONField(name = "access_token")
-    private String accessToken;
-
+    private String  accessToken;
     @JSONField(name = "expires_in")
     private Integer expiresIn;
 

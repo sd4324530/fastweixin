@@ -17,7 +17,6 @@ import java.io.OutputStream;
 public class DownloadMediaResponse extends BaseResponse {
 
     private static final Logger LOG = LoggerFactory.getLogger(DownloadMediaResponse.class);
-
     private String fileName;
     private byte[] content;
 

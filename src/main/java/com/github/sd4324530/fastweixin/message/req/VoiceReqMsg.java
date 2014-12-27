@@ -7,7 +7,6 @@ public final class VoiceReqMsg extends BaseReqMsg {
 
     private String mediaId;
     private String format;
-
     private String recognition;
 
     public VoiceReqMsg(String mediaId, String format, String recognition) {

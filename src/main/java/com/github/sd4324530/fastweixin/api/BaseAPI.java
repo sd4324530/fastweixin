@@ -31,13 +31,10 @@ public abstract class BaseAPI {
     protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
     private static final   Logger LOG          = LoggerFactory.getLogger(BaseAPI.class);
     protected final ApiConfig config;
-
     //用于刷新token时锁住config，防止多次刷新
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-
-    private final Lock readLock = lock.readLock();
-
-    private final Lock writeLock = lock.writeLock();
+    private final ReadWriteLock lock      = new ReentrantReadWriteLock();
+    private final Lock          readLock  = lock.readLock();
+    private final Lock          writeLock = lock.writeLock();
 
     protected BaseAPI(ApiConfig config) {
         this.config = config;

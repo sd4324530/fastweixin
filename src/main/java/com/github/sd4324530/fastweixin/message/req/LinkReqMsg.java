@@ -2,9 +2,9 @@ package com.github.sd4324530.fastweixin.message.req;
 
 public final class LinkReqMsg extends BaseReqMsg {
 
-    private String title;// ��Ϣ����
-    private String description;// ��Ϣ����
-    private String url;// ��Ϣ����
+    private String title;
+    private String description;
+    private String url;
 
     public LinkReqMsg(String title, String description, String url) {
         super();

@@ -11,9 +11,8 @@ public class UploadMediaResponse extends BaseResponse {
 
     @JSONField(name = "media_id")
     private String mediaId;
-
     @JSONField(name = "created_at")
-    private Date createdAt;
+    private Date   createdAt;
 
     public String getMediaId() {
         return mediaId;

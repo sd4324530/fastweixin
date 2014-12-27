@@ -9,8 +9,8 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
  * @author peiyu
  */
 public class BaseResponse implements Model {
+    
     private String errcode;
-
     private String errmsg;
 
     public String getErrcode() {

@@ -39,9 +39,9 @@ public final class NetWorkCenter {
      * 1.考虑是否重新设计这个工具类，每次请求都需要创建一个实例;
      * 2.请求方法里加入超时时间参数
      * <p/>
-     * 或者说是否没必要定制,30秒是一个比较适中的选择，但有些请求可能就是需要快速给出结果T_T
+     * 或者说是否没必要定制,10秒是一个比较适中的选择，但有些请求可能就是需要快速给出结果T_T
      */
-    public static final  int    CONNECT_TIMEOUT = 5 * 1000;
+    public static final  int    CONNECT_TIMEOUT = 10 * 1000;
     /**
      * 日志输出组件
      */

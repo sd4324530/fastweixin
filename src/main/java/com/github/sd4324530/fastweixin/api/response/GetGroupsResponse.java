@@ -6,9 +6,7 @@ package com.github.sd4324530.fastweixin.api.response;
 public class GetGroupsResponse extends BaseResponse {
 
     private Integer id;
-
-    private String name;
-
+    private String  name;
     private Integer count;
 
     public Integer getId() {

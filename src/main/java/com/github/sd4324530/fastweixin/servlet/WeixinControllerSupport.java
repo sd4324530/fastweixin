@@ -25,9 +25,8 @@ public abstract class WeixinControllerSupport extends WeixinSupport {
      * @return 响应内容
      */
     @RequestMapping(method = RequestMethod.GET)
-    protected final
     @ResponseBody
-    String bind(HttpServletRequest request) {
+    protected final String bind(HttpServletRequest request) {
         if (isLegal(request)) {
             //绑定微信服务器成功
             return request.getParameter("echostr");
@@ -46,9 +45,8 @@ public abstract class WeixinControllerSupport extends WeixinSupport {
      * @throws IOException      IO异常
      */
     @RequestMapping(method = RequestMethod.POST)
-    protected final
     @ResponseBody
-    String process(HttpServletRequest request) throws ServletException, IOException {
+    protected final String process(HttpServletRequest request) throws ServletException, IOException {
         if (!isLegal(request)) {
             return "";
         }

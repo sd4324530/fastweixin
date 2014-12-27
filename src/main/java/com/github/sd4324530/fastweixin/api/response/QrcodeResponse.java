@@ -7,12 +7,10 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class QrcodeResponse extends BaseResponse {
 
-    private String ticket;
-
+    private String  ticket;
     @JSONField(name = "expire_seconds")
     private Integer expireSeconds;
-
-    private String url;
+    private String  url;
 
     public String getTicket() {
         return ticket;
