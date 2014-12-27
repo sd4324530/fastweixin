@@ -1,14 +1,19 @@
 package com.github.sd4324530.fastweixin.api;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONPath;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.GetMenuResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
+import com.github.sd4324530.fastweixin.util.CollectionUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * 菜单相关API
@@ -49,7 +54,21 @@ public class MenuAPI extends BaseAPI {
         String url = BASE_API_URL + "cgi-bin/menu/get?access_token=#";
 
         BaseResponse r = executeGet(url);
-        response = JSONUtil.toBean(r.getErrmsg(), GetMenuResponse.class);
+        JSONObject jsonObject = JSONUtil.getJSONFromString(r.getErrmsg());
+        //通过jsonpath不断修改type的值，才能正常解析- -
+        List buttonList = (List) JSONPath.eval(jsonObject, "$.menu.button");
+        if (CollectionUtil.isNotEmpty(buttonList)) {
+            for (Object button : buttonList) {
+                List subList = (List) JSONPath.eval(button, "$.sub_button");
+                if (CollectionUtil.isNotEmpty(subList)) {
+                    for (Object sub : subList) {
+                        Object type = JSONPath.eval(sub, "$.type");
+                        JSONPath.set(sub, "$.type", type.toString().toUpperCase());
+                    }
+                }
+            }
+        }
+        response = JSONUtil.toBean(jsonObject.toJSONString(), GetMenuResponse.class);
         return response;
     }
 

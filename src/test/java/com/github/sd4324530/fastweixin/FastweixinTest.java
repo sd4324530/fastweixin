@@ -9,9 +9,7 @@ import com.github.sd4324530.fastweixin.api.entity.MenuButton;
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
 import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
-import com.github.sd4324530.fastweixin.api.response.DownloadMediaResponse;
-import com.github.sd4324530.fastweixin.api.response.GetUsersResponse;
-import com.github.sd4324530.fastweixin.api.response.UploadMediaResponse;
+import com.github.sd4324530.fastweixin.api.response.*;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,13 +34,16 @@ public class FastweixinTest {
         String secret = "34ea880e3b7a98d0db12d75ff016a39b";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
-        getUserList(config);
+//        getUserList(config);
 //        uploadMedia(config);
 //        downloadMedia(config);
+//        getUserInfo(config);
+        getMenu(config);
     }
 
     /**
      * 创建菜单
+     *
      * @param config API配置
      */
     private void createMenu(ApiConfig config) {
@@ -81,6 +81,7 @@ public class FastweixinTest {
 
     /**
      * 获取关注者列表
+     *
      * @param config API配置
      */
     public void getUserList(ApiConfig config) {
@@ -89,9 +90,20 @@ public class FastweixinTest {
         LOG.debug("user count:{}", users.getCount());
         LOG.debug("user total:{}", users.getTotal());
         String[] openids = users.getData().getOpenid();
-        for(String id : openids) {
+        for (String id : openids) {
             LOG.debug("id:{}", id);
         }
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param config API配置
+     */
+    public void getUserInfo(ApiConfig config) {
+        UserAPI userAPI = new UserAPI(config);
+        GetUserInfoResponse userInfo = userAPI.getUserInfo("oV1ogt3UrUgvImtmLifSE4qzSzJQ");
+        LOG.debug(userInfo.toJsonString());
     }
 
     public void uploadMedia(ApiConfig config) {
@@ -111,5 +123,11 @@ public class FastweixinTest {
         } catch (IOException e) {
             LOG.error("异常", e);
         }
+    }
+
+    public void getMenu(ApiConfig config) {
+        MenuAPI api = new MenuAPI(config);
+        GetMenuResponse response = api.getMenu();
+        LOG.debug("菜单:{}", response.toJsonString());
     }
 }
