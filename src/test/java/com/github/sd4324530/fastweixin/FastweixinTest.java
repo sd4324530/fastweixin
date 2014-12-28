@@ -34,11 +34,11 @@ public class FastweixinTest {
         String secret = "34ea880e3b7a98d0db12d75ff016a39b";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
-//        getUserList(config);
+        getUserList(config);
 //        uploadMedia(config);
 //        downloadMedia(config);
 //        getUserInfo(config);
-        getMenu(config);
+//        getMenu(config);
     }
 
     /**
