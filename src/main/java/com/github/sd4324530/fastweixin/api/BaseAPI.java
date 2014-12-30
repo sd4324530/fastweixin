@@ -45,27 +45,29 @@ public abstract class BaseAPI {
      */
     protected void refreshToken() {
         LOG.debug("开始刷新access_token......");
-        writeLock.lock();
-        try {
-            if (config.refreshing.compareAndSet(false, true)) {
-                String url = BASE_API_URL + "cgi-bin/token?grant_type=client_credential&appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret();
-                NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
-                    @Override
-                    public void onResponse(int resultCode, String resultJson) {
-                        if (HttpStatus.SC_OK == resultCode) {
-                            GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
-                            BaseAPI.this.config.setAccessToken(response.getAccessToken());
-                            LOG.debug("刷新access_token成功.....");
-                        } else {
-                            LOG.warn("获取access_token失败....");
-                            LOG.warn("信息:{}", resultJson);
+        if (!config.refreshing.get()) {
+            writeLock.lock();
+            try {
+                if (config.refreshing.compareAndSet(false, true)) {
+                    String url = BASE_API_URL + "cgi-bin/token?grant_type=client_credential&appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret();
+                    NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
+                        @Override
+                        public void onResponse(int resultCode, String resultJson) {
+                            if (HttpStatus.SC_OK == resultCode) {
+                                GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
+                                BaseAPI.this.config.setAccessToken(response.getAccessToken());
+                                LOG.debug("刷新access_token成功.....");
+                            } else {
+                                LOG.warn("获取access_token失败....");
+                                LOG.warn("信息:{}", resultJson);
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            } finally {
+                config.refreshing.set(false);
+                writeLock.unlock();
             }
-        } finally {
-            config.refreshing.set(false);
-            writeLock.unlock();
         }
     }
 
@@ -106,9 +108,7 @@ public abstract class BaseAPI {
         }
 
         if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
-            if (!config.refreshing.get()) {
-                refreshToken();
-            }
+            refreshToken();
             readLock.lock();
             try {
                 LOG.debug("接口调用重试....");
@@ -148,9 +148,7 @@ public abstract class BaseAPI {
         }
 
         if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
-            if (!config.refreshing.get()) {
-                refreshToken();
-            }
+            refreshToken();
             readLock.lock();
             try {
                 LOG.debug("接口调用重试....");

@@ -30,7 +30,7 @@ public final class StrUtil {
      * @return 是否为空
      */
     public static boolean isNotBlank(String str) {
-        return null != str && !"".equals(str.trim());
+        return !isBlank(str);
     }
 
     /**
@@ -45,7 +45,7 @@ public final class StrUtil {
         } else {
             //这种代码如果用java8就会很优雅了
             for (String str : strs) {
-                if (null == str || "".equals(str.trim())) {
+                if (isBlank(str)) {
                     return true;
                 }
             }
