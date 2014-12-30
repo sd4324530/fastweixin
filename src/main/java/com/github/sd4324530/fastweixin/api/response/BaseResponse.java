@@ -11,7 +11,7 @@ import com.github.sd4324530.fastweixin.util.StrUtil;
  * @author peiyu
  */
 public class BaseResponse implements Model {
-    
+
     private String errcode;
     private String errmsg;
 
@@ -25,7 +25,7 @@ public class BaseResponse implements Model {
 
     public String getErrmsg() {
         //将接口返回的错误信息转换成中文，方便提示用户出错原因
-        if(StrUtil.isNotBlank(this.errcode)) {
+        if (StrUtil.isNotBlank(this.errcode)) {
             return ResultType.get(this.errcode).getDescription();
         }
         return this.errmsg;
