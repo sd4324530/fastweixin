@@ -30,8 +30,8 @@ public class FastweixinTest {
 
     @Test
     public void test() {
-        String appid = "wxa4deabaf24e6caab";
-        String secret = "34ea880e3b7a98d0db12d75ff016a39b";
+        String appid = "wxafb7b8f9457b5d50";
+        String secret = "1b8223018a69658f0236d68d2e41fb20";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
         getUserList(config);
@@ -102,7 +102,7 @@ public class FastweixinTest {
      */
     public void getUserInfo(ApiConfig config) {
         UserAPI userAPI = new UserAPI(config);
-        GetUserInfoResponse userInfo = userAPI.getUserInfo("oV1ogt3UrUgvImtmLifSE4qzSzJQ");
+        GetUserInfoResponse userInfo = userAPI.getUserInfo("opZYwt-OS8WFxwU-colRzpu50eOQ");
         LOG.debug(userInfo.toJsonString());
     }
 

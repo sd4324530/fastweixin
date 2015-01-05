@@ -17,13 +17,13 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -41,11 +41,12 @@ public final class NetWorkCenter {
      * <p/>
      * 或者说是否没必要定制,10秒是一个比较适中的选择，但有些请求可能就是需要快速给出结果T_T
      */
-    public static final  int    CONNECT_TIMEOUT = 10 * 1000;
+    public static final  int     CONNECT_TIMEOUT = 10 * 1000;
     /**
      * 日志输出组件
      */
-    private static final Logger LOG             = LoggerFactory.getLogger(NetWorkCenter.class);
+    private static final Logger  LOG             = LoggerFactory.getLogger(NetWorkCenter.class);
+    private static final Charset UTF_8           = Charset.forName("UTF-8");
 
     /**
      * 私有化构造器
@@ -81,6 +82,10 @@ public final class NetWorkCenter {
                     BaseResponse r = JSONUtil.toBean(resultJson, BaseResponse.class);
                     r.setErrmsg(resultJson);
                     response[0] = r;
+                } else {//请求本身就失败了
+                    response[0] = new BaseResponse();
+                    response[0].setErrcode(String.valueOf(resultCode));
+                    response[0].setErrmsg("请求失败");
                 }
             }
         });
@@ -112,6 +117,10 @@ public final class NetWorkCenter {
                     BaseResponse r = JSONUtil.toBean(resultJson, BaseResponse.class);
                     r.setErrmsg(resultJson);
                     response[0] = r;
+                } else {//请求本身就失败了
+                    response[0] = new BaseResponse();
+                    response[0].setErrcode(String.valueOf(resultCode));
+                    response[0].setErrmsg("请求失败");
                 }
             }
         });
@@ -151,10 +160,13 @@ public final class NetWorkCenter {
                     BaseResponse r = JSONUtil.toBean(resultJson, BaseResponse.class);
                     r.setErrmsg(resultJson);
                     response[0] = r;
+                } else {//请求本身就失败了
+                    response[0] = new BaseResponse();
+                    response[0].setErrcode(String.valueOf(resultCode));
+                    response[0].setErrmsg("请求失败");
                 }
             }
         });
-
         return response[0];
     }
 
@@ -247,9 +259,10 @@ public final class NetWorkCenter {
             int resultCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
             //此流不是操作系统资源，不用关闭，ByteArrayOutputStream源码里close也是个空方法-0_0-
-            OutputStream os = new ByteArrayOutputStream();
-            entity.writeTo(os);
-            String resultJson = os.toString();
+//            OutputStream os = new ByteArrayOutputStream();
+//            entity.writeTo(os);
+//            String resultJson = os.toString();
+            String resultJson = EntityUtils.toString(entity, UTF_8);
             //返回码200，请求成功；其他情况都为请求出现错误
             if (HttpStatus.SC_OK == resultCode) {
                 LOG.debug("-----------------请求成功-----------------");
