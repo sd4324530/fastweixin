@@ -122,7 +122,7 @@ public abstract class WeixinSupport {
                 }else{
                     buildBasicEvent(reqMap, event);
                 }
-                msg = handleSubscribe(event, reqMap);
+                msg = handleSubscribe(event);
                 if (isNull(msg)) {
                     msg = processEventHandle(event);
                 }
