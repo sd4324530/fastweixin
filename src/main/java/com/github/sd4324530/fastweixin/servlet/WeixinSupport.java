@@ -101,21 +101,28 @@ public abstract class WeixinSupport {
         if (msgType.equals(ReqType.EVENT)) {
             String eventType = reqMap.get("Event");
             String ticket = reqMap.get("Ticket");
+            QrCodeEvent qrCodeEvent = null;
             if (isNotBlank(ticket)) {
                 String eventKey = reqMap.get("EventKey");
                 LOG.debug("eventKey:{}", eventKey);
                 LOG.debug("ticket:{}", ticket);
-                QrCodeEvent event = new QrCodeEvent(eventKey, ticket);
-                buildBasicEvent(reqMap, event);
-                msg = handleQrCodeEvent(event);
-                if (isNull(msg)) {
-                    msg = processEventHandle(event);
+                qrCodeEvent = new QrCodeEvent(eventKey, ticket);
+                buildBasicEvent(reqMap, qrCodeEvent);
+                if(eventType.equals(EventType.SCAN)){
+                    msg = handleQrCodeEvent(qrCodeEvent);
+                    if (isNull(msg)) {
+                        msg = processEventHandle(qrCodeEvent);
+                    }
                 }
             }
             if (eventType.equals(EventType.SUBSCRIBE)) {
                 BaseEvent event = new BaseEvent();
-                buildBasicEvent(reqMap, event);
-                msg = handleSubscribe(event);
+                if(qrCodeEvent!=null){
+                    event = qrCodeEvent;
+                }else{
+                    buildBasicEvent(reqMap, event);
+                }
+                msg = handleSubscribe(event, reqMap);
                 if (isNull(msg)) {
                     msg = processEventHandle(event);
                 }
