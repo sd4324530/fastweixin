@@ -1,8 +1,7 @@
 package com.github.sd4324530.fastweixin.api.response;
 
-import com.github.sd4324530.fastweixin.api.entity.Model;
+import com.github.sd4324530.fastweixin.api.entity.BaseModel;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
-import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 
 /**
@@ -10,7 +9,7 @@ import com.github.sd4324530.fastweixin.util.StrUtil;
  *
  * @author peiyu
  */
-public class BaseResponse implements Model {
+public class BaseResponse extends BaseModel {
 
     private String errcode;
     private String errmsg;
@@ -33,9 +32,5 @@ public class BaseResponse implements Model {
 
     public void setErrmsg(String errmsg) {
         this.errmsg = errmsg;
-    }
-
-    public final String toJsonString() {
-        return JSONUtil.toJson(this);
     }
 }

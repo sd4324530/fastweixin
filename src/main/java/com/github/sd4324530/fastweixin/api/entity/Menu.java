@@ -1,7 +1,6 @@
 package com.github.sd4324530.fastweixin.api.entity;
 
 import com.github.sd4324530.fastweixin.exception.WeixinException;
-import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  *
  * @author peiyu
  */
-public class Menu implements Model {
+public class Menu extends BaseModel {
 
     /**
      * 一级菜单列表，最多3个
@@ -26,10 +25,5 @@ public class Menu implements Model {
             throw new WeixinException("主菜单最多3个");
         }
         this.button = button;
-    }
-
-    @Override
-    public String toJsonString() {
-        return JSONUtil.toJson(this);
     }
 }

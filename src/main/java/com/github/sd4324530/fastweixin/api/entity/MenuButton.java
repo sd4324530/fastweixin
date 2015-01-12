@@ -3,7 +3,6 @@ package com.github.sd4324530.fastweixin.api.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.exception.WeixinException;
-import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
  *
  * @author peiyu
  */
-public class MenuButton implements Model {
+public class MenuButton extends BaseModel {
 
     /**
      * 菜单类别
@@ -81,10 +80,5 @@ public class MenuButton implements Model {
             throw new WeixinException("子菜单最多只有5个");
         }
         this.subButton = subButton;
-    }
-
-    @Override
-    public String toJsonString() {
-        return JSONUtil.toJson(this);
     }
 }

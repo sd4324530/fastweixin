@@ -1,14 +1,9 @@
 package com.github.sd4324530.fastweixin.api.request;
 
-import com.github.sd4324530.fastweixin.api.entity.Model;
-import com.github.sd4324530.fastweixin.util.JSONUtil;
+import com.github.sd4324530.fastweixin.api.entity.BaseModel;
 
 /**
  * @author peiyu
  */
-public class BaseRequest implements Model {
-
-    public final String toJsonString() {
-        return JSONUtil.toJson(this);
-    }
+public class BaseRequest extends BaseModel {
 }
