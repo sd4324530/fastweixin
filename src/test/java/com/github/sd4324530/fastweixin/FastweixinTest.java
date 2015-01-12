@@ -1,13 +1,13 @@
 package com.github.sd4324530.fastweixin;
 
-import com.github.sd4324530.fastweixin.api.MediaAPI;
-import com.github.sd4324530.fastweixin.api.MenuAPI;
-import com.github.sd4324530.fastweixin.api.UserAPI;
+import com.github.sd4324530.fastweixin.api.*;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.entity.CustomAccount;
 import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.entity.MenuButton;
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
 import com.github.sd4324530.fastweixin.api.enums.MenuType;
+import com.github.sd4324530.fastweixin.api.enums.OauthScope;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
 import org.junit.Test;
@@ -34,11 +34,15 @@ public class FastweixinTest {
         String secret = "1b8223018a69658f0236d68d2e41fb20";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
-        getUserList(config);
+//        getUserList(config);
 //        uploadMedia(config);
 //        downloadMedia(config);
 //        getUserInfo(config);
 //        getMenu(config);
+//        addCustomAccount(config);
+//        getOauthPageUrl(config);
+//        getToken(config);
+        oauthGetUserInfo(config);
     }
 
     /**
@@ -56,13 +60,13 @@ public class FastweixinTest {
         MenuButton main1 = new MenuButton();
         main1.setType(MenuType.CLICK);
         main1.setKey("main1");
-        main1.setName("mainName1");
+        main1.setName("测试");
         //准备子菜单
         MenuButton sub1 = new MenuButton();
         sub1.setKey("sub1");
-        sub1.setName("name1");
+        sub1.setName("授权");
         sub1.setType(MenuType.VIEW);
-        sub1.setUrl("http://www.baidu.com");
+        sub1.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxafb7b8f9457b5d50&redirect_uri=http://121.40.140.41/erhuluanzi/app/testGet&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect");
 
         List<MenuButton> list = new ArrayList<MenuButton>();
         list.add(sub1);
@@ -129,5 +133,34 @@ public class FastweixinTest {
         MenuAPI api = new MenuAPI(config);
         GetMenuResponse response = api.getMenu();
         LOG.debug("菜单:{}", response.toJsonString());
+    }
+
+    public void addCustomAccount(ApiConfig config) {
+        CustomAPI customAPI = new CustomAPI(config);
+        CustomAccount customAccount = new CustomAccount();
+        customAccount.setAccountName("peiyu@i-xiaoshuo");
+        customAccount.setNickName("帅哥");
+//        customAccount.setPassword("123456");
+        ResultType resultType = customAPI.addCustomAccount(customAccount);
+        LOG.debug("添加结果:{}", resultType.toString());
+    }
+
+    public void getOauthPageUrl(ApiConfig config) {
+        OauthAPI oauthAPI = new OauthAPI(config);
+        String pageUrl = oauthAPI.getOauthPageUrl("http://121.40.140.41/erhuluanzi/app/testGet", OauthScope.SNSAPI_BASE, "123");
+        LOG.debug("pageUrl:{}", pageUrl);
+    }
+
+    public void getToken(ApiConfig config) {
+        OauthAPI oauthAPI = new OauthAPI(config);
+        OauthGetTokenResponse response = oauthAPI.getToken("041821d373d6a18679cb0b1d8d5cc1ez");
+        LOG.debug("response:{}", response.toJsonString());
+    }
+
+    public void oauthGetUserInfo(ApiConfig config) {
+        OauthAPI oauthAPI = new OauthAPI(config);
+        GetUserInfoResponse response = oauthAPI.getUserInfo("OezXcEiiBSKSxW0eoylIeKoEzhGrPf8vRE3NugAdMy16Em-NimErLsOMfMlZBW0P0wauuYLIzl1soHnV-9CGvQtUYxmd3F6ruwjs_SQNw90aZd_yFlVc85P2FlC01QVNyRktVrSX5zHIMkETyjZojQ", "opZYwt-OS8WFxwU-colRzpu50eOQ");
+        LOG.debug("response:{}", response.toJsonString());
+
     }
 }
