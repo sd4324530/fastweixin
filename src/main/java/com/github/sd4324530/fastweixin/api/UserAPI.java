@@ -175,7 +175,7 @@ public class UserAPI extends BaseAPI {
         LOG.debug("获取关注者信息.....");
         String url = BASE_API_URL + "cgi-bin/user/info?access_token=#&lang=zh_CN&openid=" + openid;
         BaseResponse r = executeGet(url);
-        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
+        if (StrUtil.isBlank(r.getErrcode())) {
             response = JSONUtil.toBean(r.getErrmsg(), GetUserInfoResponse.class);
         }
         return response;

@@ -165,4 +165,43 @@ public abstract class BaseAPI {
         }
         return response;
     }
+
+    /**
+     * 通用post请求
+     *
+     * @param url 地址，其中token用#代替
+     * @param json 参数
+     * @return 请求结果
+     */
+    protected BaseResponse executeGet(String url, String json) {
+        BaseResponse response = null;
+        BeanUtil.requireNonNull(url, "url is null");
+        String getUrl;
+        readLock.lock();
+        try {
+            //需要传token
+            getUrl = url.replace("#", config.getAccessToken());
+            response = NetWorkCenter.get(getUrl);
+        } finally {
+            readLock.unlock();
+        }
+
+        if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
+            refreshToken();
+            readLock.lock();
+            try {
+                LOG.debug("接口调用重试....");
+                TimeUnit.SECONDS.sleep(1);
+                getUrl = url.replace("#", config.getAccessToken());
+                response = NetWorkCenter.get(getUrl);
+            } catch (InterruptedException e) {
+                LOG.error("线程休眠异常", e);
+            } catch (Exception e) {
+                LOG.error("请求出现异常", e);
+            } finally {
+                readLock.unlock();
+            }
+        }
+        return response;
+    }
 }

@@ -19,7 +19,9 @@ import java.util.Map;
  *
  * @author peiyu
  * @since 1.2
+ * @deprecated 此类已经不再建议使用，使用CustomAPI代替
  */
+@Deprecated
 public class MessageAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MessageAPI.class);
