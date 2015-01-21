@@ -10,6 +10,9 @@ import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.api.enums.OauthScope;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
+import com.github.sd4324530.fastweixin.util.JsApiUtil;
+import com.github.sd4324530.fastweixin.util.StrUtil;
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +35,7 @@ public class FastweixinTest {
     public void test() {
         String appid = "wxafb7b8f9457b5d50";
         String secret = "1b8223018a69658f0236d68d2e41fb20";
-        ApiConfig config = new ApiConfig(appid, secret);
+//        ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
 //        uploadMedia(config);
@@ -42,7 +45,10 @@ public class FastweixinTest {
 //        addCustomAccount(config);
 //        getOauthPageUrl(config);
 //        getToken(config);
-        oauthGetUserInfo(config);
+//        oauthGetUserInfo(config);
+        ApiConfig config = new ApiConfig(appid, secret, true);
+        testGetJsApiTicket(config);
+        testJsApiSign();
     }
 
     /**
@@ -162,5 +168,28 @@ public class FastweixinTest {
         GetUserInfoResponse response = oauthAPI.getUserInfo("OezXcEiiBSKSxW0eoylIeKoEzhGrPf8vRE3NugAdMy16Em-NimErLsOMfMlZBW0P0wauuYLIzl1soHnV-9CGvQtUYxmd3F6ruwjs_SQNw90aZd_yFlVc85P2FlC01QVNyRktVrSX5zHIMkETyjZojQ", "opZYwt-OS8WFxwU-colRzpu50eOQ");
         LOG.debug("response:{}", response.toJsonString());
 
+    }
+
+    public void testGetJsApiTicket(ApiConfig config){
+        Assert.assertTrue(StrUtil.isNotBlank(config.getJsApiTicket()));
+        if(StrUtil.isNotBlank(config.getJsApiTicket())){
+            LOG.debug("ok");
+        }
+    }
+
+    public void testJsApiSign(){
+        try {
+            //使用JS-SDK的示例数据来测试
+            String exampleTestStr = JsApiUtil.sign("sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg", "Wm3WZYTPz0wzccnW", 1414587457l, "http://mp.weixin.qq.com");
+            //JS-SDK的示例结果
+            String exampleResult = "f4d90daf4b3bca3078ab155816175ba34c443a7b";
+            Assert.assertEquals(exampleTestStr, exampleResult);
+            if(exampleResult.equals(exampleTestStr))
+            {
+                LOG.debug("ok");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

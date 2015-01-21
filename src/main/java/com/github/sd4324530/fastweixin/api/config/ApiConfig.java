@@ -1,8 +1,10 @@
 package com.github.sd4324530.fastweixin.api.config;
 
+import com.github.sd4324530.fastweixin.api.response.GetJsApiTicketResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
+
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +24,11 @@ public final class ApiConfig {
     private final String appid;
     private final String secret;
     private       String accessToken;
+    private       String jsApiTicket;
+    private      boolean enableJsApi = false;
 
     /**
-     * 唯一构造方法，实现同时获取access_token
+     * 构造方法一，实现同时获取access_token。不启用jsApi
      *
      * @param appid  公众号appid
      * @param secret 公众号secret
@@ -32,6 +36,19 @@ public final class ApiConfig {
     public ApiConfig(String appid, String secret) {
         this.appid = appid;
         this.secret = secret;
+        init();
+    }
+
+    /**
+     * 构造方法二，实现同时获取access_token，启用jsApi
+     *
+     * @param appid  公众号appid
+     * @param secret 公众号secret
+     */
+    public ApiConfig(String appid, String secret, boolean enableJsApi) {
+        this.appid = appid;
+        this.secret = secret;
+        this.enableJsApi = enableJsApi;
         init();
     }
 
@@ -51,6 +68,22 @@ public final class ApiConfig {
         this.accessToken = accessToken;
     }
 
+    public String getJsApiTicket() {
+        return jsApiTicket;
+    }
+
+    public void setJsApiTicket(String jsApiTicket) {
+        this.jsApiTicket = jsApiTicket;
+    }
+
+    public boolean isEnableJsApi() {
+        return enableJsApi;
+    }
+
+    public void setEnableJsApi(boolean enableJsApi) {
+        this.enableJsApi = enableJsApi;
+    }
+
     /**
      * 初始化微信配置，即第一次获取access_token
      */
@@ -67,5 +100,20 @@ public final class ApiConfig {
                 }
             }
         });
+
+        if(enableJsApi){
+            LOG.debug("开始第一次初始化 jsapi_ticket........");
+            String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken  + "&type=jsapi" ;
+            NetWorkCenter.get(url2, null, new NetWorkCenter.ResponseCallback() {
+                @Override
+                public void onResponse(int resultCode, String resultJson) {
+                    if (HttpStatus.SC_OK == resultCode) {
+                        GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
+                        LOG.debug("获取jsapi_ticket:{}", response.getTicket() );
+                        ApiConfig.this.jsApiTicket = response.getTicket();
+                    }
+                }
+            });
+        }
     }
 }
