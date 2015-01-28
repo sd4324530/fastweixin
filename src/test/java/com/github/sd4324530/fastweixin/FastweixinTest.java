@@ -48,7 +48,7 @@ public class FastweixinTest {
 //        oauthGetUserInfo(config);
         ApiConfig config = new ApiConfig(appid, secret, true);
         testGetJsApiTicket(config);
-        testJsApiSign();
+        testJsApiSign(config);
     }
 
     /**
@@ -177,19 +177,22 @@ public class FastweixinTest {
         }
     }
 
-    public void testJsApiSign(){
-        try {
-            //使用JS-SDK的示例数据来测试
-            String exampleTestStr = JsApiUtil.sign("sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg", "Wm3WZYTPz0wzccnW", 1414587457l, "http://mp.weixin.qq.com");
-            //JS-SDK的示例结果
-            String exampleResult = "f4d90daf4b3bca3078ab155816175ba34c443a7b";
-            Assert.assertEquals(exampleTestStr, exampleResult);
-            if(exampleResult.equals(exampleTestStr))
-            {
-                LOG.debug("ok");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testJsApiSign(ApiConfig config){
+//        try {
+//            //使用JS-SDK的示例数据来测试
+//            String exampleTestStr = JsApiUtil.sign("sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg", "Wm3WZYTPz0wzccnW", 1414587457l, "http://mp.weixin.qq.com");
+//            //JS-SDK的示例结果
+//            String exampleResult = "f4d90daf4b3bca3078ab155816175ba34c443a7b";
+//            Assert.assertEquals(exampleTestStr, exampleResult);
+//            if(exampleResult.equals(exampleTestStr))
+//            {
+//                LOG.debug("ok");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        JsAPI jsAPI = new JsAPI(config);
+        GetSignatureResponse response = jsAPI.getSignature("http://mp.weixin.qq.com");
+        LOG.debug(response.toJsonString());
     }
 }

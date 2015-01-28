@@ -146,7 +146,7 @@ public abstract class BaseAPI {
 
 
     /**
-     * 通用post请求
+     * 通用get请求
      *
      * @param url 地址，其中token用#代替
      * @return 请求结果
@@ -184,7 +184,7 @@ public abstract class BaseAPI {
     }
 
     /**
-     * 通用post请求
+     * 通用get请求
      *
      * @param url 地址，其中token用#代替
      * @param json 参数
