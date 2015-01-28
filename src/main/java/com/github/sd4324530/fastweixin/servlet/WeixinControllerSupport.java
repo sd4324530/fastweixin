@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -40,16 +41,19 @@ public abstract class WeixinControllerSupport extends WeixinSupport {
      * 微信消息交互处理
      *
      * @param request http 请求对象
+     * @param response
      * @return 响应给微信服务器的消息报文
      * @throws ServletException 异常
      * @throws IOException      IO异常
      */
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
-    protected final String process(HttpServletRequest request) throws ServletException, IOException {
-        if (!isLegal(request)) {
-            return "";
+    protected final void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (isLegal(request)) {
+            String result = processRequest(request);
+
+            //设置正确的 content-type 以防止中文乱码
+            response.setContentType("text/xml;charset=UTF-8");
+            response.getWriter().write(result);
         }
-        return processRequest(request);
     }
 }
