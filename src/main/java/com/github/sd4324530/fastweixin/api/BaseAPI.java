@@ -3,11 +3,13 @@ package com.github.sd4324530.fastweixin.api;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
+import com.github.sd4324530.fastweixin.api.response.GetJsApiTicketResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.CollectionUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
+
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +65,21 @@ public abstract class BaseAPI {
                             }
                         }
                     });
+
+                    if(config.isEnableJsApi()){
+                        LOG.debug("开始刷新 jsapi_ticket........");
+                        String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + config.getAccessToken()  + "&type=jsapi" ;
+                        NetWorkCenter.get(url2, null, new NetWorkCenter.ResponseCallback() {
+                            @Override
+                            public void onResponse(int resultCode, String resultJson) {
+                                if (HttpStatus.SC_OK == resultCode) {
+                                    GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
+                                    LOG.debug("获取jsapi_ticket:{}", response.getTicket() );
+                                    config.setJsApiTicket(response.getTicket());
+                                }
+                            }
+                        });
+                    }
                 }
             } finally {
                 config.refreshing.set(false);
