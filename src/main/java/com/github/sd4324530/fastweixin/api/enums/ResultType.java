@@ -417,7 +417,12 @@ public enum ResultType {
     /**
      * 无效的参数
      */
-    INVALID_PARAM(61451, "无效的参数");
+    INVALID_PARAM(61451, "无效的参数"),
+
+    /**
+     * 无效的参数
+     */
+    OTHER_ERROR(99999, "其他错误");
 
     /**
      * 结果码

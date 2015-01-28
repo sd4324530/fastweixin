@@ -10,8 +10,8 @@ import com.github.sd4324530.fastweixin.api.enums.MenuType;
 import com.github.sd4324530.fastweixin.api.enums.OauthScope;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
-import com.github.sd4324530.fastweixin.util.JsApiUtil;
 import com.github.sd4324530.fastweixin.util.StrUtil;
+import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,11 +32,18 @@ public class FastweixinTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(FastweixinTest.class);
 
+
+    /*
+     *AppID(应用ID)wx8c33ff895df5d0d9
+     *AppSecret(应用密钥)0705aafac0bef944de4c485d71fce900
+     */
     @Test
     public void test() {
-        String appid = "wxafb7b8f9457b5d50";
-        String secret = "1b8223018a69658f0236d68d2e41fb20";
-//        ApiConfig config = new ApiConfig(appid, secret);
+//        String appid = "wxafb7b8f9457b5d50";
+//        String secret = "1b8223018a69658f0236d68d2e41fb20";
+        String appid = "wx8c33ff895df5d0d9";
+        String secret = "0705aafac0bef944de4c485d71fce900";
+        ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
 //        uploadMedia(config);
@@ -46,9 +54,11 @@ public class FastweixinTest {
 //        getOauthPageUrl(config);
 //        getToken(config);
 //        oauthGetUserInfo(config);
-        ApiConfig config = new ApiConfig(appid, secret, true);
-        testGetJsApiTicket(config);
-        testJsApiSign();
+//        ApiConfig config = new ApiConfig(appid, secret, true);
+//        testGetJsApiTicket(config);
+//        testJsApiSign(config);
+//        getUserData(config);
+        getArticleData(config);
     }
 
     /**
@@ -177,19 +187,58 @@ public class FastweixinTest {
         }
     }
 
-    public void testJsApiSign(){
-        try {
-            //使用JS-SDK的示例数据来测试
-            String exampleTestStr = JsApiUtil.sign("sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg", "Wm3WZYTPz0wzccnW", 1414587457l, "http://mp.weixin.qq.com");
-            //JS-SDK的示例结果
-            String exampleResult = "f4d90daf4b3bca3078ab155816175ba34c443a7b";
-            Assert.assertEquals(exampleTestStr, exampleResult);
-            if(exampleResult.equals(exampleTestStr))
-            {
-                LOG.debug("ok");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testJsApiSign(ApiConfig config){
+//        try {
+//            //使用JS-SDK的示例数据来测试
+//            String exampleTestStr = JsApiUtil.sign("sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg", "Wm3WZYTPz0wzccnW", 1414587457l, "http://mp.weixin.qq.com");
+//            //JS-SDK的示例结果
+//            String exampleResult = "f4d90daf4b3bca3078ab155816175ba34c443a7b";
+//            Assert.assertEquals(exampleTestStr, exampleResult);
+//            if(exampleResult.equals(exampleTestStr))
+//            {
+//                LOG.debug("ok");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        JsAPI jsAPI = new JsAPI(config);
+        GetSignatureResponse response = jsAPI.getSignature("http://mp.weixin.qq.com");
+        LOG.debug(response.toJsonString());
+    }
+
+    public void getUserData(ApiConfig config) {
+        DataCubeAPI dataAPI = new DataCubeAPI(config);
+        String[] format = {"yyyy-MM-dd"};
+        Date beginDate = DateUtils.parseDate("2015-01-01", format);
+        Date endDate = DateUtils.parseDate("2015-01-07", format);
+        GetUserSummaryResponse response = dataAPI.getUserSummary(beginDate, endDate);
+        GetUserCumulateResponse cumulateResponse = dataAPI.getUserCumulate(beginDate, endDate);
+        LOG.debug(response.toJsonString());
+        LOG.debug(cumulateResponse.toJsonString());
+    }
+
+    public void getArticleData(ApiConfig config) {
+        DataCubeAPI dataCubeAPI = new DataCubeAPI(config);
+        String[] format = {"yyyy-MM-dd"};
+        Date beginDate = DateUtils.parseDate("2015-01-25", format);
+        Date endDate = DateUtils.parseDate("2015-01-26", format);
+        GetArticleSummaryResponse articleSummary = dataCubeAPI.getArticleSummary(endDate);
+        GetArticleTotalResponse articleTotal = dataCubeAPI.getArticleTotal(endDate);
+        GetUserReadResponse userRead = dataCubeAPI.getUserRead(beginDate, endDate);
+        GetUserReadHourResponse userReadHour = dataCubeAPI.getUserReadHour(endDate);
+        GetUserShareResponse userShare = dataCubeAPI.getUserShare(beginDate, endDate);
+        GetUserShareHourResponse userShareHour = dataCubeAPI.getUserShareHour(endDate);
+        LOG.debug("------------------articleSummary----------------------");
+        LOG.debug(articleSummary.toJsonString());
+        LOG.debug("------------------articleTotal----------------------");
+        LOG.debug(articleTotal.toJsonString());
+        LOG.debug("------------------userRead----------------------");
+        LOG.debug(userRead.toJsonString());
+        LOG.debug("------------------userReadHour----------------------");
+        LOG.debug(userReadHour.toJsonString());
+        LOG.debug("------------------userShare----------------------");
+        LOG.debug(userShare.toJsonString());
+        LOG.debug("------------------userShareHour----------------------");
+        LOG.debug(userShareHour.toJsonString());
     }
 }
