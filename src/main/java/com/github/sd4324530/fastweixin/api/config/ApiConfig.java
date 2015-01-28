@@ -4,7 +4,6 @@ import com.github.sd4324530.fastweixin.api.response.GetJsApiTicketResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
-
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +18,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class ApiConfig {
 
-    public static final  AtomicBoolean refreshing = new AtomicBoolean(false);
     private static final Logger        LOG        = LoggerFactory.getLogger(ApiConfig.class);
-    private final String appid;
-    private final String secret;
-    private       String accessToken;
-    private       String jsApiTicket;
-    private      boolean enableJsApi = false;
+    public final         AtomicBoolean refreshing = new AtomicBoolean(false);
+    private final String  appid;
+    private final String  secret;
+    private       String  accessToken;
+    private       String  jsApiTicket;
+    private       boolean enableJsApi;
 
     /**
      * 构造方法一，实现同时获取access_token。不启用jsApi
@@ -34,9 +33,7 @@ public final class ApiConfig {
      * @param secret 公众号secret
      */
     public ApiConfig(String appid, String secret) {
-        this.appid = appid;
-        this.secret = secret;
-        init();
+        this(appid, secret, false);
     }
 
     /**
@@ -101,15 +98,15 @@ public final class ApiConfig {
             }
         });
 
-        if(enableJsApi){
+        if (enableJsApi) {
             LOG.debug("开始第一次初始化 jsapi_ticket........");
-            String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken  + "&type=jsapi" ;
+            String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken + "&type=jsapi";
             NetWorkCenter.get(url2, null, new NetWorkCenter.ResponseCallback() {
                 @Override
                 public void onResponse(int resultCode, String resultJson) {
                     if (HttpStatus.SC_OK == resultCode) {
                         GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
-                        LOG.debug("获取jsapi_ticket:{}", response.getTicket() );
+                        LOG.debug("获取jsapi_ticket:{}", response.getTicket());
                         ApiConfig.this.jsApiTicket = response.getTicket();
                     }
                 }
