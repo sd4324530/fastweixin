@@ -66,9 +66,8 @@ public class OauthAPI extends BaseAPI {
         OauthGetTokenResponse response = null;
         String url = BASE_API_URL + "sns/oauth2/access_token?appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret() + "&code=" + code + "&grant_type=authorization_code";
         BaseResponse r = executeGet(url);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), OauthGetTokenResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, OauthGetTokenResponse.class);
         return response;
     }
 
@@ -83,9 +82,8 @@ public class OauthAPI extends BaseAPI {
         OauthGetTokenResponse response = null;
         String url = BASE_API_URL + "sns/oauth2/refresh_token?appid=" + this.config.getAppid() + "&grant_type=refresh_token&refresh_token=" + refreshToken;
         BaseResponse r = executeGet(url);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), OauthGetTokenResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, OauthGetTokenResponse.class);
         return response;
     }
 
@@ -102,9 +100,8 @@ public class OauthAPI extends BaseAPI {
         GetUserInfoResponse response = null;
         String url = BASE_API_URL + "sns/userinfo?access_token=" + token + "&openid=" + openid + "&lang=zh_CN";
         BaseResponse r = executeGet(url);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserInfoResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserInfoResponse.class);
         return response;
     }
 
@@ -120,6 +117,6 @@ public class OauthAPI extends BaseAPI {
         BeanUtil.requireNonNull(openid, "openid is null");
         String url = BASE_API_URL + "sns/auth?access_token=" + token + "&openid=" + openid;
         BaseResponse r = executeGet(url);
-        return "0".equals(r.getErrcode());
+        return isSuccess(r.getErrcode());
     }
 }

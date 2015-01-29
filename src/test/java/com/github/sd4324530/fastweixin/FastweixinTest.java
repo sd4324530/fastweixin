@@ -5,10 +5,7 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.CustomAccount;
 import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.entity.MenuButton;
-import com.github.sd4324530.fastweixin.api.enums.MediaType;
-import com.github.sd4324530.fastweixin.api.enums.MenuType;
-import com.github.sd4324530.fastweixin.api.enums.OauthScope;
-import com.github.sd4324530.fastweixin.api.enums.ResultType;
+import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
@@ -41,8 +38,8 @@ public class FastweixinTest {
     public void test() {
 //        String appid = "wxafb7b8f9457b5d50";
 //        String secret = "1b8223018a69658f0236d68d2e41fb20";
-        String appid = "wx8c33ff895df5d0d9";
-        String secret = "0705aafac0bef944de4c485d71fce900";
+        String appid = "wxd8a2698dfd27b86c";
+        String secret = "b4f667f92209f7255f4da44bc26d297e";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
@@ -57,8 +54,8 @@ public class FastweixinTest {
 //        ApiConfig config = new ApiConfig(appid, secret, true);
 //        testGetJsApiTicket(config);
 //        testJsApiSign(config);
-//        getUserData(config);
-        getArticleData(config);
+        getUserData(config);
+//        getArticleData(config);
     }
 
     /**
@@ -213,7 +210,9 @@ public class FastweixinTest {
         Date endDate = DateUtils.parseDate("2015-01-07", format);
         GetUserSummaryResponse response = dataAPI.getUserSummary(beginDate, endDate);
         GetUserCumulateResponse cumulateResponse = dataAPI.getUserCumulate(beginDate, endDate);
+        LOG.debug("-----------------getUserSummary---------------------");
         LOG.debug(response.toJsonString());
+        LOG.debug("-----------------getUserCumulate---------------------");
         LOG.debug(cumulateResponse.toJsonString());
     }
 

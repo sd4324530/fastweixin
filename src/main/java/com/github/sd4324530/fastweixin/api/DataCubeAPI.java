@@ -4,7 +4,6 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.response.*;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
-import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +30,9 @@ public class DataCubeAPI extends BaseAPI {
 
     /**
      * 获取用户增减数据，最大跨度为7天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 用户增减数据
      */
     public GetUserSummaryResponse getUserSummary(Date beginDate, Date endDate) {
@@ -45,16 +45,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserSummaryResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserSummaryResponse.class);
         return response;
     }
 
     /**
      * 获取累计用户数据，最大跨度为7天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 用户增减数据
      */
     public GetUserCumulateResponse getUserCumulate(Date beginDate, Date endDate) {
@@ -67,14 +67,14 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserCumulateResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserCumulateResponse.class);
         return response;
     }
 
     /**
      * 获取图文群发每日数据
+     *
      * @param day 查询日期
      * @return 图文群发每日数据
      */
@@ -87,14 +87,14 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(day));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetArticleSummaryResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetArticleSummaryResponse.class);
         return response;
     }
 
     /**
      * 获取图文群发总数据
+     *
      * @param day 查询日期
      * @return 图文群发总数据
      */
@@ -107,16 +107,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(day));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetArticleTotalResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetArticleTotalResponse.class);
         return response;
     }
 
     /**
      * 获取图文统计数据，最大跨度为3天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 图文统计数据
      */
     public GetUserReadResponse getUserRead(Date beginDate, Date endDate) {
@@ -129,14 +129,14 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserReadResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserReadResponse.class);
         return response;
     }
 
     /**
      * 获取图文统计分时数据
+     *
      * @param day 查询日期
      * @return 图文统计分时数据
      */
@@ -149,16 +149,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(day));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserReadHourResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserReadHourResponse.class);
         return response;
     }
 
     /**
      * 获取图文分享转发数据，最大跨度为7天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 图文分享转发数据
      */
     public GetUserShareResponse getUserShare(Date beginDate, Date endDate) {
@@ -171,14 +171,14 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserShareResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserShareResponse.class);
         return response;
     }
 
     /**
      * 获取图文分享转发分时数据
+     *
      * @param day 查询日期
      * @return 图文分享转发分时数据
      */
@@ -191,16 +191,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(day));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserShareHourResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserShareHourResponse.class);
         return response;
     }
 
     /**
      * 获取消息发送概况数据，最大跨度为7天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 消息发送概况数据
      */
     public GetUpstreamMsgResponse getUpstreamMsg(Date beginDate, Date endDate) {
@@ -213,14 +213,14 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUpstreamMsgResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUpstreamMsgResponse.class);
         return response;
     }
 
     /**
      * 获取消息分送分时数据
+     *
      * @param day 查询日期
      * @return 消息分送分时数据
      */
@@ -233,16 +233,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(day));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUpstreamMsgHourResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUpstreamMsgHourResponse.class);
         return response;
     }
 
     /**
      * 获取消息发送周数据，最大跨度为30天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 消息发送周数据
      */
     public GetUpstreamMsgWeekResponse getUpstreamMsgWeek(Date beginDate, Date endDate) {
@@ -255,16 +255,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUpstreamMsgWeekResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUpstreamMsgWeekResponse.class);
         return response;
     }
 
     /**
      * 获取消息发送月数据，最大跨度为30天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 消息发送月数据
      */
     public GetUpstreamMsgMonthResponse getUpstreamMsgMonth(Date beginDate, Date endDate) {
@@ -277,16 +277,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUpstreamMsgMonthResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUpstreamMsgMonthResponse.class);
         return response;
     }
 
     /**
      * 获取消息发送分布数据，最大跨度为15天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 消息发送分布数据
      */
     public GetUpstreamMsgDistResponse getUpstreamMsgDist(Date beginDate, Date endDate) {
@@ -299,16 +299,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUpstreamMsgDistResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUpstreamMsgDistResponse.class);
         return response;
     }
 
     /**
      * 获取消息发送分布周数据，最大跨度为30天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 消息发送分布周数据
      */
     public GetUpstreamMsgDistWeekResponse getUpstreamMsgDistWeek(Date beginDate, Date endDate) {
@@ -321,16 +321,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUpstreamMsgDistWeekResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUpstreamMsgDistWeekResponse.class);
         return response;
     }
 
     /**
      * 获取消息发送分布月数据，最大跨度为30天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 消息发送分布月数据
      */
     public GetUpstreamMsgDistMonthResponse getUpstreamMsgDistMonth(Date beginDate, Date endDate) {
@@ -343,16 +343,16 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUpstreamMsgDistMonthResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUpstreamMsgDistMonthResponse.class);
         return response;
     }
 
     /**
      * 获取接口分析数据，最大跨度为30天
+     *
      * @param beginDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return 接口分析数据
      */
     public GetInterfaceSummaryResponse getInterfaceSummary(Date beginDate, Date endDate) {
@@ -365,14 +365,14 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(endDate));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetInterfaceSummaryResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetInterfaceSummaryResponse.class);
         return response;
     }
 
     /**
      * 获取接口分析分时数据
+     *
      * @param day 查询日期
      * @return 接口分析分时数据
      */
@@ -385,11 +385,8 @@ public class DataCubeAPI extends BaseAPI {
         param.put("end_date", DATE_FORMAT.format(day));
         String json = JSONUtil.toJson(param);
         BaseResponse r = executePost(url, json);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetInterfaceSummaryHourResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetInterfaceSummaryHourResponse.class);
         return response;
     }
-
-
 }

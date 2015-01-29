@@ -193,9 +193,8 @@ public class CustomAPI extends BaseAPI {
         GetCustomAccountsResponse response = null;
         String url = BASE_API_URL + "customservice/getkflist?access_token=#";
         BaseResponse r = executeGet(url);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetCustomAccountsResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetCustomAccountsResponse.class);
         return response;
     }
 }

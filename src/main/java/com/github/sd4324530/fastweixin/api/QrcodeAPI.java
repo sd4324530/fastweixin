@@ -54,9 +54,8 @@ public class QrcodeAPI extends BaseAPI {
             param.put("expire_seconds", expireSeconds);
         }
         BaseResponse r = executePost(url, JSONUtil.toJson(param));
-        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), QrcodeResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, QrcodeResponse.class);
         return response;
     }
 }

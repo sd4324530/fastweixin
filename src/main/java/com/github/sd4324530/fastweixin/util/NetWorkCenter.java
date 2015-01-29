@@ -115,6 +115,9 @@ public final class NetWorkCenter {
             public void onResponse(int resultCode, String resultJson) {
                 if (200 == resultCode) {
                     BaseResponse r = JSONUtil.toBean(resultJson, BaseResponse.class);
+                    if(StrUtil.isBlank(r.getErrcode())) {
+                        r.setErrcode("0");
+                    }
                     r.setErrmsg(resultJson);
                     response[0] = r;
                 } else {//请求本身就失败了
@@ -158,6 +161,9 @@ public final class NetWorkCenter {
             public void onResponse(int resultCode, String resultJson) {
                 if (200 == resultCode) {
                     BaseResponse r = JSONUtil.toBean(resultJson, BaseResponse.class);
+                    if(StrUtil.isBlank(r.getErrcode())) {
+                        r.setErrcode("0");
+                    }
                     r.setErrmsg(resultJson);
                     response[0] = r;
                 } else {//请求本身就失败了

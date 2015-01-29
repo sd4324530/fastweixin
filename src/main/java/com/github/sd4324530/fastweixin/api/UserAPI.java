@@ -40,9 +40,8 @@ public class UserAPI extends BaseAPI {
             url += "&next_openid=" + nextOpenid;
         }
         BaseResponse r = executeGet(url);
-        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUsersResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUsersResponse.class);
         return response;
     }
 
@@ -80,9 +79,8 @@ public class UserAPI extends BaseAPI {
         group.put("name", name);
         param.put("group", group);
         BaseResponse r = executePost(url, JSONUtil.toJson(param));
-        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), CreateGroupResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, CreateGroupResponse.class);
         return response;
     }
 
@@ -96,9 +94,8 @@ public class UserAPI extends BaseAPI {
         LOG.debug("获取所有分组信息.....");
         String url = BASE_API_URL + "cgi-bin/groups/get?access_token=#";
         BaseResponse r = executeGet(url);
-        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetGroupsResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetGroupsResponse.class);
         return response;
     }
 
@@ -116,7 +113,7 @@ public class UserAPI extends BaseAPI {
         Map<String, String> params = new HashMap<String, String>();
         params.put("openid", openid);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
-        if (null == r.getErrcode() || "".equals(r.getErrcode())) {
+        if (isSuccess(r.getErrcode())) {
             result = JSONUtil.toMap(r.getErrmsg()).get("groupid").toString();
         }
         return result;
@@ -175,9 +172,8 @@ public class UserAPI extends BaseAPI {
         LOG.debug("获取关注者信息.....");
         String url = BASE_API_URL + "cgi-bin/user/info?access_token=#&lang=zh_CN&openid=" + openid;
         BaseResponse r = executeGet(url);
-        if (StrUtil.isBlank(r.getErrcode())) {
-            response = JSONUtil.toBean(r.getErrmsg(), GetUserInfoResponse.class);
-        }
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetUserInfoResponse.class);
         return response;
     }
 }

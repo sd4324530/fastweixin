@@ -221,4 +221,13 @@ public abstract class BaseAPI {
         }
         return response;
     }
+
+    /**
+     * 判断本次请求是否成功
+     * @param errCode 错误码
+     * @return 是否成功
+     */
+    protected boolean isSuccess(String errCode) {
+        return ResultType.SUCCESS.getCode().toString().equals(errCode);
+    }
 }
