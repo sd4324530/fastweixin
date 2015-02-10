@@ -71,7 +71,7 @@ public class MediaAPI extends BaseAPI {
                 if (null != headers && 0 != headers.length) {
                     Header length = r.getHeaders("Content-Length")[0];
                     response.setContent(inputStream, Integer.valueOf(length.getValue()));
-                    response.setFileName(headers[0].getElements()[0].getParameterByName("filename").getName());
+                    response.setFileName(headers[0].getElements()[0].getParameterByName("filename").getValue());
                 } else {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     StreamUtil.copy(inputStream, out);
