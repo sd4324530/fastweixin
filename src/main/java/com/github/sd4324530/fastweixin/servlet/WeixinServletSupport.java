@@ -136,18 +136,18 @@ public abstract class WeixinServletSupport extends HttpServlet {
      * @return 处理消息的结果，已经是接口要求的xml报文了
      */
     private String processRequest(HttpServletRequest request) {
-        Map<String, String> reqMap = MessageUtil.parseXml(request, getToken(), getAppId(), getAESKey());
-        String fromUserName = reqMap.get("FromUserName");
-        String toUserName = reqMap.get("ToUserName");
-        String msgType = reqMap.get("MsgType");
+        Map<String, Object> reqMap = MessageUtil.parseXml(request, getToken(), getAppId(), getAESKey());
+        String fromUserName = (String)reqMap.get("FromUserName");
+        String toUserName = (String)reqMap.get("ToUserName");
+        String msgType = (String)reqMap.get("MsgType");
 
         BaseMsg msg = null;
 
         if (msgType.equals(ReqType.EVENT)) {
-            String eventType = reqMap.get("Event");
-            String ticket = reqMap.get("Ticket");
+            String eventType = (String)reqMap.get("Event");
+            String ticket = (String)reqMap.get("Ticket");
             if (isNotBlank(ticket)) {
-                String eventKey = reqMap.get("EventKey");
+                String eventKey = (String)reqMap.get("EventKey");
                 QrCodeEvent event = new QrCodeEvent(eventKey, ticket);
                 buildBasicEvent(reqMap, event);
                 msg = handleQrCodeEvent(event);
@@ -170,7 +170,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processEventHandle(event);
                 }
             } else if (eventType.equals(EventType.CLICK)) {
-                String eventKey = reqMap.get("EventKey");
+                String eventKey = (String)reqMap.get("EventKey");
                 MenuEvent event = new MenuEvent(eventKey);
                 buildBasicEvent(reqMap, event);
                 msg = handleMenuClickEvent(event);
@@ -178,7 +178,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processEventHandle(event);
                 }
             } else if (eventType.equals(EventType.VIEW)) {
-                String eventKey = reqMap.get("EventKey");
+                String eventKey = (String)reqMap.get("EventKey");
                 MenuEvent event = new MenuEvent(eventKey);
                 buildBasicEvent(reqMap, event);
                 msg = handleMenuViewEvent(event);
@@ -186,9 +186,9 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processEventHandle(event);
                 }
             } else if (eventType.equals(EventType.LOCATION)) {
-                double latitude = Double.parseDouble(reqMap.get("Latitude"));
-                double longitude = Double.parseDouble(reqMap.get("Longitude"));
-                double precision = Double.parseDouble(reqMap.get("Precision"));
+                double latitude = Double.parseDouble((String)reqMap.get("Latitude"));
+                double longitude = Double.parseDouble((String)reqMap.get("Longitude"));
+                double precision = Double.parseDouble((String)reqMap.get("Precision"));
                 LocationEvent event = new LocationEvent(latitude, longitude,
                         precision);
                 buildBasicEvent(reqMap, event);
@@ -200,7 +200,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
 
         } else {
             if (msgType.equals(ReqType.TEXT)) {
-                String content = reqMap.get("Content");
+                String content = (String)reqMap.get("Content");
                 TextReqMsg textReqMsg = new TextReqMsg(content);
                 buildBasicReqMsg(reqMap, textReqMsg);
                 msg = handleTextMsg(textReqMsg);
@@ -208,8 +208,8 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processMessageHandle(textReqMsg);
                 }
             } else if (msgType.equals(ReqType.IMAGE)) {
-                String picUrl = reqMap.get("PicUrl");
-                String mediaId = reqMap.get("MediaId");
+                String picUrl = (String)reqMap.get("PicUrl");
+                String mediaId = (String)reqMap.get("MediaId");
                 ImageReqMsg imageReqMsg = new ImageReqMsg(picUrl, mediaId);
                 buildBasicReqMsg(reqMap, imageReqMsg);
                 msg = handleImageMsg(imageReqMsg);
@@ -217,9 +217,9 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processMessageHandle(imageReqMsg);
                 }
             } else if (msgType.equals(ReqType.VOICE)) {
-                String format = reqMap.get("Format");
-                String mediaId = reqMap.get("MediaId");
-                String recognition = reqMap.get("Recognition");
+                String format = (String)reqMap.get("Format");
+                String mediaId = (String)reqMap.get("MediaId");
+                String recognition = (String)reqMap.get("Recognition");
                 VoiceReqMsg voiceReqMsg = new VoiceReqMsg(mediaId, format,
                         recognition);
                 buildBasicReqMsg(reqMap, voiceReqMsg);
@@ -228,8 +228,8 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processMessageHandle(voiceReqMsg);
                 }
             } else if (msgType.equals(ReqType.VIDEO)) {
-                String thumbMediaId = reqMap.get("ThumbMediaId");
-                String mediaId = reqMap.get("MediaId");
+                String thumbMediaId = (String)reqMap.get("ThumbMediaId");
+                String mediaId = (String)reqMap.get("MediaId");
                 VideoReqMsg videoReqMsg = new VideoReqMsg(mediaId, thumbMediaId);
                 buildBasicReqMsg(reqMap, videoReqMsg);
                 msg = handleVideoMsg(videoReqMsg);
@@ -237,10 +237,10 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processMessageHandle(videoReqMsg);
                 }
             } else if (msgType.equals(ReqType.LOCATION)) {
-                double locationX = Double.parseDouble(reqMap.get("Location_X"));
-                double locationY = Double.parseDouble(reqMap.get("Location_Y"));
-                int scale = Integer.parseInt(reqMap.get("Scale"));
-                String label = reqMap.get("Label");
+                double locationX = Double.parseDouble((String)reqMap.get("Location_X"));
+                double locationY = Double.parseDouble((String)reqMap.get("Location_Y"));
+                int scale = Integer.parseInt((String)reqMap.get("Scale"));
+                String label = (String)reqMap.get("Label");
                 LocationReqMsg locationReqMsg = new LocationReqMsg(locationX,
                         locationY, scale, label);
                 buildBasicReqMsg(reqMap, locationReqMsg);
@@ -249,9 +249,9 @@ public abstract class WeixinServletSupport extends HttpServlet {
                     msg = processMessageHandle(locationReqMsg);
                 }
             } else if (msgType.equals(ReqType.LINK)) {
-                String title = reqMap.get("Title");
-                String description = reqMap.get("Description");
-                String url = reqMap.get("Url");
+                String title = (String)reqMap.get("Title");
+                String description = (String)reqMap.get("Description");
+                String url = (String)reqMap.get("Url");
                 LinkReqMsg linkReqMsg = new LinkReqMsg(title, description, url);
                 buildBasicReqMsg(reqMap, linkReqMsg);
                 msg = handleLinkMsg(linkReqMsg);
@@ -441,21 +441,21 @@ public abstract class WeixinServletSupport extends HttpServlet {
         return null;
     }
 
-    private void buildBasicReqMsg(Map<String, String> reqMap, BaseReqMsg reqMsg) {
+    private void buildBasicReqMsg(Map<String, Object> reqMap, BaseReqMsg reqMsg) {
         addBasicReqParams(reqMap, reqMsg);
-        reqMsg.setMsgId(reqMap.get("MsgId"));
+        reqMsg.setMsgId((String)reqMap.get("MsgId"));
     }
 
-    private void buildBasicEvent(Map<String, String> reqMap, BaseEvent event) {
+    private void buildBasicEvent(Map<String, Object> reqMap, BaseEvent event) {
         addBasicReqParams(reqMap, event);
-        event.setEvent(reqMap.get("Event"));
+        event.setEvent((String)reqMap.get("Event"));
     }
 
-    private void addBasicReqParams(Map<String, String> reqMap, BaseReq req) {
-        req.setMsgType(reqMap.get("MsgType"));
-        req.setFromUserName(reqMap.get("FromUserName"));
-        req.setToUserName(reqMap.get("ToUserName"));
-        req.setCreateTime(Long.parseLong(reqMap.get("CreateTime")));
+    private void addBasicReqParams(Map<String, Object> reqMap, BaseReq req) {
+        req.setMsgType((String)reqMap.get("MsgType"));
+        req.setFromUserName((String)reqMap.get("FromUserName"));
+        req.setToUserName((String)reqMap.get("ToUserName"));
+        req.setCreateTime(Long.parseLong((String)reqMap.get("CreateTime")));
     }
 
     private boolean isLegal(HttpServletRequest request) {
