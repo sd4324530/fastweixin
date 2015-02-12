@@ -9,7 +9,7 @@ QQ:125331682<br>
 csdn主页:[https://code.csdn.net/sd4324530/fastweixin](https://code.csdn.net/sd4324530/fastweixin)<br>
 
 ### Version
-![](https://img.shields.io/badge/fastweixin-1.2.9-brightgreen.svg?style=plastic)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin)
 
 #快速搭建微信公众平台服务器<br>
 简单封装了所有与微信服务器交互的消息:文本消息、图片消息、图文消息等等<br>
