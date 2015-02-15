@@ -10,10 +10,13 @@ import com.github.sd4324530.fastweixin.message.req.*;
 import com.github.sd4324530.fastweixin.util.MessageUtil;
 import com.github.sd4324530.fastweixin.util.SignUtil;
 import com.github.sd4324530.fastweixin.util.StrUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -162,6 +165,28 @@ public abstract class WeixinSupport {
                 if (isNull(msg)) {
                     msg = processEventHandle(event);
                 }
+            } else if (EventType.SCANCODEPUSH.equals(eventType) || EventType.SCANCODEWAITMSG.equals(eventType)){
+            	String eventKey = (String)reqMap.get("EventKey");
+            	Map<String, Object> scanCodeInfo = new HashMap<String, Object>();
+            	String scanType = (String)scanCodeInfo.get("ScanType");  
+            	String scanResult = (String)scanCodeInfo.get("ScanResult");
+            	ScanCodeEvent event = new ScanCodeEvent(eventKey, scanType, scanResult);
+            	buildBasicEvent(reqMap, event);
+            	msg = handleScanCodeEvent(event);
+            	if(isNull(msg)){
+            		msg = processEventHandle(event);
+            	}
+            } else if (EventType.PICPHOTOORALBUM.equals(eventType) || EventType.PICSYSPHOTO.equals(eventType) || EventType.PICWEIXIN.equals(eventType)){
+            	String eventKey = (String)reqMap.get("EventKey");
+            	Map<String, Object> sendPicsInfo = new HashMap<String, Object>();
+            	int count = Integer.parseInt((String)sendPicsInfo.get("Count"));  
+            	String picList = (String)sendPicsInfo.get("PicList");
+            	SendPicsInfoEvent event = new SendPicsInfoEvent(eventKey, count, picList);
+            	buildBasicEvent(reqMap, event);
+            	msg = handlePSendPicsInfoEvent(event);
+            	if(isNull(msg)){
+            		msg = processEventHandle(event);
+            	}
             }
         } else {
             if (msgType.equals(ReqType.TEXT)) {
@@ -395,6 +420,26 @@ public abstract class WeixinSupport {
      */
     protected BaseMsg handleMenuViewEvent(MenuEvent event) {
         return handleDefaultEvent(event);
+    }
+    
+    /**
+     * 处理菜单扫描推事件，有需要时子类重写
+     * 
+     * @param event 菜单扫描推事件对象
+     * @return 响应的消息对象
+     */
+    protected BaseMsg handleScanCodeEvent(ScanCodeEvent event){
+    	return handleDefaultEvent(event);
+    }
+    
+    /**
+     * 处理菜单弹出相册事件，有需要时子类重写
+     * 
+     * @param event
+     * @return
+     */
+    protected BaseMsg handlePSendPicsInfoEvent(SendPicsInfoEvent event){
+    	return handleDefaultEvent(event);
     }
 
     /**
