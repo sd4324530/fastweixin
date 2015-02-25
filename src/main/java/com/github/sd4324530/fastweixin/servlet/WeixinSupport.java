@@ -37,6 +37,9 @@ public abstract class WeixinSupport {
     private static final Logger LOG  = LoggerFactory.getLogger(WeixinSupport.class);
     //充当锁
     private static final Object LOCK = new Object();
+    
+    protected String fromUserName, toUserName;
+    
     /**
      * 微信消息处理器列表
      */
@@ -93,8 +96,8 @@ public abstract class WeixinSupport {
      */
     protected String processRequest(HttpServletRequest request) {
         Map<String, Object> reqMap = MessageUtil.parseXml(request, getToken(), getAppId(), getAESKey());
-        String fromUserName = (String)reqMap.get("FromUserName");
-        String toUserName = (String)reqMap.get("ToUserName");
+        fromUserName = (String)reqMap.get("FromUserName");
+        toUserName = (String)reqMap.get("ToUserName");
         String msgType = (String)reqMap.get("MsgType");
 
         LOG.debug("收到消息,消息类型:{}", msgType);
