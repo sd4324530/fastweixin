@@ -38,8 +38,8 @@ public class FastweixinTest {
     public void test() {
 //        String appid = "wxafb7b8f9457b5d50";
 //        String secret = "1b8223018a69658f0236d68d2e41fb20";
-        String appid = "wxd8a2698dfd27b86c";
-        String secret = "b4f667f92209f7255f4da44bc26d297e";
+        String appid = "wxb05a6032d78302ac";
+        String secret = "8593f58131f54dc021aacfcc27ff16fe";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
