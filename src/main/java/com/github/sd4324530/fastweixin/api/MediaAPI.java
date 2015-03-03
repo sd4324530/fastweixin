@@ -1,6 +1,7 @@
 package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.entity.Article;
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.DownloadMediaResponse;
@@ -22,6 +23,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 多媒体资源API
@@ -47,6 +51,22 @@ public class MediaAPI extends BaseAPI {
         UploadMediaResponse response;
         String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=#&type=" + type.toString();
         BaseResponse r = executePost(url, null, file);
+        response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
+        return response;
+    }
+
+    /**
+     * 上传群发文章素材。
+     *
+     * @param articles 上传的文章信息
+     * @return 响应对象
+     */
+    public UploadMediaResponse uploadNews(List<Article> articles){
+        UploadMediaResponse response;
+        String url = BASE_API_URL + "cgi-bin/media/uploadnews?access_token=#";
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("articles", articles);
+        BaseResponse r = executePost(url, JSONUtil.toJson(params));
         response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
         return response;
     }

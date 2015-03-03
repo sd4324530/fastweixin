@@ -9,10 +9,20 @@ import java.util.Date;
  */
 public class UploadMediaResponse extends BaseResponse {
 
+    @JSONField(name="type")
+    private String type;
     @JSONField(name = "media_id")
     private String mediaId;
     @JSONField(name = "created_at")
     private Date   createdAt;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getMediaId() {
         return mediaId;

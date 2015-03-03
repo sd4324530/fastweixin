@@ -7,6 +7,8 @@ import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.entity.MenuButton;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
+import com.github.sd4324530.fastweixin.message.Article;
+import com.github.sd4324530.fastweixin.message.MpNewsMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
@@ -19,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -38,8 +41,8 @@ public class FastweixinTest {
     public void test() {
 //        String appid = "wxafb7b8f9457b5d50";
 //        String secret = "1b8223018a69658f0236d68d2e41fb20";
-        String appid = "wxb05a6032d78302ac";
-        String secret = "8593f58131f54dc021aacfcc27ff16fe";
+        String appid = "wx0960dc28db9b98d9";
+        String secret = "7cb94d20ee29813e8668798798dda139";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
@@ -54,8 +57,9 @@ public class FastweixinTest {
 //        ApiConfig config = new ApiConfig(appid, secret, true);
 //        testGetJsApiTicket(config);
 //        testJsApiSign(config);
-        getUserData(config);
+//        getUserData(config);
 //        getArticleData(config);
+        sendAllMessage(config);
     }
 
     /**
@@ -239,5 +243,24 @@ public class FastweixinTest {
         LOG.debug(userShare.toJsonString());
         LOG.debug("------------------userShareHour----------------------");
         LOG.debug(userShareHour.toJsonString());
+    }
+
+    public void sendAllMessage(ApiConfig config){
+        MediaAPI mediaAPI = new MediaAPI(config);
+        UploadMediaResponse response = mediaAPI.uploadMedia(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"));
+        String media_id = response.getMediaId();
+        com.github.sd4324530.fastweixin.api.entity.Article article = new com.github.sd4324530.fastweixin.api.entity.Article();
+        article.setThumbMediaId(media_id);
+        article.setAuthor("测试用户");
+        article.setContentSourceUrl("http://www.baidu.com");
+        article.setContent("群发测试消息第一篇");
+        article.setDigest("群发测试");
+        article.setShowConverPic(com.github.sd4324530.fastweixin.api.entity.Article.ShowConverPic.NO);
+        UploadMediaResponse uploadMediaResponse = mediaAPI.uploadNews(Arrays.asList(article));
+        MpNewsMsg mpNewsMsg = new MpNewsMsg();
+        mpNewsMsg.setMediaId(uploadMediaResponse.getMediaId());
+        MessageAPI messageAPI = new MessageAPI(config);
+        GetSendMessageResponse messageResponse = messageAPI.sendMessageToUser(mpNewsMsg, true, "0");
+        LOG.info("Send Message Id is " + messageResponse.getMsgId());
     }
 }
