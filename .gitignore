@@ -1,15 +1,10 @@
 *.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+.tern-project
 
 # Package Files #
 *.jar
 *.war
 *.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
 
 # Intellij project files
 *.iml
@@ -17,5 +12,13 @@ hs_err_pid*
 *.iws
 .idea/
 
+# Eclipse project files 
+/.settings/
+.classpath
+.project
+
 #target files
-target/
+/target/
+
+#mac file
+.DS_STORE
