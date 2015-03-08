@@ -28,7 +28,7 @@ public final class StreamUtil {
         int byteCount = 0;
         byte[] buffer = new byte[4096];
         int bytesRead1;
-        for (boolean bytesRead = true; (bytesRead1 = in.read(buffer)) != -1; byteCount += bytesRead1) {
+        for (; (bytesRead1 = in.read(buffer)) != -1; byteCount += bytesRead1) {
             out.write(buffer, 0, bytesRead1);
         }
         out.flush();

@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import static com.github.sd4324530.fastweixin.util.StrUtil.isHasBlank;
+import static com.github.sd4324530.fastweixin.util.StrUtil.hasBlank;
 
 /**
  * 绑定服务器工具类
@@ -38,14 +38,14 @@ public final class SignUtil {
      */
     public static boolean checkSignature(String token, String signature,
                                          String timestamp, String nonce) {
-        if (isHasBlank(token, signature, timestamp, nonce)) {
+        if (hasBlank(token, signature, timestamp, nonce)) {
             return false;
         }
         String[] arr = new String[]{token, timestamp, nonce};
         Arrays.sort(arr);
         StringBuilder content = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            content.append(arr[i]);
+        for (String anArr : arr) {
+            content.append(anArr);
         }
         MessageDigest md;
         String tmpStr = null;
@@ -71,8 +71,8 @@ public final class SignUtil {
     private static String byteToStr(byte[] byteArray) {
         int len = byteArray.length;
         StringBuilder strDigest = new StringBuilder(len * 2);
-        for (int i = 0; i < len; i++) {
-            strDigest.append(byteToHexStr(byteArray[i]));
+        for (byte aByteArray : byteArray) {
+            strDigest.append(byteToHexStr(aByteArray));
         }
         return strDigest.toString();
     }
