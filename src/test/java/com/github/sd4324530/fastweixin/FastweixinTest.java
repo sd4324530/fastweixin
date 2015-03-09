@@ -3,6 +3,7 @@ package com.github.sd4324530.fastweixin;
 import com.github.sd4324530.fastweixin.api.*;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.CustomAccount;
+import com.github.sd4324530.fastweixin.api.entity.Group;
 import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.entity.MenuButton;
 import com.github.sd4324530.fastweixin.api.enums.*;
@@ -41,8 +42,8 @@ public class FastweixinTest {
     public void test() {
 //        String appid = "wxafb7b8f9457b5d50";
 //        String secret = "1b8223018a69658f0236d68d2e41fb20";
-        String appid = "wx0960dc28db9b98d9";
-        String secret = "7cb94d20ee29813e8668798798dda139";
+        String appid = "wx337021cfcc3e32fb";
+        String secret = "c50a55b106a4fdb8dc5095a1f7fd9cfe";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
@@ -59,7 +60,8 @@ public class FastweixinTest {
 //        testJsApiSign(config);
 //        getUserData(config);
 //        getArticleData(config);
-        sendAllMessage(config);
+//        sendAllMessage(config);
+        getUserGroups(config);
     }
 
     /**
@@ -262,5 +264,13 @@ public class FastweixinTest {
         MessageAPI messageAPI = new MessageAPI(config);
         GetSendMessageResponse messageResponse = messageAPI.sendMessageToUser(mpNewsMsg, true, "0");
         LOG.info("Send Message Id is " + messageResponse.getMsgId());
+    }
+
+    public void getUserGroups(ApiConfig config){
+        UserAPI userAPI = new UserAPI(config);
+        GetGroupsResponse response = userAPI.getGroups();
+        for(Group group : response.getGroups()){
+            System.out.println("Group id is " + group.getId() + ", name is " + group.getName() + ", count is " + group.getCount());
+        }
     }
 }
