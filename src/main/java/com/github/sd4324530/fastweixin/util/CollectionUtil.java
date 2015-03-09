@@ -2,6 +2,7 @@ package com.github.sd4324530.fastweixin.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * 集合常用方法工具类
@@ -23,7 +24,7 @@ public final class CollectionUtil {
      * @param collection 需要判断的集合
      * @return 是否有值，null或者空集合都是返回true
      */
-    public static boolean isEmpty(Collection<? extends Object> collection) {
+    public static boolean isEmpty(Collection<?> collection) {
         return null == collection || collection.isEmpty();
     }
 
@@ -33,7 +34,7 @@ public final class CollectionUtil {
      * @param collection 需要判断的集合
      * @return 是否不为空
      */
-    public static boolean isNotEmpty(Collection<? extends Object> collection) {
+    public static boolean isNotEmpty(Collection<?> collection) {
         return null != collection && !collection.isEmpty();
     }
 
@@ -61,17 +62,15 @@ public final class CollectionUtil {
     /**
      * 创建一个有默认内容的集合
      *
-     * @param ele 内容
      * @param <T> 泛型
+     * @param ele 内容
      * @return 集合对象
      */
-    public static <T> ArrayList<T> newArrayList(T... ele) {
+    public static <T> ArrayList newArrayList(T... ele) {
         ArrayList list = null;
         if (null != ele && 0 != ele.length) {
             list = newArrayList(ele.length);
-            for (T t : ele) {
-                list.add(t);
-            }
+            Collections.addAll(list, ele);
         }
         return list;
     }

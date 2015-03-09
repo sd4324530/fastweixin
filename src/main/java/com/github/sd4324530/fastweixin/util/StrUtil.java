@@ -39,7 +39,7 @@ public final class StrUtil {
      * @param strs 需要判断的一组字符串
      * @return 判断结果，只要其中一个字符串为null或者为空，就返回true
      */
-    public static boolean isHasBlank(String... strs) {
+    public static boolean hasBlank(String... strs) {
         if (null == strs || 0 == strs.length) {
             return true;
         } else {
