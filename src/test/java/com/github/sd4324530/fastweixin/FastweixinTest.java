@@ -61,7 +61,8 @@ public class FastweixinTest {
 //        getUserData(config);
 //        getArticleData(config);
 //        sendAllMessage(config);
-        getUserGroups(config);
+        //getUserGroups(config);
+        updateGroup(config);
     }
 
     /**
@@ -272,5 +273,12 @@ public class FastweixinTest {
         for(Group group : response.getGroups()){
             System.out.println("Group id is " + group.getId() + ", name is " + group.getName() + ", count is " + group.getCount());
         }
+    }
+    
+    //修改分组
+    public void updateGroup(ApiConfig config){
+    	UserAPI userAPI = new UserAPI(config);
+    	ResultType type=userAPI.updateGroup(103, "组别3");
+    	System.out.println(type.toString());
     }
 }
