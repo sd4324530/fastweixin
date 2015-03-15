@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -36,10 +37,11 @@ public class FastweixinTest {
      */
     @Test
     public void test() {
-//        String appid = "wxafb7b8f9457b5d50";
-//        String secret = "1b8223018a69658f0236d68d2e41fb20";
-        String appid = "wxd8a2698dfd27b86c";
-        String secret = "b4f667f92209f7255f4da44bc26d297e";
+        String appid = "wxafb7b8f9457b5d50";
+        String secret = "1b8223018a69658f0236d68d2e41fb20";
+        //i小说
+//        String appid = "wx7f6f0e7cc50315fc";
+//        String secret = "99b27c984337a47662d4af90b2578c2e";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
@@ -54,8 +56,10 @@ public class FastweixinTest {
 //        ApiConfig config = new ApiConfig(appid, secret, true);
 //        testGetJsApiTicket(config);
 //        testJsApiSign(config);
-        getUserData(config);
+//        getUserData(config);
 //        getArticleData(config);
+//        getCallbackIP(config);
+        getShortUrl(config);
     }
 
     /**
@@ -239,5 +243,17 @@ public class FastweixinTest {
         LOG.debug(userShare.toJsonString());
         LOG.debug("------------------userShareHour----------------------");
         LOG.debug(userShareHour.toJsonString());
+    }
+
+    public void getCallbackIP(ApiConfig config) {
+        SystemAPI systemAPI = new SystemAPI(config);
+        List<String> callbackIP = systemAPI.getCallbackIP();
+        LOG.debug("callbackIP:{}", callbackIP);
+    }
+
+    public void getShortUrl(ApiConfig config) {
+        SystemAPI systemAPI = new SystemAPI(config);
+        String shortUrl = systemAPI.getShortUrl("https://github.com/sd4324530/fastweixin");
+        LOG.debug("getShortUrl:{}", shortUrl);
     }
 }
