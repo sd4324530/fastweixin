@@ -1,3 +1,4 @@
 machine:
+  install: mvn install -DskipTests=true -Dgpg.skip=true
   java:
     version: oraclejdk8
