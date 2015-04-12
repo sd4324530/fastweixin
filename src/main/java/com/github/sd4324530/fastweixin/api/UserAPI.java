@@ -161,6 +161,26 @@ public class UserAPI extends BaseAPI {
     }
 
     /**
+     * 移动关注者所在分组
+     *
+     * @param openids    关注者ID
+     * @param toGroupid 新分组ID
+     * @return 调用结果
+     */
+    public ResultType moveGroupUser(String[] openids, String toGroupid) {
+        BeanUtil.requireNonNull(openids, "openid is null");
+        BeanUtil.requireNonNull(toGroupid, "toGroupid is null");
+        LOG.debug("移动关注者所在分组.....");
+        String url = BASE_API_URL + "cgi-bin/groups/members/batchupdate?access_token=#";
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("openid_list", openids);
+        param.put("to_groupid", toGroupid);
+
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.get(response.getErrcode());
+    }
+
+    /**
      * 获取关注者信息
      *
      * @param openid 关注者ID
@@ -175,5 +195,22 @@ public class UserAPI extends BaseAPI {
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetUserInfoResponse.class);
         return response;
+    }
+
+    /**
+     * 删除分组
+     * @param groupId
+     * @return
+     */
+    public ResultType deleteGroup(Integer groupId){
+        BeanUtil.requireNonNull(groupId, "groupId is null");
+        LOG.debug("删除分组.....");
+        String url = BASE_API_URL + "cgi-bin/groups/delete?access_token=#";
+        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Integer> groups = new HashMap<String, Integer>();
+        groups.put("id", groupId);
+        param.put("group", groups);
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.get(response.getErrcode());
     }
 }
