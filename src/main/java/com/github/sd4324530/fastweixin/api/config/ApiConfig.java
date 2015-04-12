@@ -8,6 +8,7 @@ import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author peiyu
  * @since 1.2
  */
-public final class ApiConfig {
+public final class ApiConfig implements Serializable{
 
     private static final Logger        LOG        = LoggerFactory.getLogger(ApiConfig.class);
     public final         AtomicBoolean refreshing = new AtomicBoolean(false);
