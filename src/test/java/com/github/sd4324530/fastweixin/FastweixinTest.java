@@ -50,7 +50,7 @@ public class FastweixinTest {
 //        uploadMedia(config);
 //        downloadMedia(config);
 //        getUserInfo(config);
-//        getMenu(config);
+        getMenu(config);
 //        addCustomAccount(config);
 //        getOauthPageUrl(config);
 //        getToken(config);
@@ -62,7 +62,7 @@ public class FastweixinTest {
 //        getArticleData(config);
 //        sendAllMessage(config);
         //getUserGroups(config);
-        updateGroup(config);
+//        updateGroup(config);
     }
 
     /**
