@@ -13,7 +13,6 @@ import java.util.Arrays;
 
 /**
  * SHA1 class
- * <p/>
  * 计算公众平台的消息签名接口.
  */
 public class SHA1 {
@@ -26,7 +25,7 @@ public class SHA1 {
      * @param nonce     随机字符串
      * @param encrypt   密文
      * @return 安全签名
-     * @throws AesException
+     * @throws AesException AES算法异常
      */
     public static String getSHA1(String token, String timestamp, String nonce, String encrypt) throws AesException {
         try {

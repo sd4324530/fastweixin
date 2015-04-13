@@ -40,8 +40,6 @@ public class FastweixinTest {
      */
     @Test
     public void test() {
-//        String appid = "wxafb7b8f9457b5d50";
-//        String secret = "1b8223018a69658f0236d68d2e41fb20";
         String appid = "wx337021cfcc3e32fb";
         String secret = "c50a55b106a4fdb8dc5095a1f7fd9cfe";
         ApiConfig config = new ApiConfig(appid, secret);
@@ -63,6 +61,8 @@ public class FastweixinTest {
 //        sendAllMessage(config);
         //getUserGroups(config);
 //        updateGroup(config);
+//        getCallbackIP(config);
+        getShortUrl(config);
     }
 
     /**
@@ -276,9 +276,21 @@ public class FastweixinTest {
     }
     
     //修改分组
-    public void updateGroup(ApiConfig config){
-    	UserAPI userAPI = new UserAPI(config);
-    	ResultType type=userAPI.updateGroup(103, "组别3");
-    	System.out.println(type.toString());
+    public void updateGroup(ApiConfig config) {
+        UserAPI userAPI = new UserAPI(config);
+        ResultType type = userAPI.updateGroup(103, "组别3");
+        System.out.println(type.toString());
+    }
+
+    public void getCallbackIP(ApiConfig config) {
+        SystemAPI systemAPI = new SystemAPI(config);
+        List<String> callbackIP = systemAPI.getCallbackIP();
+        LOG.debug("callbackIP:{}", callbackIP);
+    }
+
+    public void getShortUrl(ApiConfig config) {
+        SystemAPI systemAPI = new SystemAPI(config);
+        String shortUrl = systemAPI.getShortUrl("https://github.com/sd4324530/fastweixin");
+        LOG.debug("getShortUrl:{}", shortUrl);
     }
 }

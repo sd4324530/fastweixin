@@ -42,6 +42,7 @@ public final class ApiConfig implements Serializable{
      *
      * @param appid  公众号appid
      * @param secret 公众号secret
+     * @param enableJsApi 是否启动js api
      */
     public ApiConfig(String appid, String secret, boolean enableJsApi) {
         this.appid = appid;
