@@ -25,6 +25,7 @@ public final class ApiConfig {
     private       String  accessToken;
     private       String  jsApiTicket;
     private       boolean enableJsApi;
+    private       long    jsTokenStartTime;
 
     /**
      * 构造方法一，实现同时获取access_token。不启用jsApi
@@ -39,15 +40,16 @@ public final class ApiConfig {
     /**
      * 构造方法二，实现同时获取access_token，启用jsApi
      *
-     * @param appid  公众号appid
-     * @param secret 公众号secret
+     * @param appid       公众号appid
+     * @param secret      公众号secret
      * @param enableJsApi 是否启动js api
      */
     public ApiConfig(String appid, String secret, boolean enableJsApi) {
         this.appid = appid;
         this.secret = secret;
         this.enableJsApi = enableJsApi;
-        init();
+        initToken();
+        if (enableJsApi) initJSToken();
     }
 
     public String getAppid() {
@@ -67,6 +69,11 @@ public final class ApiConfig {
     }
 
     public String getJsApiTicket() {
+        long now = System.currentTimeMillis();
+        //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
+        if(now - this.jsTokenStartTime > 7100000) {
+            initJSToken();
+        }
         return jsApiTicket;
     }
 
@@ -85,7 +92,7 @@ public final class ApiConfig {
     /**
      * 初始化微信配置，即第一次获取access_token
      */
-    public void init() {
+    private void initToken() {
         LOG.debug("开始第一次初始化access_token........");
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + this.appid + "&secret=" + this.secret;
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
@@ -98,20 +105,24 @@ public final class ApiConfig {
                 }
             }
         });
+    }
 
-        if (enableJsApi) {
-            LOG.debug("开始第一次初始化 jsapi_ticket........");
-            String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken + "&type=jsapi";
-            NetWorkCenter.get(url2, null, new NetWorkCenter.ResponseCallback() {
-                @Override
-                public void onResponse(int resultCode, String resultJson) {
-                    if (HttpStatus.SC_OK == resultCode) {
-                        GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
-                        LOG.debug("获取jsapi_ticket:{}", response.getTicket());
-                        ApiConfig.this.jsApiTicket = response.getTicket();
-                    }
+    /**
+     * 初始化微信JS-SDK，获取JS-SDK token
+     */
+    private void initJSToken() {
+        LOG.debug("初始化 jsapi_ticket........");
+        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken + "&type=jsapi";
+        NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
+            @Override
+            public void onResponse(int resultCode, String resultJson) {
+                if (HttpStatus.SC_OK == resultCode) {
+                    GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
+                    LOG.debug("获取jsapi_ticket:{}", response.getTicket());
+                    ApiConfig.this.jsApiTicket = response.getTicket();
+                    jsTokenStartTime = System.currentTimeMillis();
                 }
-            });
-        }
+            }
+        });
     }
 }
