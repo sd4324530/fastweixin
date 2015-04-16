@@ -230,14 +230,14 @@ public final class NetWorkCenter {
                         //只能上传文件哦 ^_^
                         if (file.isFile()) {
                             FileBody fb = new FileBody(file);
-                            builder.addPart("files", fb);
+                            builder.addPart("media", fb);
                         } else {//如果上传内容有不是文件的，则不发起本次请求
                             LOG.warn("The target '{}' not a file,please check and try again!", file.getPath());
                             return;
                         }
                     }
                     if (null != paramData) {
-                        builder.addPart("data", new StringBody(paramData, ContentType.APPLICATION_JSON));
+                        builder.addPart("description", new StringBody(paramData, ContentType.DEFAULT_TEXT));
                     }
                     ((HttpPost) request).setEntity(builder.build());
                 } else {//不上传文件的普通请求

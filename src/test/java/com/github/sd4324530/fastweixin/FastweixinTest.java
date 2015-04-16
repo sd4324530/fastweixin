@@ -48,7 +48,7 @@ public class FastweixinTest {
 //        uploadMedia(config);
 //        downloadMedia(config);
 //        getUserInfo(config);
-        getMenu(config);
+//        getMenu(config);
 //        addCustomAccount(config);
 //        getOauthPageUrl(config);
 //        getToken(config);
@@ -62,7 +62,8 @@ public class FastweixinTest {
         //getUserGroups(config);
 //        updateGroup(config);
 //        getCallbackIP(config);
-        getShortUrl(config);
+//        getShortUrl(config);
+        uploadImageMaterial(config);
     }
 
     /**
@@ -292,5 +293,11 @@ public class FastweixinTest {
         SystemAPI systemAPI = new SystemAPI(config);
         String shortUrl = systemAPI.getShortUrl("https://github.com/sd4324530/fastweixin");
         LOG.debug("getShortUrl:{}", shortUrl);
+    }
+
+    public void uploadImageMaterial(ApiConfig config){
+        MediaAPI mediaAPI = new MediaAPI(config);
+        UploadMaterialResponse response = mediaAPI.uploadMaterial(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"), "测试图片1", "测试图片1描述");
+        System.out.println(response.getMediaId());
     }
 }

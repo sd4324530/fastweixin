@@ -3,8 +3,10 @@ package com.github.sd4324530.fastweixin.api;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.Article;
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
+import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.DownloadMediaResponse;
+import com.github.sd4324530.fastweixin.api.response.UploadMaterialResponse;
 import com.github.sd4324530.fastweixin.api.response.UploadMediaResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
@@ -53,6 +55,30 @@ public class MediaAPI extends BaseAPI {
         BaseResponse r = executePost(url, null, file);
         response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
         return response;
+    }
+
+    /**
+     * 上传永久素材文件，图片素材的上限为5000，其他类型为1000
+     *
+     * @param type 资源类型
+     * @param file 需要上传的文件
+     * @param title 上传文件的标题
+     * @param introduction 上传文件的描述
+     * @return 响应对象
+     */
+    public UploadMaterialResponse uploadMaterial(MediaType type, File file, String title, String introduction){
+        UploadMaterialResponse response;
+        String url = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("title", title);
+        param.put("introduction", introduction);
+        BaseResponse r = executePost(url, JSONUtil.toJson(param), file);
+        response = JSONUtil.toBean(r.getErrmsg(), UploadMaterialResponse.class);
+        return response;
+    }
+
+    public UploadMaterialResponse uploadMaterialNews(){
+        return null;
     }
 
     /**
@@ -109,5 +135,17 @@ public class MediaAPI extends BaseAPI {
             }
         }
         return response;
+    }
+
+    /**
+     * 删除一个永久素材
+     * @param mediaId
+     */
+    public ResultType deleteMaterial(String mediaId) {
+        String url = "http://api.weixin.qq.com/cgi-bin/material/del_material?access_token=#";
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("media_id", mediaId);
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.get(response.getErrcode());
     }
 }
