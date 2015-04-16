@@ -48,7 +48,7 @@ public class FastweixinTest {
 //        uploadMedia(config);
 //        downloadMedia(config);
 //        getUserInfo(config);
-//        getMenu(config);
+        getMenu(config);
 //        addCustomAccount(config);
 //        getOauthPageUrl(config);
 //        getToken(config);
@@ -88,9 +88,15 @@ public class FastweixinTest {
         sub1.setName("授权");
         sub1.setType(MenuType.VIEW);
         sub1.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxafb7b8f9457b5d50&redirect_uri=http://121.40.140.41/erhuluanzi/app/testGet&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect");
+        MenuButton sub2 = new MenuButton();
+        sub2.setKey("sub2");
+        sub2.setName("点击");
+        sub2.setType(MenuType.CLICK);
+
 
         List<MenuButton> list = new ArrayList<MenuButton>();
         list.add(sub1);
+        list.add(sub2);
         //将子菜单放入主菜单里
         main1.setSubButton(list);
 

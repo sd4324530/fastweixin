@@ -47,7 +47,6 @@ public class JsAPI extends BaseAPI {
     public GetSignatureResponse getSignature(String nonceStr, long timestame, String url) {
         BeanUtil.requireNonNull(url, "请传入当前网页的URL，不包含#及其后面部分");
         GetSignatureResponse response = new GetSignatureResponse();
-        //当前时间的秒数
         String jsApiTicket = this.config.getJsApiTicket();
         String sign;
         try {
