@@ -15,6 +15,8 @@ public class OauthGetTokenResponse extends GetTokenResponse {
 
     private String scope;
 
+    private String unionid;
+
     public String getRefreshToken() {
         return refreshToken;
     }
@@ -37,5 +39,13 @@ public class OauthGetTokenResponse extends GetTokenResponse {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getUnionid() {
+        return unionid;
+    }
+
+    public void setUnionid(String unionid) {
+        this.unionid = unionid;
     }
 }
