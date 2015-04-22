@@ -3,6 +3,7 @@ fastweixin
 作者:peiyu<br>
 [我的微博](http://weibo.com/1728407960)<br>
 QQ:125331682<br>
+技术讨论QQ群:367162748<br>
 
 项目主页:[https://github.com/sd4324530/fastweixin](https://github.com/sd4324530/fastweixin)<br>
 开源中国主页:[http://git.oschina.net/pyinjava/fastweixin](http://git.oschina.net/pyinjava/fastweixin)<br>
