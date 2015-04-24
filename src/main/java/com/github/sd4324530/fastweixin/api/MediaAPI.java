@@ -139,7 +139,8 @@ public class MediaAPI extends BaseAPI {
 
     /**
      * 删除一个永久素材
-     * @param mediaId
+     * @param mediaId 素材ID
+     * @return 删除结果
      */
     public ResultType deleteMaterial(String mediaId) {
         String url = "http://api.weixin.qq.com/cgi-bin/material/del_material?access_token=#";

@@ -442,8 +442,8 @@ public abstract class WeixinSupport {
     /**
      * 处理菜单弹出相册事件，有需要时子类重写
      * 
-     * @param event
-     * @return
+     * @param event 菜单弹出相册事件
+     * @return 响应的消息对象
      */
     protected BaseMsg handlePSendPicsInfoEvent(SendPicsInfoEvent event){
     	return handleDefaultEvent(event);

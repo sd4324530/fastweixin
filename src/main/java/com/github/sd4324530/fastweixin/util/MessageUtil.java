@@ -120,8 +120,8 @@ public final class MessageUtil {
 
     /**
      * Event为pic_sysphoto, pic_photo_or_album, pic_weixin时触发
-     * @param reader
-     * @return
+     * @param reader reader
+     * @return 读取结果
      * @throws XMLStreamException
      */
     protected static Map<String, Object> eventSendPicsInfo(XMLEventReader reader) throws XMLStreamException {
@@ -155,8 +155,8 @@ public final class MessageUtil {
 
     /**
      * Event为location_select时触发
-     * @param reader
-     * @return
+     * @param reader reader
+     * @return 读取结果
      * @throws XMLStreamException
      */
     protected static Map<String, Object> eventSendLocationInfo(XMLEventReader reader) throws XMLStreamException{
@@ -174,8 +174,8 @@ public final class MessageUtil {
 
     /**
      * Event为scancode_push, scancode_waitmsg时触发
-     * @param reader
-     * @return
+     * @param reader reader
+     * @return 读取结果
      * @throws XMLStreamException
      */
     protected static Map<String, Object> eventScanCodePush(XMLEventReader reader) throws XMLStreamException{

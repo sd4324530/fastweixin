@@ -199,8 +199,8 @@ public class UserAPI extends BaseAPI {
 
     /**
      * 删除分组
-     * @param groupId
-     * @return
+     * @param groupId 分组ID
+     * @return 删除结果
      */
     public ResultType deleteGroup(Integer groupId){
         BeanUtil.requireNonNull(groupId, "groupId is null");
