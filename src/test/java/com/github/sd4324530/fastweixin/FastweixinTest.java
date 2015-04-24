@@ -63,7 +63,7 @@ public class FastweixinTest {
 //        updateGroup(config);
 //        getCallbackIP(config);
 //        getShortUrl(config);
-        uploadImageMaterial(config);
+//        uploadImageMaterial(config);
     }
 
     /**
