@@ -3,12 +3,15 @@ package com.github.sd4324530.fastweixin.api;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
+import com.github.sd4324530.fastweixin.api.response.GetSendMessageResponse;
 import com.github.sd4324530.fastweixin.message.*;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.soap.Text;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +20,9 @@ import java.util.Map;
 /**
  * 消息相关API
  *
- * @author peiyu
- * @since 1.2
- * @deprecated 此类已经不再建议使用，使用CustomAPI代替
+ * @author peiyu, Nottyjay
+ * @since 1.3
  */
-@Deprecated
 public class MessageAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MessageAPI.class);
@@ -31,12 +32,65 @@ public class MessageAPI extends BaseAPI {
     }
 
     /**
+     * 群发消息给用户。
+     * 本方法调用需要账户为微信已认证账户
+     * @param message 消息主体
+     * @param isToAll 是否发送给全部用户。false时需要填写groupId，true时可忽略groupId树形
+     * @param groupId 群组ID
+     * @return
+     */
+    public GetSendMessageResponse sendMessageToUser(BaseMsg message, boolean isToAll, String groupId){
+        BeanUtil.requireNonNull(message, "message is null");
+        LOG.debug("群发消息......");
+        String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
+        final Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<String, Object>();
+        filterMap.put("is_to_all", isToAll);
+        if(!isToAll){
+            BeanUtil.requireNonNull(groupId, "groupId is null");
+            filterMap.put("group_id", groupId);
+        }
+        params.put("filter", filterMap);
+        if(message instanceof MpNewsMsg){
+            params.put("msgtype", "mpnews");
+            MpNewsMsg msg = (MpNewsMsg)message;
+            Map<String, Object> mpNews = new HashMap<String, Object>();
+            mpNews.put("media_id", msg.getMediaId());
+            params.put("mpnews", mpNews);
+        }else if(message instanceof TextMsg){
+            params.put("msgtype", "text");
+            TextMsg msg = (TextMsg)message;
+            Map<String ,Object> text = new HashMap<String, Object>();
+            text.put("content", msg.getContent());
+            params.put("text", text);
+        }else if(message instanceof VoiceMsg){
+            params.put("msgtype", "voice");
+            VoiceMsg msg = (VoiceMsg)message;
+            Map<String, Object> voice = new HashMap<String ,Object>();
+            voice.put("media_id", msg.getMediaId());
+            params.put("voice", voice);
+        }else if(message instanceof ImageMsg){
+            params.put("msgtype", "image");
+            ImageMsg msg = (ImageMsg)message;
+            Map<String, Object> image = new HashMap<String, Object>();
+            image.put("media_id", msg.getMediaId());
+            params.put("image", image);
+        }else if(message instanceof VideoMsg){
+            // TODO 此处方法特别
+        }
+        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        return JSONUtil.toBean(response.getErrmsg(), GetSendMessageResponse.class);
+    }
+
+    /**
      * 发布客服消息
      *
      * @param openid  关注者ID
      * @param message 消息对象，支持各种消息类型
      * @return 调用结果
+     * @deprecated 此方法已经不再建议使用，使用CustomAPI中方法代替
      */
+    @Deprecated
     public ResultType sendCustomMessage(String openid, BaseMsg message) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(message, "message is null");

@@ -46,8 +46,8 @@ public final class MessageUtil {
      * @param aesKey  用户设置的加密密钥
      * @return 微信消息或者事件Map
      */
-    public static Map<String, String> parseXml(HttpServletRequest request, String token, String appId, String aesKey) {
-        Map<String, String> map = new HashMap<String, String>();
+    public static Map<String, Object> parseXml(HttpServletRequest request, String token, String appId, String aesKey) {
+        Map<String, Object> map = new HashMap<String, Object>();
 
         InputStream inputStream = null;
         try {
@@ -87,9 +87,22 @@ public final class MessageUtil {
                 if (event.isStartElement()) {
                     String tagName = event.asStartElement().getName()
                             .toString();
-                    if (!"xml".equals(tagName)) {
-                        String text = reader.getElementText();
-                        map.put(tagName, text);
+                    switch (tagName){
+                        case "xml":
+                            break;
+                        case "SendPicsInfo":
+                            map.put(tagName, eventSendPicsInfo(reader));
+                            break;
+                        case "SendLocationInfo":
+                            map.put(tagName, eventSendLocationInfo(reader));
+                            break;
+                        case "ScanCodeInfo":
+                            map.put(tagName, eventScanCodePush(reader));
+                            break;
+                        default:
+                            String text = reader.getElementText();
+                            map.put(tagName, text);
+
                     }
                 }
             }
@@ -109,5 +122,78 @@ public final class MessageUtil {
             }
         }
         return map;
+    }
+
+    /**
+     * Event为pic_sysphoto, pic_photo_or_album, pic_weixin时触发
+     * @param reader
+     * @return
+     * @throws XMLStreamException
+     */
+    protected static Map<String, Object> eventSendPicsInfo(XMLEventReader reader) throws XMLStreamException {
+        Map<String, Object> sendPicsInfoMap = new HashMap<String, Object>();
+        while (reader.hasNext()){
+            XMLEvent event = reader.nextEvent();
+            if (event.isStartElement()) {
+                String tagName = event.asStartElement().getName()
+                        .toString();
+                if("Count".equals(tagName)){
+                    sendPicsInfoMap.put(tagName, reader.getElementText());
+                }else if("PicList".equals(tagName)){
+                    StringBuffer sb = new StringBuffer();
+                    while(reader.hasNext()){
+                        XMLEvent event1 = reader.nextEvent();
+                        if(event1.isStartElement() && "PicMd5Sum".equals(event1.asStartElement().getName()
+                                .toString())){
+                            sb.append(reader.getElementText());
+                            sb.append(",");
+                        }else if(event1.isEndElement() && "PicList".equals(event1.asEndElement().getName().toString())){
+                            break;
+                        }
+                    }
+                    sendPicsInfoMap.put(tagName, sb.substring(0, sb.length()));
+                }
+            }
+        }
+
+        return sendPicsInfoMap;
+    }
+
+    /**
+     * Event为location_select时触发
+     * @param reader
+     * @return
+     * @throws XMLStreamException
+     */
+    protected static Map<String, Object> eventSendLocationInfo(XMLEventReader reader) throws XMLStreamException{
+        Map<String, Object> sendLocationInfo = new HashMap<String, Object>();
+        while(reader.hasNext()){
+            XMLEvent event = reader.nextEvent();
+            if (event.isStartElement()) {
+                String tagName = event.asStartElement().getName()
+                        .toString();
+                sendLocationInfo.put(tagName, reader.getElementText());
+            }
+        }
+        return sendLocationInfo;
+    }
+
+    /**
+     * Event为scancode_push, scancode_waitmsg时触发
+     * @param reader
+     * @return
+     * @throws XMLStreamException
+     */
+    protected static Map<String, Object> eventScanCodePush(XMLEventReader reader) throws XMLStreamException{
+        Map<String, Object> scanCodePush = new HashMap<String, Object>();
+        while(reader.hasNext()){
+            XMLEvent event = reader.nextEvent();
+            if (event.isStartElement()) {
+                String tagName = event.asStartElement().getName()
+                        .toString();
+                scanCodePush.put(tagName, reader.getElementText());
+            }
+        }
+        return scanCodePush;
     }
 }

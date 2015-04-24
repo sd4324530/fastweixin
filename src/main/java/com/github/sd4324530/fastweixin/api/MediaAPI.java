@@ -1,9 +1,12 @@
 package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.entity.Article;
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
+import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.DownloadMediaResponse;
+import com.github.sd4324530.fastweixin.api.response.UploadMaterialResponse;
 import com.github.sd4324530.fastweixin.api.response.UploadMediaResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
@@ -22,6 +25,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 多媒体资源API
@@ -52,6 +58,46 @@ public class MediaAPI extends BaseAPI {
     }
 
     /**
+     * 上传永久素材文件，图片素材的上限为5000，其他类型为1000
+     *
+     * @param type 资源类型
+     * @param file 需要上传的文件
+     * @param title 上传文件的标题
+     * @param introduction 上传文件的描述
+     * @return 响应对象
+     */
+    public UploadMaterialResponse uploadMaterial(MediaType type, File file, String title, String introduction){
+        UploadMaterialResponse response;
+        String url = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("title", title);
+        param.put("introduction", introduction);
+        BaseResponse r = executePost(url, JSONUtil.toJson(param), file);
+        response = JSONUtil.toBean(r.getErrmsg(), UploadMaterialResponse.class);
+        return response;
+    }
+
+    public UploadMaterialResponse uploadMaterialNews(){
+        return null;
+    }
+
+    /**
+     * 上传群发文章素材。
+     *
+     * @param articles 上传的文章信息
+     * @return 响应对象
+     */
+    public UploadMediaResponse uploadNews(List<Article> articles){
+        UploadMediaResponse response;
+        String url = BASE_API_URL + "cgi-bin/media/uploadnews?access_token=#";
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("articles", articles);
+        BaseResponse r = executePost(url, JSONUtil.toJson(params));
+        response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
+        return response;
+    }
+
+    /**
      * 下载资源，实现的很不好，反正能用了。搞的晕了，之后会优化
      *
      * @param mediaId 微信提供的资源唯一标识
@@ -71,7 +117,7 @@ public class MediaAPI extends BaseAPI {
                 if (null != headers && 0 != headers.length) {
                     Header length = r.getHeaders("Content-Length")[0];
                     response.setContent(inputStream, Integer.valueOf(length.getValue()));
-                    response.setFileName(headers[0].getElements()[0].getParameterByName("filename").getName());
+                    response.setFileName(headers[0].getElements()[0].getParameterByName("filename").getValue());
                 } else {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     StreamUtil.copy(inputStream, out);
@@ -89,5 +135,17 @@ public class MediaAPI extends BaseAPI {
             }
         }
         return response;
+    }
+
+    /**
+     * 删除一个永久素材
+     * @param mediaId
+     */
+    public ResultType deleteMaterial(String mediaId) {
+        String url = "http://api.weixin.qq.com/cgi-bin/material/del_material?access_token=#";
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("media_id", mediaId);
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.get(response.getErrcode());
     }
 }

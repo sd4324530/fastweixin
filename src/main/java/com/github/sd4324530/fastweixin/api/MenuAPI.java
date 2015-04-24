@@ -66,6 +66,9 @@ public class MenuAPI extends BaseAPI {
                             Object type = JSONPath.eval(sub, "$.type");
                             JSONPath.set(sub, "$.type", type.toString().toUpperCase());
                         }
+                    }else{
+                        Object type = JSONPath.eval(button, "$.type");
+                        JSONPath.set(button, "$.type", type.toString().toUpperCase());
                     }
                 }
             }

@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 @Controller
 public abstract class WeixinControllerSupport extends WeixinSupport {
-
+	
     /**
      * 绑定微信服务器
      *

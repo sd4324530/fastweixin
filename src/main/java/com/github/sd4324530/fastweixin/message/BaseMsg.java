@@ -2,7 +2,9 @@ package com.github.sd4324530.fastweixin.message;
 
 import com.github.sd4324530.fastweixin.message.util.MessageBuilder;
 
-public class BaseMsg {
+import java.io.Serializable;
+
+public class BaseMsg implements Serializable{
 
     private String toUserName;
     private String fromUserName;

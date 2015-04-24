@@ -3,10 +3,13 @@ package com.github.sd4324530.fastweixin;
 import com.github.sd4324530.fastweixin.api.*;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.CustomAccount;
+import com.github.sd4324530.fastweixin.api.entity.Group;
 import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.entity.MenuButton;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
+import com.github.sd4324530.fastweixin.message.Article;
+import com.github.sd4324530.fastweixin.message.MpNewsMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
@@ -37,11 +40,8 @@ public class FastweixinTest {
      */
     @Test
     public void test() {
-        String appid = "wxafb7b8f9457b5d50";
-        String secret = "1b8223018a69658f0236d68d2e41fb20";
-        //i小说
-//        String appid = "wx7f6f0e7cc50315fc";
-//        String secret = "99b27c984337a47662d4af90b2578c2e";
+        String appid = "wx337021cfcc3e32fb";
+        String secret = "c50a55b106a4fdb8dc5095a1f7fd9cfe";
         ApiConfig config = new ApiConfig(appid, secret);
 //        createMenu(config);
 //        getUserList(config);
@@ -58,8 +58,12 @@ public class FastweixinTest {
 //        testJsApiSign(config);
 //        getUserData(config);
 //        getArticleData(config);
+//        sendAllMessage(config);
+        //getUserGroups(config);
+//        updateGroup(config);
 //        getCallbackIP(config);
 //        getShortUrl(config);
+        uploadImageMaterial(config);
     }
 
     /**
@@ -251,6 +255,40 @@ public class FastweixinTest {
         LOG.debug(userShareHour.toJsonString());
     }
 
+    public void sendAllMessage(ApiConfig config){
+        MediaAPI mediaAPI = new MediaAPI(config);
+        UploadMediaResponse response = mediaAPI.uploadMedia(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"));
+        String media_id = response.getMediaId();
+        com.github.sd4324530.fastweixin.api.entity.Article article = new com.github.sd4324530.fastweixin.api.entity.Article();
+        article.setThumbMediaId(media_id);
+        article.setAuthor("测试用户");
+        article.setContentSourceUrl("http://www.baidu.com");
+        article.setContent("群发测试消息第一篇");
+        article.setDigest("群发测试");
+        article.setShowConverPic(com.github.sd4324530.fastweixin.api.entity.Article.ShowConverPic.NO);
+        UploadMediaResponse uploadMediaResponse = mediaAPI.uploadNews(Arrays.asList(article));
+        MpNewsMsg mpNewsMsg = new MpNewsMsg();
+        mpNewsMsg.setMediaId(uploadMediaResponse.getMediaId());
+        MessageAPI messageAPI = new MessageAPI(config);
+        GetSendMessageResponse messageResponse = messageAPI.sendMessageToUser(mpNewsMsg, true, "0");
+        LOG.info("Send Message Id is " + messageResponse.getMsgId());
+    }
+
+    public void getUserGroups(ApiConfig config){
+        UserAPI userAPI = new UserAPI(config);
+        GetGroupsResponse response = userAPI.getGroups();
+        for(Group group : response.getGroups()){
+            System.out.println("Group id is " + group.getId() + ", name is " + group.getName() + ", count is " + group.getCount());
+        }
+    }
+    
+    //修改分组
+    public void updateGroup(ApiConfig config) {
+        UserAPI userAPI = new UserAPI(config);
+        ResultType type = userAPI.updateGroup(103, "组别3");
+        System.out.println(type.toString());
+    }
+
     public void getCallbackIP(ApiConfig config) {
         SystemAPI systemAPI = new SystemAPI(config);
         List<String> callbackIP = systemAPI.getCallbackIP();
@@ -261,5 +299,11 @@ public class FastweixinTest {
         SystemAPI systemAPI = new SystemAPI(config);
         String shortUrl = systemAPI.getShortUrl("https://github.com/sd4324530/fastweixin");
         LOG.debug("getShortUrl:{}", shortUrl);
+    }
+
+    public void uploadImageMaterial(ApiConfig config){
+        MediaAPI mediaAPI = new MediaAPI(config);
+        UploadMaterialResponse response = mediaAPI.uploadMaterial(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"), "测试图片1", "测试图片1描述");
+        System.out.println(response.getMediaId());
     }
 }
