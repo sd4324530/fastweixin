@@ -87,21 +87,15 @@ public final class MessageUtil {
                 if (event.isStartElement()) {
                     String tagName = event.asStartElement().getName()
                             .toString();
-                    switch (tagName){
-                        case "xml":
-                            break;
-                        case "SendPicsInfo":
-                            map.put(tagName, eventSendPicsInfo(reader));
-                            break;
-                        case "SendLocationInfo":
-                            map.put(tagName, eventSendLocationInfo(reader));
-                            break;
-                        case "ScanCodeInfo":
-                            map.put(tagName, eventScanCodePush(reader));
-                            break;
-                        default:
-                            String text = reader.getElementText();
-                            map.put(tagName, text);
+
+                    if("SendPicsInfo".equals(tagName)) {
+                        map.put(tagName, eventSendPicsInfo(reader));
+                    } else if("SendLocationInfo".equals(tagName)) {
+                        map.put(tagName, eventSendLocationInfo(reader));
+                    } else if("ScanCodeInfo".equals(tagName)) {
+                        map.put(tagName, eventScanCodePush(reader));
+//                    } else if("xml".equals(tagName)) {
+                    } else {
 
                     }
                 }
