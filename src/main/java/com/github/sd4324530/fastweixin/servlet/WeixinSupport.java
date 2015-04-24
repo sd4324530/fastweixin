@@ -79,14 +79,18 @@ public abstract class WeixinSupport {
      *
      * @return 微信公众平台提供的appid
      */
-    protected abstract String getAppId();
+    protected String getAppId() {
+        return null;
+    }
 
     /**
      * 加密的密钥，使用消息加密模式时用户自行设置
      *
      * @return 用户自定义的密钥
      */
-    protected abstract String getAESKey();
+    protected String getAESKey() {
+        return null;
+    }
 
     /**
      * 处理微信服务器发来的请求方法
