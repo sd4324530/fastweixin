@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author peiyu
  * @since 1.2
  */
-public final class ApiConfig implements Serializable{
+public final class ApiConfig implements Serializable {
 
     private static final Logger        LOG        = LoggerFactory.getLogger(ApiConfig.class);
     public final         AtomicBoolean refreshing = new AtomicBoolean(false);
@@ -72,7 +72,7 @@ public final class ApiConfig implements Serializable{
     public String getJsApiTicket() {
         long now = System.currentTimeMillis();
         //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
-        if(now - this.jsTokenStartTime > 7100000) {
+        if (now - this.jsTokenStartTime > 7100000) {
             initJSToken();
         }
         return jsApiTicket;

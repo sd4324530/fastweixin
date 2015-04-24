@@ -440,7 +440,7 @@ public enum ResultType {
      * @param code        结果码
      * @param description 结果描述
      */
-    private ResultType(Integer code, String description) {
+    ResultType(Integer code, String description) {
         this.code = code;
         this.description = description;
     }

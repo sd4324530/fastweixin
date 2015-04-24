@@ -3,34 +3,31 @@ package com.github.sd4324530.fastweixin.api.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- *  群发图文信息时Article实体
- *  ====================================================================
- *  上海聚攒软件开发有限公司
- *  --------------------------------------------------------------------
- *  @author Nottyjay
- *  @version 1.0.beta
- *  ====================================================================
+ * 群发图文信息时Article实体
+ * ====================================================================
+ * 上海聚攒软件开发有限公司
+ * --------------------------------------------------------------------
+ *
+ * @author Nottyjay
+ * @version 1.0.beta
+ *          ====================================================================
  */
 public class Article extends BaseModel {
 
-    public final class ShowConverPic{
+    public final class ShowConverPic {
         public static final String YES = "1";// 显式封面
-        public static final String NO = "0";// 不显式封面
+        public static final String NO  = "0";// 不显式封面
     }
 
-    @JSONField(name="thumb_media_id")
+    @JSONField(name = "thumb_media_id")
     private String thumbMediaId;
-    @JSONField(name="author")
     private String author;
-    @JSONField(name="title")
     private String title;
-    @JSONField(name="content_source_url")
+    @JSONField(name = "content_source_url")
     private String contentSourceUrl;
-    @JSONField(name="content")
     private String content;
-    @JSONField(name="digest")
     private String digest;
-    @JSONField(name="show_cover_pic")
+    @JSONField(name = "show_cover_pic")
     private String showConverPic = ShowConverPic.YES;
 
     public String getThumbMediaId() {
