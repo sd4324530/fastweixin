@@ -39,13 +39,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
      */
     @Override
     protected final void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (support.isLegal(request)) {
-            //绑定微信服务器成功
-            PrintWriter pw = response.getWriter();
-            pw.write(request.getParameter("echostr"));
-            pw.flush();
-            pw.close();
-        }
+        support.bindServer(request, response);
     }
 
     /**
