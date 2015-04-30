@@ -97,7 +97,7 @@ public abstract class WeixinSupport {
      * @param request 请求
      * @param response 响应
      */
-    protected void bindServer(HttpServletRequest request, HttpServletResponse response) {
+    public void bindServer(HttpServletRequest request, HttpServletResponse response) {
         if (isLegal(request)) {
             try {
                 PrintWriter pw = response.getWriter();
@@ -116,7 +116,7 @@ public abstract class WeixinSupport {
      * @param request http请求对象
      * @return 处理消息的结果，已经是接口要求的xml报文了
      */
-    protected String processRequest(HttpServletRequest request) {
+    public String processRequest(HttpServletRequest request) {
         Map<String, Object> reqMap = MessageUtil.parseXml(request, getToken(), getAppId(), getAESKey());
         fromUserName = (String) reqMap.get("FromUserName");
         toUserName = (String) reqMap.get("ToUserName");
