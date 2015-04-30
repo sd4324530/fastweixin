@@ -109,6 +109,20 @@ public class MyServletWeixinSupport extends WeixinSupport {
     }
 }
 ```
+<br>
+web.xml配置
+
+```xml
+<servlet>
+    <servlet-name>weixin</servlet-name>
+	<servlet-class>xxx.xxx.WeixinServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>weixin</servlet-name>
+    <url-pattern>/weixin</url-pattern>
+</servlet-mapping>
+```
 
 ##基于`Jfinal`框架项目的集成方法
 ```Java
@@ -126,20 +140,6 @@ public class MyJfinalController extends Controller {
         support.processRequest(getRequest());
     }
 }
-```
-<br>
-web.xml配置
-
-```xml
-<servlet>
-    <servlet-name>weixin</servlet-name>
-	<servlet-class>xxx.xxx.WeixinServlet</servlet-class>
-</servlet>
-
-<servlet-mapping>
-    <servlet-name>weixin</servlet-name>
-    <url-pattern>/weixin</url-pattern>
-</servlet-mapping>
 ```
 
 
