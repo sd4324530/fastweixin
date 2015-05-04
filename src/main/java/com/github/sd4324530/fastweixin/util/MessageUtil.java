@@ -87,16 +87,15 @@ public final class MessageUtil {
                 if (event.isStartElement()) {
                     String tagName = event.asStartElement().getName()
                             .toString();
-
                     if("SendPicsInfo".equals(tagName)) {
                         map.put(tagName, eventSendPicsInfo(reader));
                     } else if("SendLocationInfo".equals(tagName)) {
                         map.put(tagName, eventSendLocationInfo(reader));
                     } else if("ScanCodeInfo".equals(tagName)) {
                         map.put(tagName, eventScanCodePush(reader));
-//                    } else if("xml".equals(tagName)) {
+                    } else if("xml".equals(tagName)) {
                     } else {
-
+                        map.put(tagName, reader.getElementText());
                     }
                 }
             }
@@ -134,7 +133,7 @@ public final class MessageUtil {
                 if("Count".equals(tagName)){
                     sendPicsInfoMap.put(tagName, reader.getElementText());
                 }else if("PicList".equals(tagName)){
-                    StringBuffer sb = new StringBuffer();
+                    StringBuilder sb = new StringBuilder();
                     while(reader.hasNext()){
                         XMLEvent event1 = reader.nextEvent();
                         if(event1.isStartElement() && "PicMd5Sum".equals(event1.asStartElement().getName()
