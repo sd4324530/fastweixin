@@ -129,16 +129,18 @@ web.xml配置
 public class MyJfinalController extends Controller {
     //用户自行实现的消息处理器
     private WeixinSupport support = new MyServletWeixinSupport();
-    //绑定微信服务器
-    @Before(GET.class)
-    public void bind() {
-        support.bindServer(getRequest(), getResponse());
-    }
-    //处理消息
-    @Before(POST.class)
-    public void messageHandler() {
-        support.processRequest(getRequest());
-    }
+    public void index() {
+            HttpServletRequest request = getRequest();
+            log.debug("method:{}", request.getMethod());
+            //绑定微信服务器
+            if ("GET".equalsIgnoreCase(request.getMethod().toUpperCase())) {
+                support.bindServer(request, getResponse());
+                renderNull();
+            } else {
+                //处理消息
+                renderText(support.processRequest(request), "text/xml");
+            }
+        }
 }
 ```
 
@@ -157,7 +159,7 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 </dependency>
 ```
 
