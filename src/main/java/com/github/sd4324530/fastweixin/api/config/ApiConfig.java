@@ -2,6 +2,7 @@ package com.github.sd4324530.fastweixin.api.config;
 
 import com.github.sd4324530.fastweixin.api.response.GetJsApiTicketResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
+import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import org.apache.http.HttpStatus;
@@ -102,6 +103,9 @@ public final class ApiConfig implements Serializable {
                 if (HttpStatus.SC_OK == resultCode) {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                     LOG.debug("获取access_token:{}", response.getAccessToken());
+                    if(null == response.getAccessToken()) {
+                        throw new WeixinException("微信公众号token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
+                    }
                     ApiConfig.this.accessToken = response.getAccessToken();
                 }
             }
