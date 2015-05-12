@@ -9,6 +9,13 @@ import com.github.sd4324530.fastweixin.message.Article;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +37,7 @@ public class MaterialAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MaterialAPI.class);
 
-    protected MaterialAPI(ApiConfig config) {
+    public MaterialAPI(ApiConfig config) {
         super(config);
     }
 
@@ -85,8 +92,18 @@ public class MaterialAPI extends BaseAPI {
      */
     public DownloadMaterialResponse downloadMaterial(String mediaId){
         DownloadMaterialResponse response = new DownloadMaterialResponse();
-        String url = BASE_API_URL + "cgi-bin/material/get_material?access_token=#";
+        String url = BASE_API_URL + "cgi-bin/material/get_material?access_token=" + config.getAccessToken();
         RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(NetWorkCenter.CONNECT_TIMEOUT).setConnectTimeout(NetWorkCenter.CONNECT_TIMEOUT).setSocketTimeout(NetWorkCenter.CONNECT_TIMEOUT).build();
+        CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
+        HttpPost request = new HttpPost(url);
+        StringEntity mediaEntity = new StringEntity("{\"media_id\":\"" + mediaId + "\"}", ContentType.APPLICATION_JSON);
+        request.setEntity(mediaEntity);
+
+        CloseableHttpResponse httpResponse = null;
+//        try{
+//
+//        }
+
         return response;
     }
 
@@ -109,14 +126,18 @@ public class MaterialAPI extends BaseAPI {
      * @param count
      * @return
      */
-    public GetMaterialListResponse batchGetMaterial(MediaType type, int offset, int count){
+    public GetMaterialListResponse batchGetMaterial(MaterialType type, int offset, int count){
         if(offset < 0) offset = 0;
         if(count > 20) count = 20;
         if(count < 1) count = 1;
 
         GetMaterialListResponse response = null;
         String url = BASE_API_URL + "cgi-bin/material/batchget_material?access_token=#";
-        BaseResponse r = executePost(url, null);
+        final Map<String, Object> params = new HashMap<String, Object>(4, 1);
+        params.put("type", type.toString());
+        params.put("offset", offset);
+        params.put("count", count);
+        BaseResponse r = executePost(url, JSONUtil.toJson(params));
         response = JSONUtil.toBean(r.getErrmsg(), GetMaterialListResponse.class);
 
         return response;

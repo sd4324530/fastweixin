@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *  
@@ -24,6 +25,8 @@ public class GetMaterialListResponse extends BaseResponse {
     private int totalCount;// 该类型素材总数
     @JSONField(name="item_count")
     private int itemCount;// 本次获取的数量
+    @JSONField(name="item")
+    private List<Map<String, Object>> items;
 
     public int getTotalCount() {
         return totalCount;
@@ -31,5 +34,21 @@ public class GetMaterialListResponse extends BaseResponse {
 
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public List<Map<String, Object>> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Map<String, Object>> items) {
+        this.items = items;
     }
 }

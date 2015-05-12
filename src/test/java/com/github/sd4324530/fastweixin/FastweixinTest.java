@@ -18,14 +18,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author peiyu
@@ -38,8 +32,8 @@ public class FastweixinTest {
 
     @Before
     public void init(){
-        String appid = "wx337021cfcc3e32fb";
-        String secret = "c50a55b106a4fdb8dc5095a1f7fd9cfe";
+        String appid = "wx0960dc28db9b98d9";
+        String secret = "7cb94d20ee29813e8668798798dda139";
         config = new ApiConfig(appid, secret);
     }
     /*
@@ -309,16 +303,47 @@ public class FastweixinTest {
         LOG.debug("getShortUrl:{}", shortUrl);
     }
 
-    public void uploadImageMaterial(ApiConfig config){
-        MediaAPI mediaAPI = new MediaAPI(config);
-        UploadMaterialResponse response = mediaAPI.uploadMaterial(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"), "测试图片1", "测试图片1描述");
+    @Test
+    public void uploadImageMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        UploadMaterialResponse response = materialAPI.uploadMaterialFile(MaterialType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"));
         System.out.println(response.getMediaId());
     }
 
     @Test
-    public void getMaterialCountTest(){
-        MediaAPI mediaAPI = new MediaAPI(config);
-        GetMaterialTotalCountResponse response = mediaAPI.countMaterial();
-        System.out.println(response.toString());
+    public void countMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        GetMaterialTotalCountResponse response = materialAPI.countMaterial();
+        System.out.println("video count : " + response.getVideo());
+        System.out.println("voice count : " + response.getVoice());
+        System.out.println("image count : " + response.getImage());
+        System.out.println("news count : " + response.getNews());
     }
+
+    @Test
+    public void batchGetMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        GetMaterialListResponse response = materialAPI.batchGetMaterial(MaterialType.IMAGE, 0, 10);
+        System.out.println("Total Count : " + response.getTotalCount());
+        System.out.println("Item Count : " + response.getItemCount());
+        for(Map<String, Object> item : response.getItems()){
+            System.out.println("name : " + item.get("name"));
+            System.out.println("media_id : " + item.get("media_id"));
+        }
+    }
+
+    @Test
+    public void downloadMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        DownloadMaterialResponse response = materialAPI.downloadMaterial("VnzJFSwv05ezhWSlU3kV6fmFYxHXaIHQMxx2SjX87fg");
+//        try {
+//            FileOutputStream outputStream = new FileOutputStream(new File("/Users/jileilei/Desktop/2.jpg"));
+//            response.writeTo(outputStream);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
 }
