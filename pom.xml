@@ -209,6 +209,7 @@
                             <source>1.6</source>
                             <target>1.6</target>
                             <encoding>UTF-8</encoding>
+                            <skip>true</skip>
                         </configuration>
                     </plugin>
                 </plugins>
