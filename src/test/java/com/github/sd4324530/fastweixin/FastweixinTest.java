@@ -13,6 +13,7 @@ import com.github.sd4324530.fastweixin.message.MpNewsMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,14 @@ public class FastweixinTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(FastweixinTest.class);
 
+    private ApiConfig config;
 
+    @Before
+    public void init(){
+        String appid = "wx337021cfcc3e32fb";
+        String secret = "c50a55b106a4fdb8dc5095a1f7fd9cfe";
+        config = new ApiConfig(appid, secret);
+    }
     /*
      *AppID(应用ID)wx8c33ff895df5d0d9
      *AppSecret(应用密钥)0705aafac0bef944de4c485d71fce900
@@ -270,7 +278,7 @@ public class FastweixinTest {
         MpNewsMsg mpNewsMsg = new MpNewsMsg();
         mpNewsMsg.setMediaId(uploadMediaResponse.getMediaId());
         MessageAPI messageAPI = new MessageAPI(config);
-        GetSendMessageResponse messageResponse = messageAPI.sendMessageToUser(mpNewsMsg, true, "0");
+        GetSendMessageResponse messageResponse = messageAPI.sendMessageToUser(mpNewsMsg, true, "0", null);
         LOG.info("Send Message Id is " + messageResponse.getMsgId());
     }
 
@@ -305,5 +313,12 @@ public class FastweixinTest {
         MediaAPI mediaAPI = new MediaAPI(config);
         UploadMaterialResponse response = mediaAPI.uploadMaterial(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"), "测试图片1", "测试图片1描述");
         System.out.println(response.getMediaId());
+    }
+
+    @Test
+    public void getMaterialCountTest(){
+        MediaAPI mediaAPI = new MediaAPI(config);
+        GetMaterialTotalCountResponse response = mediaAPI.countMaterial();
+        System.out.println(response.toString());
     }
 }
