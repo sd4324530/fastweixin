@@ -51,7 +51,7 @@ public enum MenuType {
 
     String value;
 
-    private MenuType(String value) {
+    MenuType(String value) {
         this.value = value;
     }
 

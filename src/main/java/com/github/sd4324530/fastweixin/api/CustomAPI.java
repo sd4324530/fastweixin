@@ -118,7 +118,7 @@ public class CustomAPI extends BaseAPI {
         String url = BASE_API_URL + "customservice/kfaccount/add?access_token=#";
         Map<String, String> params = new HashMap<String, String>();
         params.put("kf_account", customAccount.getAccountName());
-        params.put("kf_nick", customAccount.getNickName());
+        params.put("nickname", customAccount.getNickName());
         if (StrUtil.isNotBlank(customAccount.getPassword())) {
             params.put("password", customAccount.getPassword());
         }
@@ -152,20 +152,20 @@ public class CustomAPI extends BaseAPI {
      * @param customAccount 客服帐号信息
      * @return 删除结果
      */
-//    public ResultType deleteCustomAccount(CustomAccount customAccount) {
-//        LOG.debug("删除客服帐号信息......");
-//        BeanUtil.requireNonNull(customAccount.getAccountName(), "帐号必填");
-//        BeanUtil.requireNonNull(customAccount.getNickName(), "昵称必填");
-//        String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#";
-//        Map<String, String> params = new HashMap<String, String>();
-//        params.put("kf_account", customAccount.getAccountName());
-//        params.put("nickname", customAccount.getNickName());
-//        if(StrUtil.isNotBlank(customAccount.getPassword())) {
-//            params.put("password", customAccount.getPassword());
-//        }
-//        BaseResponse response = executePost(url, JSONUtil.toJson(params));
-//        return ResultType.get(response.getErrcode());
-//    }
+    public ResultType deleteCustomAccount(CustomAccount customAccount) {
+        LOG.debug("删除客服帐号信息......");
+        BeanUtil.requireNonNull(customAccount.getAccountName(), "帐号必填");
+        BeanUtil.requireNonNull(customAccount.getNickName(), "昵称必填");
+        String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("kf_account", customAccount.getAccountName());
+        params.put("nickname", customAccount.getNickName());
+        if(StrUtil.isNotBlank(customAccount.getPassword())) {
+            params.put("password", customAccount.getPassword());
+        }
+        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        return ResultType.get(response.getErrcode());
+    }
 
     /**
      * 设置客服帐号头像
@@ -188,9 +188,13 @@ public class CustomAPI extends BaseAPI {
         return ResultType.get(response.getErrcode());
     }
 
+    /**
+     * 获取所有客服帐号信息
+     * @return 所有客服帐号信息对象
+     */
     public GetCustomAccountsResponse getCustomAccountList() {
         LOG.debug("获取所有客服帐号信息....");
-        GetCustomAccountsResponse response = null;
+        GetCustomAccountsResponse response;
         String url = BASE_API_URL + "customservice/getkflist?access_token=#";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();

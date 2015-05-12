@@ -9,7 +9,6 @@ import java.util.Date;
  */
 public class UploadMediaResponse extends BaseResponse {
 
-    @JSONField(name="type")
     private String type;
     @JSONField(name = "media_id")
     private String mediaId;

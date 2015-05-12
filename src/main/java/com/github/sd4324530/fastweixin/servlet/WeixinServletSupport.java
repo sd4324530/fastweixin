@@ -19,15 +19,17 @@ import java.io.PrintWriter;
  */
 public abstract class WeixinServletSupport extends HttpServlet {
 
-    private static final Logger LOG  = LoggerFactory.getLogger(WeixinServletSupport.class);
-    
-    private WeixinSupport support;
-    
-    public void setSupport(WeixinSupport support) {
-		this.support = support;
-	}
+    private static final Logger        LOG     = LoggerFactory.getLogger(WeixinServletSupport.class);
+    private final        WeixinSupport support = getWeixinSupport();
 
-	/**
+    /**
+     * 强制要求servlet框架开发者自行实现weixinSupport类
+     *
+     * @return 用户自行实现的weixinSupport对象
+     */
+    protected abstract WeixinSupport getWeixinSupport();
+
+    /**
      * 重写servlet中的get方法，用于处理微信服务器绑定，置为final方法，用户已经无需重写这个方法啦
      *
      * @param request  http请求对象
@@ -37,13 +39,7 @@ public abstract class WeixinServletSupport extends HttpServlet {
      */
     @Override
     protected final void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (support.isLegal(request)) {
-            //绑定微信服务器成功
-            PrintWriter pw = response.getWriter();
-            pw.write(request.getParameter("echostr"));
-            pw.flush();
-            pw.close();
-        }
+        support.bindServer(request, response);
     }
 
     /**

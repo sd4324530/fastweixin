@@ -38,7 +38,7 @@ public class MessageAPI extends BaseAPI {
      * @param isToAll 是否发送给全部用户。false时需要填写groupId，true时可忽略groupId树形
      * @param groupId 群组ID
      * @param openIds 群发用户
-     * @return
+     * @return 群发结果
      */
     public GetSendMessageResponse sendMessageToUser(BaseMsg message, boolean isToAll, String groupId, String[] openIds){
         BeanUtil.requireNonNull(message, "message is null");

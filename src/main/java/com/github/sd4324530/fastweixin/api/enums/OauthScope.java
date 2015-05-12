@@ -19,7 +19,7 @@ public enum OauthScope {
 
     String value;
 
-    private OauthScope(String value) {
+    OauthScope(String value) {
         this.value = value;
     }
 

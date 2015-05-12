@@ -2,6 +2,7 @@ package com.github.sd4324530.fastweixin.api.config;
 
 import com.github.sd4324530.fastweixin.api.response.GetJsApiTicketResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
+import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import org.apache.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author peiyu
  * @since 1.2
  */
-public final class ApiConfig implements Serializable{
+public final class ApiConfig implements Serializable {
 
     private static final Logger        LOG        = LoggerFactory.getLogger(ApiConfig.class);
     public final         AtomicBoolean refreshing = new AtomicBoolean(false);
@@ -72,7 +73,7 @@ public final class ApiConfig implements Serializable{
     public String getJsApiTicket() {
         long now = System.currentTimeMillis();
         //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
-        if(now - this.jsTokenStartTime > 7100000) {
+        if (now - this.jsTokenStartTime > 7100000) {
             initJSToken();
         }
         return jsApiTicket;
@@ -102,6 +103,9 @@ public final class ApiConfig implements Serializable{
                 if (HttpStatus.SC_OK == resultCode) {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                     LOG.debug("获取access_token:{}", response.getAccessToken());
+                    if(null == response.getAccessToken()) {
+                        throw new WeixinException("微信公众号token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
+                    }
                     ApiConfig.this.accessToken = response.getAccessToken();
                 }
             }

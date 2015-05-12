@@ -9,7 +9,6 @@ import java.util.List;
  *
  * @author peiyu, Nottyjay
  *
- * @date 2015/3/9
  */
 public class GetGroupsResponse extends BaseResponse {
 

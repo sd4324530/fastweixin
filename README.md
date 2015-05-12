@@ -3,6 +3,7 @@ fastweixin
 作者:peiyu<br>
 [我的微博](http://weibo.com/1728407960)<br>
 QQ:125331682<br>
+技术讨论QQ群:367162748<br>
 
 项目主页:[https://github.com/sd4324530/fastweixin](https://github.com/sd4324530/fastweixin)<br>
 开源中国主页:[http://git.oschina.net/pyinjava/fastweixin](http://git.oschina.net/pyinjava/fastweixin)<br>
@@ -30,6 +31,9 @@ v1.2.6开始支持微信消息安全模式，但由于jdk的限制，导致想�
 如果安装了JRE，将两个jar文件放到%JRE_HOME%\lib\security目录下覆盖原来的文件<br>
 如果安装了JDK，将两个jar文件放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件<br>
 
+v1.3.0重构了微信消息接收控制器，将WeixinSupport类完全独立抽象出来，不再依赖web框架<br>
+所以WeixinServletSupport类不再兼容之前的版本，具体使用方法如下:<br>
+
 
 ##基于`springmvc`项目的集成方法
 ```Java
@@ -44,11 +48,13 @@ public class WeixinController extends WeixinControllerSupport {
             return TOKEN;
         }
         //使用安全模式时设置：APPID
+        //不再强制重写，有加密需要时自行重写该方法
         @Override
         protected String getAppId() {
             return null;
         }
         //使用安全模式时设置：密钥
+        //不再强制重写，有加密需要时自行重写该方法
         @Override
         protected String getAESKey() {
             return null;
@@ -83,44 +89,24 @@ public class WeixinController extends WeixinControllerSupport {
 ##基于`servlet`项目的集成方法
 ```Java
 public class WeixinServlet extends WeixinServletSupport {
-        private static final Logger log = LoggerFactory.getLogger(WeixinController.class);
-        private static final String TOKEN = "myToken";
-        //设置TOKEN，用于绑定微信服务器
         @Override
-        protected String getToken() {
-            return TOKEN;
+        protected WeixinSupport getWeixinSupport() {
+                return new MyServletWeixinSupport();
         }
-        //使用安全模式时设置：APPID
-        @Override
-        protected String getAppId() {
-            return null;
-        }
-        //使用安全模式时设置：密钥
-        @Override
-        protected String getAESKey() {
-            return null;
-        }
-        //重写父类方法，处理对应的微信消息
-        @Override
-        protected BaseMsg handleTextMsg(TextReqMsg msg) {
-            String content = msg.getContent();
-            log.debug("用户发送到服务器的内容:{}", content);
-            return new TextMsg("服务器回复用户消息!");
-        }
-        //1.1版本新增，重写父类方法，加入自定义微信消息处理器
-        @Override
-        protected List<MessageHandle> initMessageHandles() {
-            List<MessageHandle> handles = new ArrayList<MessageHandle>();
-            handles.add(new MyMessageHandle());
-            return handles;
-        }
-        //1.1版本新增，重写父类方法，加入自定义微信事件处理器
-        @Override
-        protected List<EventHandle> initEventHandles() {
-            List<EventHandle> handles = new ArrayList<EventHandle>();
-            handles.add(new MyEventHandle());
-            return handles;
-        }
+}
+//用户自行实现的微信消息收发处理器
+public class MyServletWeixinSupport extends WeixinSupport {
+    private static final Logger log = LoggerFactory.getLogger(MyServletWeixinSupport.class);
+    @Override
+    protected String getToken() {
+        return "myToken";
+    }
+    @Override
+    protected BaseMsg handleTextMsg(TextReqMsg msg) {
+        String content = msg.getContent();
+        log.debug("用户发送到服务器的内容:{}", content);
+        return new TextMsg("服务器回复用户消息!");
+    }
 }
 ```
 <br>
@@ -138,6 +124,26 @@ web.xml配置
 </servlet-mapping>
 ```
 
+##基于`Jfinal`框架项目的集成方法
+```Java
+public class MyJfinalController extends Controller {
+    //用户自行实现的消息处理器
+    private WeixinSupport support = new MyServletWeixinSupport();
+    public void index() {
+            HttpServletRequest request = getRequest();
+            log.debug("method:{}", request.getMethod());
+            //绑定微信服务器
+            if ("GET".equalsIgnoreCase(request.getMethod().toUpperCase())) {
+                support.bindServer(request, getResponse());
+                renderNull();
+            } else {
+                //处理消息
+                renderText(support.processRequest(request), "text/xml");
+            }
+        }
+}
+```
+
 
 Change Log
 =========
@@ -153,7 +159,7 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.2.10</version>
+    <version>1.3.1</version>
 </dependency>
 ```
 
