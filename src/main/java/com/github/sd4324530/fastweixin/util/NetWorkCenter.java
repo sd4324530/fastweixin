@@ -237,7 +237,7 @@ public final class NetWorkCenter {
                         }
                     }
                     if (null != paramData) {
-                        builder.addPart("description", new StringBody(paramData, ContentType.DEFAULT_TEXT));
+                        builder.addPart("description", new StringBody(paramData, ContentType.APPLICATION_JSON));
                     }
                     ((HttpPost) request).setEntity(builder.build());
                 } else {//不上传文件的普通请求
