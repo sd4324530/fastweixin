@@ -19,6 +19,7 @@ public class GetUserInfoResponse extends BaseResponse {
     @JSONField(name = "subscribe_time")
     private Long    subscribeTime;
     private String  unionid;
+    private Integer groupid;
 
     public Integer getSubscribe() {
         return subscribe;
@@ -107,4 +108,12 @@ public class GetUserInfoResponse extends BaseResponse {
     public void setUnionid(String unionid) {
         this.unionid = unionid;
     }
+
+	public Integer getGroupid() {
+		return groupid;
+	}
+
+	public void setGroupid(Integer groupid) {
+		this.groupid = groupid;
+	}
 }
