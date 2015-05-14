@@ -30,6 +30,16 @@ public class Article extends BaseModel {
     @JSONField(name = "show_cover_pic")
     private String showConverPic = ShowConverPic.YES;
 
+    public Article(String thumbMediaId, String author, String title, String contentSourceUrl, String content, String digest, String showConverPic) {
+        this.thumbMediaId = thumbMediaId;
+        this.author = author;
+        this.title = title;
+        this.contentSourceUrl = contentSourceUrl;
+        this.content = content;
+        this.digest = digest;
+        this.showConverPic = showConverPic;
+    }
+
     public String getThumbMediaId() {
         return thumbMediaId;
     }
