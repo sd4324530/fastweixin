@@ -5,6 +5,7 @@ import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.api.response.GetJsApiTicketResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
+import com.github.sd4324530.fastweixin.handle.ApiConfigHandle;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.CollectionUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
@@ -38,8 +39,14 @@ public abstract class BaseAPI {
     private final Lock          readLock  = lock.readLock();
     private final Lock          writeLock = lock.writeLock();
 
+    private ApiConfigHandle handle;
+
     protected BaseAPI(ApiConfig config) {
         this.config = config;
+    }
+
+    public void setApiConfigHandle(ApiConfigHandle handle){
+        this.handle = handle;
     }
 
     /**
@@ -82,6 +89,10 @@ public abstract class BaseAPI {
                     }
                 }
             } finally {
+                if(handle != null){
+                    LOG.debug("更新ApiConfig Token");
+                    handle.change(config);
+                }
                 config.refreshing.set(false);
                 writeLock.unlock();
             }
