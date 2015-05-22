@@ -102,6 +102,7 @@ public final class ApiConfig implements Serializable {
 
     /**
      * 初始化微信配置，即第一次获取access_token
+     *
      * @param refreshTime 刷新时间
      */
     private void initToken(final long refreshTime) {
@@ -117,6 +118,7 @@ public final class ApiConfig implements Serializable {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                     LOG.debug("获取access_token:{}", response.getAccessToken());
                     if (null == response.getAccessToken()) {
+                        //刷新时间回滚
                         weixinTokenStartTime = oldTime;
                         throw new WeixinException("微信公众号token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
                     }
@@ -128,6 +130,7 @@ public final class ApiConfig implements Serializable {
 
     /**
      * 初始化微信JS-SDK，获取JS-SDK token
+     *
      * @param refreshTime 刷新时间
      */
     private void initJSToken(final long refreshTime) {
@@ -142,7 +145,8 @@ public final class ApiConfig implements Serializable {
                 if (HttpStatus.SC_OK == resultCode) {
                     GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
                     LOG.debug("获取jsapi_ticket:{}", response.getTicket());
-                    if(StrUtil.isBlank(response.getTicket())) {
+                    if (StrUtil.isBlank(response.getTicket())) {
+                        //刷新时间回滚
                         jsTokenStartTime = oldTime;
                         throw new WeixinException("微信公众号jsToken获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
                     }
