@@ -5,6 +5,7 @@ import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
+import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ public final class ApiConfig implements Serializable {
     private       String  jsApiTicket;
     private       boolean enableJsApi;
     private       long    jsTokenStartTime;
+    private       long    weixinTokenStartTime;
 
     /**
      * 构造方法一，实现同时获取access_token。不启用jsApi
@@ -50,8 +52,9 @@ public final class ApiConfig implements Serializable {
         this.appid = appid;
         this.secret = secret;
         this.enableJsApi = enableJsApi;
-        initToken();
-        if (enableJsApi) initJSToken();
+        long now = System.currentTimeMillis();
+        initToken(now);
+        if (enableJsApi) initJSToken(now);
     }
 
     public String getAppid() {
@@ -63,6 +66,11 @@ public final class ApiConfig implements Serializable {
     }
 
     public String getAccessToken() {
+        long now = System.currentTimeMillis();
+        //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
+        if (now - this.weixinTokenStartTime > 7100000) {
+            initToken(now);
+        }
         return accessToken;
     }
 
@@ -74,7 +82,8 @@ public final class ApiConfig implements Serializable {
         long now = System.currentTimeMillis();
         //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
         if (now - this.jsTokenStartTime > 7100000) {
-            initJSToken();
+            getAccessToken();
+            initJSToken(now);
         }
         return jsApiTicket;
     }
@@ -93,9 +102,13 @@ public final class ApiConfig implements Serializable {
 
     /**
      * 初始化微信配置，即第一次获取access_token
+     * @param refreshTime 刷新时间
      */
-    private void initToken() {
-        LOG.debug("开始第一次初始化access_token........");
+    private void initToken(final long refreshTime) {
+        LOG.debug("开始初始化access_token........");
+        //记住原本的时间，用于出错回滚
+        final long oldTime = this.weixinTokenStartTime;
+        this.weixinTokenStartTime = refreshTime;
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + this.appid + "&secret=" + this.secret;
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
@@ -103,10 +116,11 @@ public final class ApiConfig implements Serializable {
                 if (HttpStatus.SC_OK == resultCode) {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                     LOG.debug("获取access_token:{}", response.getAccessToken());
-                    if(null == response.getAccessToken()) {
+                    if (null == response.getAccessToken()) {
+                        weixinTokenStartTime = oldTime;
                         throw new WeixinException("微信公众号token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
                     }
-                    ApiConfig.this.accessToken = response.getAccessToken();
+                    accessToken = response.getAccessToken();
                 }
             }
         });
@@ -114,9 +128,13 @@ public final class ApiConfig implements Serializable {
 
     /**
      * 初始化微信JS-SDK，获取JS-SDK token
+     * @param refreshTime 刷新时间
      */
-    private void initJSToken() {
+    private void initJSToken(final long refreshTime) {
         LOG.debug("初始化 jsapi_ticket........");
+        //记住原本的时间，用于出错回滚
+        final long oldTime = this.jsTokenStartTime;
+        this.jsTokenStartTime = refreshTime;
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken + "&type=jsapi";
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
@@ -124,8 +142,11 @@ public final class ApiConfig implements Serializable {
                 if (HttpStatus.SC_OK == resultCode) {
                     GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
                     LOG.debug("获取jsapi_ticket:{}", response.getTicket());
-                    ApiConfig.this.jsApiTicket = response.getTicket();
-                    jsTokenStartTime = System.currentTimeMillis();
+                    if(StrUtil.isBlank(response.getTicket())) {
+                        jsTokenStartTime = oldTime;
+                        throw new WeixinException("微信公众号jsToken获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
+                    }
+                    jsApiTicket = response.getTicket();
                 }
             }
         });
