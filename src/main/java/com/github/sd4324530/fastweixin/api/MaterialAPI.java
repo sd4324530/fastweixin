@@ -55,8 +55,8 @@ public class MaterialAPI extends BaseAPI {
      * @param file 素材文件
      * @return
      */
-    public UploadMaterialResponse uploadMaterialFile(MaterialType type, File file){
-        return uploadMaterialFile(type, file, null, null);
+    public UploadMaterialResponse uploadMaterialFile(File file){
+        return uploadMaterialFile(file, null, null);
     }
 
     /**
@@ -67,7 +67,7 @@ public class MaterialAPI extends BaseAPI {
      * @param introduction 素材描述信息
      * @return
      */
-    public UploadMaterialResponse uploadMaterialFile(MaterialType type, File file, String title, String introduction){
+    public UploadMaterialResponse uploadMaterialFile(File file, String title, String introduction){
         UploadMaterialResponse response;
         String url = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
         BaseResponse r;

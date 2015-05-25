@@ -28,8 +28,8 @@ public class FastweixinTest {
 
     @Before
     public void init(){
-        String appid = "wx0960dc28db9b98d9";
-        String secret = "7cb94d20ee29813e8668798798dda139";
+        String appid = "";
+        String secret = "";
         config = new ApiConfig(appid, secret);
     }
     /*
@@ -296,7 +296,7 @@ public class FastweixinTest {
     @Test
     public void uploadImageMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
-        UploadMaterialResponse response = materialAPI.uploadMaterialFile(MaterialType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"));
+        UploadMaterialResponse response = materialAPI.uploadMaterialFile(new File("/Users/jileilei/Desktop/1.jpg"));
         System.out.println(response.getMediaId());
     }
 
@@ -311,7 +311,7 @@ public class FastweixinTest {
     @Test
     public void uploadVideoMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
-        UploadMaterialResponse response = materialAPI.uploadMaterialFile(MaterialType.VIDEO, new File("/Users/jileilei/Downloads/movie.mp4"), "测试视频", "视频描述");
+        UploadMaterialResponse response = materialAPI.uploadMaterialFile(new File("/Users/jileilei/Downloads/movie.mp4"), "测试视频", "视频描述");
         System.out.println(response.getMediaId());
     }
 
@@ -370,6 +370,12 @@ public class FastweixinTest {
         MaterialAPI materialAPI = new MaterialAPI(config);
         materialAPI.deleteMaterial("I8u5EjBNyq3Xd2J7bBrG9Of5HqAtchckbObf6GyyUL8");
         batchGetMaterial();
+    }
+
+    @Test
+    public void deleteMenu(){
+        MenuAPI menuAPI = new MenuAPI(config);
+        menuAPI.deleteMenu();
     }
 
 }

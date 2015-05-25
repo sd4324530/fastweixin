@@ -80,6 +80,10 @@ public class DownloadMaterialResponse extends BaseResponse {
         this.fileName = fileName;
     }
 
+    public byte[] getContent() {
+        return content;
+    }
+
     public void setContent(InputStream content, int length){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
