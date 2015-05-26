@@ -14,9 +14,9 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class Article extends BaseModel {
 
-    public final class ShowConverPic {
-        public static final String YES = "1";// 显式封面
-        public static final String NO  = "0";// 不显式封面
+    public static final class ShowConverPic {
+        public static final Integer YES = 1;// 显式封面
+        public static final Integer NO  = 0;// 不显式封面
     }
 
     @JSONField(name = "thumb_media_id")
@@ -28,7 +28,17 @@ public class Article extends BaseModel {
     private String content;
     private String digest;
     @JSONField(name = "show_cover_pic")
-    private String showConverPic = ShowConverPic.YES;
+    private Integer showConverPic = ShowConverPic.YES;
+
+    public Article(String thumbMediaId, String author, String title, String contentSourceUrl, String content, String digest, Integer showConverPic) {
+        this.thumbMediaId = thumbMediaId;
+        this.author = author;
+        this.title = title;
+        this.contentSourceUrl = contentSourceUrl;
+        this.content = content;
+        this.digest = digest;
+        this.showConverPic = showConverPic;
+    }
 
     public String getThumbMediaId() {
         return thumbMediaId;
@@ -78,11 +88,11 @@ public class Article extends BaseModel {
         this.digest = digest;
     }
 
-    public String getShowConverPic() {
+    public Integer getShowConverPic() {
         return showConverPic;
     }
 
-    public void setShowConverPic(String showConverPic) {
+    public void setShowConverPic(Integer showConverPic) {
         this.showConverPic = showConverPic;
     }
 }

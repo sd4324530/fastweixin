@@ -1,9 +1,9 @@
 package com.github.sd4324530.fastweixin.api.enums;
 
 /**
- * @author peiyu
+ * Created by jileilei on 15/5/12.
  */
-public enum MediaType {
+public enum MaterialType {
 
     /**
      * 图片
@@ -21,18 +21,13 @@ public enum MediaType {
     VIDEO("video"),
 
     /**
-     * 缩略图
-     */
-    THUMB("thumb"),
-
-    /**
      * 图文消息
      */
     NEWS("news");
 
     String value;
 
-    MediaType(String value) {
+    private MaterialType(String value) {
         this.value = value;
     }
 

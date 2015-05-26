@@ -12,6 +12,13 @@ public class MpNewsMsg extends BaseMsg {
 
     private String mediaId;
 
+    public MpNewsMsg() {
+    }
+
+    public MpNewsMsg(String mediaId) {
+        this.mediaId = mediaId;
+    }
+
     public String getMediaId() {
         return mediaId;
     }

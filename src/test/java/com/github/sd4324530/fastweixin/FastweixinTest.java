@@ -2,29 +2,20 @@ package com.github.sd4324530.fastweixin;
 
 import com.github.sd4324530.fastweixin.api.*;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
-import com.github.sd4324530.fastweixin.api.entity.CustomAccount;
-import com.github.sd4324530.fastweixin.api.entity.Group;
-import com.github.sd4324530.fastweixin.api.entity.Menu;
-import com.github.sd4324530.fastweixin.api.entity.MenuButton;
+import com.github.sd4324530.fastweixin.api.entity.*;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
-import com.github.sd4324530.fastweixin.message.Article;
 import com.github.sd4324530.fastweixin.message.MpNewsMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author peiyu
@@ -33,7 +24,14 @@ public class FastweixinTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(FastweixinTest.class);
 
+    private ApiConfig config;
 
+    @Before
+    public void init(){
+        String appid = "";
+        String secret = "";
+        config = new ApiConfig(appid, secret);
+    }
     /*
      *AppID(应用ID)wx8c33ff895df5d0d9
      *AppSecret(应用密钥)0705aafac0bef944de4c485d71fce900
@@ -259,18 +257,12 @@ public class FastweixinTest {
         MediaAPI mediaAPI = new MediaAPI(config);
         UploadMediaResponse response = mediaAPI.uploadMedia(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"));
         String media_id = response.getMediaId();
-        com.github.sd4324530.fastweixin.api.entity.Article article = new com.github.sd4324530.fastweixin.api.entity.Article();
-        article.setThumbMediaId(media_id);
-        article.setAuthor("测试用户");
-        article.setContentSourceUrl("http://www.baidu.com");
-        article.setContent("群发测试消息第一篇");
-        article.setDigest("群发测试");
-        article.setShowConverPic(com.github.sd4324530.fastweixin.api.entity.Article.ShowConverPic.NO);
+        Article article = new Article(media_id, "测试用户", "群发测试", "http://www.baidu.com", "群发测试", "群发测试", Article.ShowConverPic.NO);
         UploadMediaResponse uploadMediaResponse = mediaAPI.uploadNews(Arrays.asList(article));
         MpNewsMsg mpNewsMsg = new MpNewsMsg();
         mpNewsMsg.setMediaId(uploadMediaResponse.getMediaId());
         MessageAPI messageAPI = new MessageAPI(config);
-        GetSendMessageResponse messageResponse = messageAPI.sendMessageToUser(mpNewsMsg, true, "0");
+        GetSendMessageResponse messageResponse = messageAPI.sendMessageToUser(mpNewsMsg, true, "0", null);
         LOG.info("Send Message Id is " + messageResponse.getMsgId());
     }
 
@@ -301,9 +293,89 @@ public class FastweixinTest {
         LOG.debug("getShortUrl:{}", shortUrl);
     }
 
-    public void uploadImageMaterial(ApiConfig config){
-        MediaAPI mediaAPI = new MediaAPI(config);
-        UploadMaterialResponse response = mediaAPI.uploadMaterial(MediaType.IMAGE, new File("/Users/jileilei/Desktop/1.jpg"), "测试图片1", "测试图片1描述");
+    @Test
+    public void uploadImageMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        UploadMaterialResponse response = materialAPI.uploadMaterialFile(new File("/Users/jileilei/Desktop/1.jpg"));
         System.out.println(response.getMediaId());
     }
+
+    @Test
+    public void uploadNewsMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        Article article = new Article("VnzJFSwv05ezhWSlU3kV6fmFYxHXaIHQMxx2SjX87fg", "测试", "测试", "http://www.baidu.com", "测试新闻。无意义", "测试新闻。无意义", Article.ShowConverPic.YES);
+        UploadMaterialResponse response = materialAPI.uploadMaterialNews(Arrays.asList(article));
+        System.out.println(response.getMediaId());
+    }
+
+    @Test
+    public void uploadVideoMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        UploadMaterialResponse response = materialAPI.uploadMaterialFile(new File("/Users/jileilei/Downloads/movie.mp4"), "测试视频", "视频描述");
+        System.out.println(response.getMediaId());
+    }
+
+    @Test
+    public void countMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        GetMaterialTotalCountResponse response = materialAPI.countMaterial();
+        System.out.println("video count : " + response.getVideo());
+        System.out.println("voice count : " + response.getVoice());
+        System.out.println("image count : " + response.getImage());
+        System.out.println("news count : " + response.getNews());
+    }
+
+    @Test
+    public void batchGetMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        GetMaterialListResponse response = materialAPI.batchGetMaterial(MaterialType.VIDEO, 0, 10);
+        System.out.println("Total Count : " + response.getTotalCount());
+        System.out.println("Item Count : " + response.getItemCount());
+        for(Map<String, Object> item : response.getItems()){
+            System.out.println("name : " + item.get("name"));
+            System.out.println("media_id : " + item.get("media_id"));
+        }
+    }
+
+    @Test
+    public void downloadMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        // 此处是下载图片的文件
+//        DownloadMaterialResponse response = materialAPI.downloadMaterial("VnzJFSwv05ezhWSlU3kV6fmFYxHXaIHQMxx2SjX87fg", MaterialType.IMAGE);
+//        try {
+//            FileOutputStream outputStream = new FileOutputStream(new File("/Users/jileilei/Desktop/2.jpg"));
+//            response.writeTo(outputStream);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        // 此处是下载的图文信息
+//        DownloadMaterialResponse response = materialAPI.downloadMaterial("7jek93ZJrpO1nQgj_fbB2c4D8CNMMteoOc8Xbu9NSa0", MaterialType.NEWS);
+        DownloadMaterialResponse response = materialAPI.downloadMaterial("i9U5WKsUVOngObxm_n2jITUHs45GtLSBCi44FJBCBEw", MaterialType.VIDEO);
+        System.out.println("File name is " + response.getFileName());
+        try {
+            FileOutputStream fos = new FileOutputStream(new File("/Users/jileilei/" + response.getFileName()));
+            response.writeTo(fos);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void deleteMaterial(){
+        MaterialAPI materialAPI = new MaterialAPI(config);
+        materialAPI.deleteMaterial("I8u5EjBNyq3Xd2J7bBrG9Of5HqAtchckbObf6GyyUL8");
+        batchGetMaterial();
+    }
+
+    @Test
+    public void deleteMenu(){
+        MenuAPI menuAPI = new MenuAPI(config);
+        menuAPI.deleteMenu();
+    }
+
 }
