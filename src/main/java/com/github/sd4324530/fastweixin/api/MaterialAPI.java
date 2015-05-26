@@ -65,8 +65,7 @@ public class MaterialAPI extends BaseAPI {
      */
     public UploadMaterialResponse uploadMaterialFile(File file, String title, String introduction){
         UploadMaterialResponse response;
-//        String url = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
-        String url = BASE_API_URL + "cgi-bin/material/add_material?access_token=#";
+        String url = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
         BaseResponse r;
         if(StrUtil.isBlank(title)) {
             r = executePost(url, null, file);
