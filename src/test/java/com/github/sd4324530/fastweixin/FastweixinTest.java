@@ -28,8 +28,8 @@ public class FastweixinTest {
 
     @Before
     public void init(){
-        String appid = "";
-        String secret = "";
+        String appid = "wx8c33ff895df5d0d9";
+        String secret = "0705aafac0bef944de4c485d71fce900";
         config = new ApiConfig(appid, secret);
     }
     /*
@@ -293,14 +293,14 @@ public class FastweixinTest {
         LOG.debug("getShortUrl:{}", shortUrl);
     }
 
-    @Test
+//    @Test
     public void uploadImageMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
         UploadMaterialResponse response = materialAPI.uploadMaterialFile(new File("/Users/jileilei/Desktop/1.jpg"));
         System.out.println(response.getMediaId());
     }
 
-    @Test
+//    @Test
     public void uploadNewsMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
         Article article = new Article("VnzJFSwv05ezhWSlU3kV6fmFYxHXaIHQMxx2SjX87fg", "测试", "测试", "http://www.baidu.com", "测试新闻。无意义", "测试新闻。无意义", Article.ShowConverPic.YES);
@@ -308,7 +308,7 @@ public class FastweixinTest {
         System.out.println(response.getMediaId());
     }
 
-    @Test
+//    @Test
     public void uploadVideoMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
         UploadMaterialResponse response = materialAPI.uploadMaterialFile(new File("/Users/jileilei/Downloads/movie.mp4"), "测试视频", "视频描述");
