@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * HTTP请求客户端操作类，基于org.apache.http.client包4.3.x版本实现
+ * HTTP请求客户端操作类，基于org.apache.http.client包4.4.x版本实现
  */
 public final class NetWorkCenter {
 
@@ -317,7 +317,7 @@ public final class NetWorkCenter {
      * @author peiyu
      * @since 1.0
      */
-    static enum RequestMethod {
+    enum RequestMethod {
         /**
          * HTTP GET请求
          * 一般对应的是查询业务接口

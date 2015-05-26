@@ -10,7 +10,6 @@ import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.CollectionUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
-
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,21 +30,25 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public abstract class BaseAPI {
 
-    protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
-    private static final   Logger LOG          = LoggerFactory.getLogger(BaseAPI.class);
-    protected final ApiConfig config;
+    protected static final String        BASE_API_URL = "https://api.weixin.qq.com/";
+    private static final   Logger        LOG          = LoggerFactory.getLogger(BaseAPI.class);
     //用于刷新token时锁住config，防止多次刷新
-    private final ReadWriteLock lock      = new ReentrantReadWriteLock();
-    private final Lock          readLock  = lock.readLock();
-    private final Lock          writeLock = lock.writeLock();
+    private final          ReadWriteLock lock         = new ReentrantReadWriteLock();
+    private final          Lock          readLock     = lock.readLock();
+    private final          Lock          writeLock    = lock.writeLock();
 
-    private ApiConfigHandle handle;
+    protected final ApiConfig       config;
+    private         ApiConfigHandle handle;
 
+    /**
+     * 构造方法，设置apiConfig
+     * @param config 微信API配置对象
+     */
     protected BaseAPI(ApiConfig config) {
         this.config = config;
     }
 
-    public void setApiConfigHandle(ApiConfigHandle handle){
+    protected void setApiConfigHandle(ApiConfigHandle handle) {
         this.handle = handle;
     }
 
@@ -73,15 +76,15 @@ public abstract class BaseAPI {
                         }
                     });
 
-                    if(config.isEnableJsApi()){
+                    if (config.isEnableJsApi()) {
                         LOG.debug("开始刷新 jsapi_ticket........");
-                        String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + config.getAccessToken()  + "&type=jsapi" ;
+                        String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + config.getAccessToken() + "&type=jsapi";
                         NetWorkCenter.get(url2, null, new NetWorkCenter.ResponseCallback() {
                             @Override
                             public void onResponse(int resultCode, String resultJson) {
                                 if (HttpStatus.SC_OK == resultCode) {
                                     GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
-                                    LOG.debug("获取jsapi_ticket:{}", response.getTicket() );
+                                    LOG.debug("获取jsapi_ticket:{}", response.getTicket());
                                     config.setJsApiTicket(response.getTicket());
                                 }
                             }
@@ -89,7 +92,7 @@ public abstract class BaseAPI {
                     }
                 }
             } finally {
-                if(handle != null){
+                if (null != handle) {
                     LOG.debug("更新ApiConfig Token");
                     handle.change(config);
                 }
@@ -197,7 +200,7 @@ public abstract class BaseAPI {
     /**
      * 通用get请求
      *
-     * @param url 地址，其中token用#代替
+     * @param url  地址，其中token用#代替
      * @param json 参数
      * @return 请求结果
      */
@@ -235,6 +238,7 @@ public abstract class BaseAPI {
 
     /**
      * 判断本次请求是否成功
+     *
      * @param errCode 错误码
      * @return 是否成功
      */

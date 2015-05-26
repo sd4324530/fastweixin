@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.sql.Struct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ import java.util.Map;
  *  上海聚攒软件开发有限公司
  *  --------------------------------------------------------------------
  *  @author Nottyjay
- *  @version 1.0.beta
  *  ====================================================================
  */
 public class MaterialAPI extends BaseAPI {
@@ -51,9 +49,8 @@ public class MaterialAPI extends BaseAPI {
 
     /**
      * 上传永久素材文件。图片素材上限为5000，其他类型为1000
-     * @param type 素材类型
      * @param file 素材文件
-     * @return
+     * @return 上传结果
      */
     public UploadMaterialResponse uploadMaterialFile(File file){
         return uploadMaterialFile(file, null, null);
@@ -61,15 +58,15 @@ public class MaterialAPI extends BaseAPI {
 
     /**
      * 上传永久视频素材文件。
-     * @param type 素材类型
      * @param file 素材文件
      * @param title 素材标题
      * @param introduction 素材描述信息
-     * @return
+     * @return 上传结果
      */
     public UploadMaterialResponse uploadMaterialFile(File file, String title, String introduction){
         UploadMaterialResponse response;
-        String url = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
+//        String url = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
+        String url = BASE_API_URL + "cgi-bin/material/add_material?access_token=#";
         BaseResponse r;
         if(StrUtil.isBlank(title)) {
             r = executePost(url, null, file);
@@ -79,14 +76,15 @@ public class MaterialAPI extends BaseAPI {
             param.put("introduction", introduction);
             r = executePost(url, JSONUtil.toJson(param), file);
         }
-        response = JSONUtil.toBean(r.getErrmsg(), UploadMaterialResponse.class);
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, UploadMaterialResponse.class);
         return response;
     }
 
     /**
      * 上传图文消息素材
-     * @param articles
-     * @return
+     * @param articles 图文消息列表
+     * @return 上传结果
      */
     public UploadMaterialResponse uploadMaterialNews(List<Article> articles){
         UploadMaterialResponse response;
@@ -94,14 +92,16 @@ public class MaterialAPI extends BaseAPI {
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("articles", articles);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
-        response = JSONUtil.toBean(r.getErrmsg(), UploadMaterialResponse.class);
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, UploadMaterialResponse.class);
         return response;
     }
 
     /**
      * 下载永久素材
-     * @param mediaId
-     * @return
+     * @param mediaId 素材ID
+     * @param type 素材类型
+     * @return 下载结果
      */
     public DownloadMaterialResponse downloadMaterial(String mediaId, MaterialType type){
         DownloadMaterialResponse response = new DownloadMaterialResponse();
@@ -164,22 +164,23 @@ public class MaterialAPI extends BaseAPI {
 
     /**
      * 获取已创建永久素材的数量
-     * @return
+     * @return 永久素材数量结果
      */
     public GetMaterialTotalCountResponse countMaterial(){
         GetMaterialTotalCountResponse response = null;
         String url = BASE_API_URL + "cgi-bin/material/get_materialcount?access_token=#";
         BaseResponse r = executeGet(url);
-        response = JSONUtil.toBean(r.getErrmsg(), GetMaterialTotalCountResponse.class);
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetMaterialTotalCountResponse.class);
         return response;
     }
 
     /**
      * 获取素材列表
-     * @param type
-     * @param offset
-     * @param count
-     * @return
+     * @param type 素材类型
+     * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
+     * @param count 返回素材的数量，取值在1到20之间
+     * @return 素材列表结果
      */
     public GetMaterialListResponse batchGetMaterial(MaterialType type, int offset, int count){
         if(offset < 0) offset = 0;
@@ -193,14 +194,15 @@ public class MaterialAPI extends BaseAPI {
         params.put("offset", offset);
         params.put("count", count);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
-        response = JSONUtil.toBean(r.getErrmsg(), GetMaterialListResponse.class);
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, GetMaterialListResponse.class);
 
         return response;
     }
 
     /**
      * 删除一个永久素材
-     * @param mediaId
+     * @param mediaId 素材ID
      */
     public ResultType deleteMaterial(String mediaId) {
         String url = BASE_API_URL + "cgi-bin/material/del_material?access_token=#";

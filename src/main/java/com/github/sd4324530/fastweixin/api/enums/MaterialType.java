@@ -1,7 +1,7 @@
 package com.github.sd4324530.fastweixin.api.enums;
 
 /**
- * Created by jileilei on 15/5/12.
+ * @author jileilei
  */
 public enum MaterialType {
 
@@ -27,7 +27,7 @@ public enum MaterialType {
 
     String value;
 
-    private MaterialType(String value) {
+    MaterialType(String value) {
         this.value = value;
     }
 

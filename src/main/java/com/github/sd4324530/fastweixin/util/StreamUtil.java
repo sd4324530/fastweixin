@@ -1,5 +1,9 @@
 package com.github.sd4324530.fastweixin.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,6 +14,8 @@ import java.io.OutputStream;
  * @author peiyu
  */
 public final class StreamUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(StreamUtil.class);
 
     private StreamUtil() {
     }
@@ -33,5 +39,20 @@ public final class StreamUtil {
         }
         out.flush();
         return byteCount;
+    }
+
+    /**
+     * 关闭需要关闭的对象，如果关闭出错，给出警告
+     *
+     * @param closeable 需要关闭的对象
+     */
+    public static void closeWithWarn(Closeable closeable) {
+        if (BeanUtil.nonNull(closeable)) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                LOG.warn("关闭流出错......", e);
+            }
+        }
     }
 }

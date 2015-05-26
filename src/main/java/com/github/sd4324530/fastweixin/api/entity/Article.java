@@ -9,7 +9,6 @@ import com.alibaba.fastjson.annotation.JSONField;
  * --------------------------------------------------------------------
  *
  * @author Nottyjay
- * @version 1.0.beta
  *          ====================================================================
  */
 public class Article extends BaseModel {
