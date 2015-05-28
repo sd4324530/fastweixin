@@ -205,6 +205,21 @@ public enum ResultType {
     ILLEGAL_GROUP_NAME(40051, "分组名字不合法"),
 
     /**
+     * media_id大小不合法
+     */
+    ILLEGAL_MEDIA_ID_SIZE(40118, "media_id大小不合法"),
+
+    /**
+     * button类型错误
+     */
+    BUTTON_TYPE_ERROR(40119, "button类型错误"),
+
+    /**
+     * 不合法的media_id类型
+     */
+    ILLEGAL_MEDIA_ID_TYPE(40121, "不合法的media_id类型"),
+
+    /**
      * 缺少access_token参数
      */
     NO_ACCESS_TOKEN(41001, "缺少access_token参数"),
@@ -415,12 +430,77 @@ public enum ResultType {
     USER_NOT_ALLOW_API(50001, "用户未授权该api"),
 
     /**
-     * 无效的参数
+     * 用户受限，可能是违规后接口被封禁
      */
-    INVALID_PARAM(61451, "无效的参数"),
+    USER_USE_LIMIT(50002, "用户受限，可能是违规后接口被封禁"),
 
     /**
-     * 无效的参数
+     * 参数错误(invalid parameter)
+     */
+    INVALID_PARAM(61451, "参数错误(invalid parameter)"),
+
+    /**
+     * 无效客服账号(invalid kf_account)
+     */
+    INVALID_ACCOUNT(61452, "无效客服账号(invalid kf_account)"),
+
+    /**
+     * 客服帐号已存在(kf_account existed)
+     */
+    ACCOUNT_EXISTS(61453, "客服帐号已存在(kf_account existed)"),
+
+    /**
+     * 客服帐号名长度超过限制(仅允许10个英文字符，不包括@及@后的公众号的微信号)(invalid kf_acount length)
+     */
+    ACCOUNT_TOO_LONG(61454, "客服帐号名长度超过限制(仅允许10个英文字符，不包括@及@后的公众号的微信号)(invalid kf_acount length)"),
+
+    /**
+     * 客服帐号名包含非法字符(仅允许英文+数字)(illegal character in kf_account)
+     */
+    ILLEGAL_ACCOUNT_CHARACTER(61455, "客服帐号名包含非法字符(仅允许英文+数字)(illegal character in kf_account)"),
+
+    /**
+     * 客服帐号个数超过限制(10个客服账号)(kf_account count exceeded)
+     */
+    ACCOUNT_TOO_MANY(61456, "客服帐号个数超过限制(10个客服账号)(kf_account count exceeded)"),
+
+    /**
+     * 无效头像文件类型(invalid file type)
+     */
+    INVALID_FILE_TYPE(61457, "无效头像文件类型(invalid file type)"),
+
+    /**
+     * 系统错误(system error)
+     */
+    SYSTEM_ERROR(61450, "系统错误(system error)"),
+
+    /**
+     * 日期格式错误
+     */
+    DATE_FORMAT_ERROR(61500, "日期格式错误"),
+
+    /**
+     * 日期范围错误
+     */
+    DATE_RANGE_ERROR(61501, "日期范围错误"),
+
+    /**
+     * POST数据参数不合法
+     */
+    ILLEGAL_POST_PARAM(9001001, "POST数据参数不合法"),
+
+    /**
+     * 远端服务不可用
+     */
+    REMOTE_SERVER_ERROR(9001002, "远端服务不可用"),
+
+    /**
+     * Ticket不合法
+     */
+    ILLEGAL_TICKET(9001003, "Ticket不合法"),
+
+    /**
+     * 其他错误
      */
     OTHER_ERROR(99999, "其他错误");
 
