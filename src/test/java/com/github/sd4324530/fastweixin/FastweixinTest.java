@@ -26,12 +26,15 @@ public class FastweixinTest {
 
     private ApiConfig config;
 
-    @Before
-    public void init(){
+//    @Before
+    public void init() {
         String appid = "wx8c33ff895df5d0d9";
         String secret = "0705aafac0bef944de4c485d71fce900";
         config = new ApiConfig(appid, secret);
+        TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
+        config.addHandle(configChangeHandle);
     }
+
     /*
      *AppID(应用ID)wx8c33ff895df5d0d9
      *AppSecret(应用密钥)0705aafac0bef944de4c485d71fce900
@@ -41,6 +44,8 @@ public class FastweixinTest {
         String appid = "wx8c33ff895df5d0d9";
         String secret = "0705aafac0bef944de4c485d71fce900";
         ApiConfig config = new ApiConfig(appid, secret);
+        TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
+        config.addHandle(configChangeHandle);
 //        createMenu(config);
 //        getUserList(config);
 //        uploadMedia(config);
@@ -315,7 +320,7 @@ public class FastweixinTest {
         System.out.println(response.getMediaId());
     }
 
-    @Test
+//    @Test
     public void countMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
         GetMaterialTotalCountResponse response = materialAPI.countMaterial();
@@ -325,7 +330,7 @@ public class FastweixinTest {
         System.out.println("news count : " + response.getNews());
     }
 
-    @Test
+//    @Test
     public void batchGetMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
         GetMaterialListResponse response = materialAPI.batchGetMaterial(MaterialType.VIDEO, 0, 10);
@@ -337,7 +342,7 @@ public class FastweixinTest {
         }
     }
 
-    @Test
+//    @Test
     public void downloadMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
         // 此处是下载图片的文件
@@ -365,14 +370,14 @@ public class FastweixinTest {
         }
     }
 
-    @Test
+//    @Test
     public void deleteMaterial(){
         MaterialAPI materialAPI = new MaterialAPI(config);
         materialAPI.deleteMaterial("I8u5EjBNyq3Xd2J7bBrG9Of5HqAtchckbObf6GyyUL8");
         batchGetMaterial();
     }
 
-    @Test
+//    @Test
     public void deleteMenu(){
         MenuAPI menuAPI = new MenuAPI(config);
         menuAPI.deleteMenu();

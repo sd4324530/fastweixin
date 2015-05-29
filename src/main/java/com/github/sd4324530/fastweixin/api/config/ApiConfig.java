@@ -3,6 +3,7 @@ package com.github.sd4324530.fastweixin.api.config;
 import com.github.sd4324530.fastweixin.api.response.GetJsApiTicketResponse;
 import com.github.sd4324530.fastweixin.api.response.GetTokenResponse;
 import com.github.sd4324530.fastweixin.exception.WeixinException;
+import com.github.sd4324530.fastweixin.handle.ApiConfigChangeHandle;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import com.github.sd4324530.fastweixin.util.StrUtil;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.Observable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -19,10 +21,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author peiyu
  * @since 1.2
  */
-public final class ApiConfig implements Serializable {
+public final class ApiConfig extends Observable implements Serializable {
 
-    private static final Logger        LOG        = LoggerFactory.getLogger(ApiConfig.class);
-    public final         AtomicBoolean refreshing = new AtomicBoolean(false);
+    private static final Logger        LOG             = LoggerFactory.getLogger(ApiConfig.class);
+    private final        AtomicBoolean tokenRefreshing = new AtomicBoolean(false);
+    private final        AtomicBoolean jsRefreshing    = new AtomicBoolean(false);
     private final String  appid;
     private final String  secret;
     private       String  accessToken;
@@ -67,29 +70,36 @@ public final class ApiConfig implements Serializable {
 
     public String getAccessToken() {
         long now = System.currentTimeMillis();
-        //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
-        if (now - this.weixinTokenStartTime > 7100000) {
-            initToken(now);
+        long time = now - this.weixinTokenStartTime;
+        try {
+            //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
+            if (time > 7100000 && tokenRefreshing.compareAndSet(false, true)) {
+                LOG.debug("准备刷新token.............");
+                initToken(now);
+            }
+        } finally {
+            tokenRefreshing.set(false);
         }
         return accessToken;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
     public String getJsApiTicket() {
-        long now = System.currentTimeMillis();
-        //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
-        if (now - this.jsTokenStartTime > 7100000) {
-            getAccessToken();
-            initJSToken(now);
+        if (enableJsApi) {
+            long now = System.currentTimeMillis();
+            try {
+                //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
+                if (now - this.jsTokenStartTime > 7100000 && jsRefreshing.compareAndSet(false, true)) {
+                    getAccessToken();
+                    initJSToken(now);
+                    jsRefreshing.set(false);
+                }
+            } finally {
+                jsRefreshing.set(false);
+            }
+        } else {
+            jsApiTicket = null;
         }
         return jsApiTicket;
-    }
-
-    public void setJsApiTicket(String jsApiTicket) {
-        this.jsApiTicket = jsApiTicket;
     }
 
     public boolean isEnableJsApi() {
@@ -98,6 +108,33 @@ public final class ApiConfig implements Serializable {
 
     public void setEnableJsApi(boolean enableJsApi) {
         this.enableJsApi = enableJsApi;
+        if (!enableJsApi)
+            this.jsApiTicket = null;
+    }
+
+    /**
+     * 添加配置变化监听器
+     *
+     * @param handle 监听器
+     */
+    public void addHandle(final ApiConfigChangeHandle handle) {
+        super.addObserver(handle);
+    }
+
+    /**
+     * 移除配置变化监听器
+     *
+     * @param handle 监听器
+     */
+    public void removeHandle(final ApiConfigChangeHandle handle) {
+        super.deleteObserver(handle);
+    }
+
+    /**
+     * 移除所有配置变化监听器
+     */
+    public void removeAllHandle() {
+        super.deleteObservers();
     }
 
     /**
@@ -123,6 +160,9 @@ public final class ApiConfig implements Serializable {
                         throw new WeixinException("微信公众号token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
                     }
                     accessToken = response.getAccessToken();
+                    //设置通知点
+                    setChanged();
+                    notifyObservers(new ConfigChangeNotice(appid, ChangeType.ACCESS_TOKEN, accessToken));
                 }
             }
         });
@@ -151,6 +191,9 @@ public final class ApiConfig implements Serializable {
                         throw new WeixinException("微信公众号jsToken获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
                     }
                     jsApiTicket = response.getTicket();
+                    //设置通知点
+                    setChanged();
+                    notifyObservers(new ConfigChangeNotice(appid, ChangeType.JS_TOKEN, jsApiTicket));
                 }
             }
         });
