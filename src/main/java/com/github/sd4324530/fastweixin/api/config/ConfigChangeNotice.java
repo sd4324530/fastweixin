@@ -2,23 +2,31 @@ package com.github.sd4324530.fastweixin.api.config;
 
 import com.github.sd4324530.fastweixin.api.entity.BaseModel;
 
+import java.util.Date;
+
 /**
  * 配置变化通知
  * @author peiyu
  */
 public final class ConfigChangeNotice extends BaseModel {
+
+    private Date noticeTime;
+
     private String appid;
 
     private ChangeType type;
 
     private String vlaue;
 
-    public ConfigChangeNotice(){}
+    public ConfigChangeNotice(){
+        this.noticeTime = new Date();
+    }
 
     public ConfigChangeNotice(String appid, ChangeType type, String vlaue) {
         this.appid = appid;
         this.type = type;
         this.vlaue = vlaue;
+        this.noticeTime = new Date();
     }
 
     public String getAppid() {
@@ -45,10 +53,19 @@ public final class ConfigChangeNotice extends BaseModel {
         this.vlaue = vlaue;
     }
 
+    public Date getNoticeTime() {
+        return noticeTime;
+    }
+
+    public void setNoticeTime(Date noticeTime) {
+        this.noticeTime = noticeTime;
+    }
+
     @Override
     public String toString() {
         return "ConfigChangeNotice{" +
-                "appid='" + appid + '\'' +
+                "noticeTime=" + noticeTime +
+                ", appid='" + appid + '\'' +
                 ", type=" + type +
                 ", vlaue='" + vlaue + '\'' +
                 '}';
