@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * 配置变化通知
+ *
  * @author peiyu
  */
 public final class ConfigChangeNotice extends BaseModel {
@@ -16,17 +17,17 @@ public final class ConfigChangeNotice extends BaseModel {
 
     private ChangeType type;
 
-    private String vlaue;
+    private String value;
 
-    public ConfigChangeNotice(){
+    public ConfigChangeNotice() {
         this.noticeTime = new Date();
     }
 
-    public ConfigChangeNotice(String appid, ChangeType type, String vlaue) {
+    public ConfigChangeNotice(String appid, ChangeType type, String value) {
+        this();
         this.appid = appid;
         this.type = type;
-        this.vlaue = vlaue;
-        this.noticeTime = new Date();
+        this.value = value;
     }
 
     public String getAppid() {
@@ -45,12 +46,12 @@ public final class ConfigChangeNotice extends BaseModel {
         this.type = type;
     }
 
-    public String getVlaue() {
-        return vlaue;
+    public String getValue() {
+        return value;
     }
 
-    public void setVlaue(String vlaue) {
-        this.vlaue = vlaue;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public Date getNoticeTime() {
@@ -67,7 +68,7 @@ public final class ConfigChangeNotice extends BaseModel {
                 "noticeTime=" + noticeTime +
                 ", appid='" + appid + '\'' +
                 ", type=" + type +
-                ", vlaue='" + vlaue + '\'' +
+                ", value='" + value + '\'' +
                 '}';
     }
 }
