@@ -1,9 +1,11 @@
 package com.github.sd4324530.fastweixin;
 
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
-import com.github.sd4324530.fastweixin.company.api.DepartmentAPI;
+import com.github.sd4324530.fastweixin.company.api.QYDepartmentAPI;
+import com.github.sd4324530.fastweixin.company.api.QYUserAPI;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
 import com.github.sd4324530.fastweixin.company.api.entity.Department;
+import com.github.sd4324530.fastweixin.company.api.entity.User;
 import com.github.sd4324530.fastweixin.company.api.response.CreateDepartmentResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetDepartmentListResponse;
 import org.junit.Before;
@@ -26,33 +28,31 @@ public class QYFastweixinTest {
     public void initConfig(){
         String corpId = "wx7e0a6276e0a2e235";
         String corpSecret = "36CdZB1Y4cGPEm1NRwASULdwxK7l_F-lUk9YWOc3kbG2yN-0EsC7Q0EnbriDluz0";
-        config = new QYAPIConfig(corpId, corpSecret, true);
-        System.out.println(config.getAccessToken());
-        System.out.println(config.getJsApiTicket());
+        config = new QYAPIConfig(corpId, corpSecret);
     }
 
     @Test
     public void getDepartmentList(){
-        DepartmentAPI departmentAPI = new DepartmentAPI(config);
+        QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
         GetDepartmentListResponse response = departmentAPI.getList(null);
         for(Department department : response.getDepartments()){
             System.out.println(department.toString());
         }
     }
 
-    @Test
+//    @Test
     public void createDepartment(){
-        DepartmentAPI departmentAPI = new DepartmentAPI(config);
+        QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
         Department department = new Department("API创建部门", 2, 1);
-        CreateDepartmentResponse response = departmentAPI.createDepartment(department);
+        CreateDepartmentResponse response = departmentAPI.create(department);
         System.out.println(response.toString());
     }
 
-    @Test
+//    @Test
     public void updateDepartment(){
-        DepartmentAPI departmentAPI = new DepartmentAPI(config);
+        QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
         Department department = new Department(3, "API更新部门", 2, 1);
-        ResultType resultType = departmentAPI.updateDepartment(department);
+        ResultType resultType = departmentAPI.update(department);
         System.out.println(resultType.toString());
         GetDepartmentListResponse response = departmentAPI.getList(null);
         for(Department department2 : response.getDepartments()){
@@ -60,10 +60,18 @@ public class QYFastweixinTest {
         }
     }
 
-    @Test
+//    @Test
     public void deleteDepartment(){
-        DepartmentAPI departmentAPI = new DepartmentAPI(config);
-        ResultType resultType = departmentAPI.deleteDepartment(3);
+        QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
+        ResultType resultType = departmentAPI.delete(3);
+        System.out.println(resultType.toString());
+    }
+
+    @Test
+    public void createUser(){
+        QYUserAPI userAPI = new QYUserAPI(config);
+        User user = new User("ceshi", "测试1", new Integer[]{2}, "主管", "18912267607", User.Gender.MAN, "891084418@qq.com", "", null);
+        ResultType resultType = userAPI.create(user);
         System.out.println(resultType.toString());
     }
 }

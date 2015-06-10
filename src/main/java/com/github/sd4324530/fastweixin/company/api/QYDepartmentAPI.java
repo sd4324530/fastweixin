@@ -18,14 +18,14 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
  *  @version 1.0.beta
  *  ====================================================================
  */
-public class DepartmentAPI extends BaseAPI {
+public class QYDepartmentAPI extends BaseAPI {
 
     /**
      * 构造方法，设置apiConfig
      *
      * @param config 微信API配置对象
      */
-    public DepartmentAPI(QYAPIConfig config) {
+    public QYDepartmentAPI(QYAPIConfig config) {
         super(config);
     }
 
@@ -53,7 +53,7 @@ public class DepartmentAPI extends BaseAPI {
      * @param department 部门信息
      * @return
      */
-    public CreateDepartmentResponse createDepartment(Department department) {
+    public CreateDepartmentResponse create(Department department) {
         CreateDepartmentResponse response = null;
         String url = BASE_API_URL + "cgi-bin/department/create?access_token=#";
         BaseResponse r = executePost(url, JSONUtil.toJson(department));
@@ -67,7 +67,7 @@ public class DepartmentAPI extends BaseAPI {
      * @param department
      * @return
      */
-    public ResultType updateDepartment(Department department){
+    public ResultType update(Department department){
         String url = BASE_API_URL + "cgi-bin/department/update?access_token=#";
         BaseResponse r = executePost(url, JSONUtil.toJson(department));
         return ResultType.get(r.getErrcode());
@@ -78,7 +78,7 @@ public class DepartmentAPI extends BaseAPI {
      * @param id
      * @return
      */
-    public ResultType deleteDepartment(Integer id){
+    public ResultType delete(Integer id){
         String url = BASE_API_URL + "cgi-bin/department/delete?access_token=#&id=" + id;
         BaseResponse r = executeGet(url);
         return ResultType.get(r.getErrcode());
