@@ -14,7 +14,7 @@ import java.util.Map;
  *  @version 1.0.beta
  *  ====================================================================
  */
-public class User extends BaseModel {
+public class QYUser extends BaseModel {
 
     public final class Gender{
         public static final String MAN = "1";
@@ -30,12 +30,14 @@ public class User extends BaseModel {
     private String gender;// 性别
     private String email;// 邮箱
     private String weixinid;// 微信号。不是微信名称
+    private String avatar;
+    private Integer status;// 关注状态: 1=已关注，2=已冻结，4=未关注
     private Map<String, Object> extattr;
 
-    public User() {
+    public QYUser() {
     }
 
-    public User(String userId, String name, Integer[] department, String position, String mobile, String gender, String email, String weixinid, Map<String, Object> extattr) {
+    public QYUser(String userId, String name, Integer[] department, String position, String mobile, String gender, String email, String weixinid, Map<String, Object> extattr) {
         this.userId = userId;
         this.name = name;
         this.department = department;
@@ -44,6 +46,19 @@ public class User extends BaseModel {
         this.gender = gender;
         this.email = email;
         this.weixinid = weixinid;
+        this.extattr = extattr;
+    }
+
+    public QYUser(String userId, String name, Integer[] department, String position, String mobile, String gender, String email, String weixinid, String avatar, Integer status, Map<String, Object> extattr) {
+        this.userId = userId;
+        this.name = name;
+        this.position = position;
+        this.mobile = mobile;
+        this.gender = gender;
+        this.email = email;
+        this.weixinid = weixinid;
+        this.avatar = avatar;
+        this.status = status;
         this.extattr = extattr;
     }
 
@@ -68,7 +83,9 @@ public class User extends BaseModel {
     }
 
     public void setDepartment(Integer[] department) {
-        this.department = department;
+        if(department.length != 0) {
+            this.department = department;
+        }
     }
 
     public String getPosition() {
@@ -109,6 +126,14 @@ public class User extends BaseModel {
 
     public void setWeixinid(String weixinid) {
         this.weixinid = weixinid;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Map<String, Object> getExtattr() {

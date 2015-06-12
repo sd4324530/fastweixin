@@ -2,7 +2,7 @@ package com.github.sd4324530.fastweixin.company.api.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
-import com.github.sd4324530.fastweixin.company.api.entity.Department;
+import com.github.sd4324530.fastweixin.company.api.entity.QYDepartment;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ import java.util.List;
 public class GetDepartmentListResponse extends BaseResponse {
 
     @JSONField(name = "department")
-    private List<Department> departments;
+    private List<QYDepartment> departments;
 
-    public List<Department> getDepartments() {
+    public List<QYDepartment> getDepartments() {
         return departments;
     }
 
-    public void setDepartments(List<Department> departments) {
+    public void setDepartments(List<QYDepartment> departments) {
         this.departments = departments;
     }
 }

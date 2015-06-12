@@ -1,10 +1,9 @@
 package com.github.sd4324530.fastweixin.company.api;
 
-import com.alibaba.fastjson.JSON;
-import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
-import com.github.sd4324530.fastweixin.company.api.entity.Department;
+import com.github.sd4324530.fastweixin.company.api.entity.QYDepartment;
+import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
 import com.github.sd4324530.fastweixin.company.api.response.CreateDepartmentResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetDepartmentListResponse;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
@@ -18,7 +17,7 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
  *  @version 1.0.beta
  *  ====================================================================
  */
-public class QYDepartmentAPI extends BaseAPI {
+public class QYDepartmentAPI extends QYBaseAPI {
 
     /**
      * 构造方法，设置apiConfig
@@ -53,7 +52,7 @@ public class QYDepartmentAPI extends BaseAPI {
      * @param department 部门信息
      * @return
      */
-    public CreateDepartmentResponse create(Department department) {
+    public CreateDepartmentResponse create(QYDepartment department) {
         CreateDepartmentResponse response = null;
         String url = BASE_API_URL + "cgi-bin/department/create?access_token=#";
         BaseResponse r = executePost(url, JSONUtil.toJson(department));
@@ -67,10 +66,10 @@ public class QYDepartmentAPI extends BaseAPI {
      * @param department
      * @return
      */
-    public ResultType update(Department department){
+    public QYResultType update(QYDepartment department){
         String url = BASE_API_URL + "cgi-bin/department/update?access_token=#";
         BaseResponse r = executePost(url, JSONUtil.toJson(department));
-        return ResultType.get(r.getErrcode());
+        return QYResultType.get(r.getErrcode());
     }
 
     /**
@@ -78,9 +77,9 @@ public class QYDepartmentAPI extends BaseAPI {
      * @param id
      * @return
      */
-    public ResultType delete(Integer id){
+    public QYResultType delete(Integer id){
         String url = BASE_API_URL + "cgi-bin/department/delete?access_token=#&id=" + id;
         BaseResponse r = executeGet(url);
-        return ResultType.get(r.getErrcode());
+        return QYResultType.get(r.getErrcode());
     }
 }

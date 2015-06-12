@@ -12,7 +12,7 @@ import com.github.sd4324530.fastweixin.api.entity.BaseModel;
  *  @version 1.0.beta
  *  ====================================================================
  */
-public class Department extends BaseModel{
+public class QYDepartment extends BaseModel{
 
     @JSONField(name = "id")
     private Integer id;
@@ -23,16 +23,16 @@ public class Department extends BaseModel{
     @JSONField(name = "order")
     private Integer order;
 
-    public Department() {
+    public QYDepartment() {
     }
 
-    public Department(String name, Integer parentId, Integer order) {
+    public QYDepartment(String name, Integer parentId, Integer order) {
         this.name = name;
         this.parentId = parentId;
         this.order = order;
     }
 
-    public Department(Integer id, String name, Integer parentId, Integer order) {
+    public QYDepartment(Integer id, String name, Integer parentId, Integer order) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
