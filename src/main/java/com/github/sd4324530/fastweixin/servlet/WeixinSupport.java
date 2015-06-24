@@ -212,6 +212,15 @@ public abstract class WeixinSupport {
                 if (isNull(msg)) {
                     msg = processEventHandle(event);
                 }
+            } else if (EventType.TEMPLATESENDJOBFINISH.equals(eventType)) {
+                String msgId = (String) reqMap.get("MsgID");
+                String status = (String) reqMap.get("Status");
+                TemplateMsgEvent event = new TemplateMsgEvent(msgId,status);
+                buildBasicEvent(reqMap, event);
+                msg = handleTemplateMsgEvent(event);
+                if (isNull(msg)) {
+                    msg = processEventHandle(event);
+                }
             }
         } else {
             if (msgType.equals(ReqType.TEXT)) {
@@ -464,6 +473,16 @@ public abstract class WeixinSupport {
      * @return 响应的消息对象
      */
     protected BaseMsg handlePSendPicsInfoEvent(SendPicsInfoEvent event) {
+        return handleDefaultEvent(event);
+    }
+
+    /**
+     * 处理模版消息发送事件，有需要时子类重写
+     *
+     * @param event 菜单弹出相册事件
+     * @return 响应的消息对象
+     */
+    protected BaseMsg handleTemplateMsgEvent(TemplateMsgEvent event) {
         return handleDefaultEvent(event);
     }
 

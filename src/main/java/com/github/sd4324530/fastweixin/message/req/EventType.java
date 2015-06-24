@@ -14,6 +14,7 @@ public final class EventType {
     public static final String PICPHOTOORALBUM = "pic_photo_or_album";
     public static final String PICWEIXIN       = "pic_weixin";
     public static final String LOCATIONSELECT  = "location_select";
+    public static final String TEMPLATESENDJOBFINISH  = "TEMPLATESENDJOBFINISH";
 
     private EventType() {
     }
