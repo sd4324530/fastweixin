@@ -1,13 +1,16 @@
 package com.github.sd4324530.fastweixin;
 
-import com.github.sd4324530.fastweixin.api.enums.ResultType;
+import com.github.sd4324530.fastweixin.company.api.QYAgentAPI;
 import com.github.sd4324530.fastweixin.company.api.QYDepartmentAPI;
+import com.github.sd4324530.fastweixin.company.api.QYMessageAPI;
 import com.github.sd4324530.fastweixin.company.api.QYUserAPI;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
-import com.github.sd4324530.fastweixin.company.api.entity.Department;
-import com.github.sd4324530.fastweixin.company.api.entity.User;
-import com.github.sd4324530.fastweixin.company.api.response.CreateDepartmentResponse;
-import com.github.sd4324530.fastweixin.company.api.response.GetDepartmentListResponse;
+import com.github.sd4324530.fastweixin.company.api.entity.QYAgent;
+import com.github.sd4324530.fastweixin.company.api.entity.QYDepartment;
+import com.github.sd4324530.fastweixin.company.api.entity.QYUser;
+import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
+import com.github.sd4324530.fastweixin.company.api.response.*;
+import com.github.sd4324530.fastweixin.company.message.QYTextMsg;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +38,7 @@ public class QYFastweixinTest {
     public void getDepartmentList(){
         QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
         GetDepartmentListResponse response = departmentAPI.getList(null);
-        for(Department department : response.getDepartments()){
+        for(QYDepartment department : response.getDepartments()){
             System.out.println(department.toString());
         }
     }
@@ -43,7 +46,7 @@ public class QYFastweixinTest {
 //    @Test
     public void createDepartment(){
         QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
-        Department department = new Department("API创建部门", 2, 1);
+        QYDepartment department = new QYDepartment("API创建部门", 2, 1);
         CreateDepartmentResponse response = departmentAPI.create(department);
         System.out.println(response.toString());
     }
@@ -51,11 +54,11 @@ public class QYFastweixinTest {
 //    @Test
     public void updateDepartment(){
         QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
-        Department department = new Department(3, "API更新部门", 2, 1);
-        ResultType resultType = departmentAPI.update(department);
+        QYDepartment department = new QYDepartment(3, "API更新部门", 2, 1);
+        QYResultType resultType = departmentAPI.update(department);
         System.out.println(resultType.toString());
         GetDepartmentListResponse response = departmentAPI.getList(null);
-        for(Department department2 : response.getDepartments()){
+        for(QYDepartment department2 : response.getDepartments()){
             System.out.println(department2.toString());
         }
     }
@@ -63,15 +66,45 @@ public class QYFastweixinTest {
 //    @Test
     public void deleteDepartment(){
         QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
-        ResultType resultType = departmentAPI.delete(3);
+        QYResultType resultType = departmentAPI.delete(3);
         System.out.println(resultType.toString());
     }
 
-    @Test
+//    @Test
     public void createUser(){
         QYUserAPI userAPI = new QYUserAPI(config);
-        User user = new User("ceshi", "测试1", new Integer[]{2}, "主管", "18912267607", User.Gender.MAN, "891084418@qq.com", "", null);
-        ResultType resultType = userAPI.create(user);
+        QYUser user = new QYUser("ceshi", "测试1", new Integer[]{2}, "主管", "18912267607", QYUser.Gender.MAN, "891084418@qq.com", "", null);
+        QYResultType resultType = userAPI.create(user);
         System.out.println(resultType.toString());
+    }
+
+//    @Test
+    public void sendMessage(){
+        QYTextMsg qyTextMsg = new QYTextMsg();
+        qyTextMsg.setText(new QYTextMsg.Text("测试消息"));
+        qyTextMsg.setToUser("@all");
+        qyTextMsg.setAgentId("1");
+        QYMessageAPI messageAPI = new QYMessageAPI(config);
+        GetQYSendMessageResponse response = messageAPI.send(qyTextMsg);
+    }
+
+//    @Test
+    public void getAllAgent(){
+        QYAgentAPI agentAPI = new QYAgentAPI(config);
+        GetQYAgentListResponse response = agentAPI.getAll();
+        for(QYAgent agent : response.getAgentList()){
+            System.out.println(agent.toString());
+        }
+    }
+
+//    @Test
+    public void getAgentInfo(){
+        QYAgentAPI agentAPI = new QYAgentAPI(config);
+        GetQYAgentInfoResponse response = agentAPI.getInfo("1");
+        System.out.println(response.getQyAgent().toString());
+    }
+
+    public void createAgent(){
+        
     }
 }

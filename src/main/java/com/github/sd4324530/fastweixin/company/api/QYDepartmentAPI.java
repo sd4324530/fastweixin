@@ -34,7 +34,7 @@ public class QYDepartmentAPI extends QYBaseAPI {
      * @return
      */
     public GetDepartmentListResponse getList(Integer parentId){
-        GetDepartmentListResponse response = null;
+        GetDepartmentListResponse response;
         String url = null;
         if(parentId != null) {
             url = BASE_API_URL + "cgi-bin/department/list?access_token=#&id=" + parentId;
@@ -53,7 +53,7 @@ public class QYDepartmentAPI extends QYBaseAPI {
      * @return
      */
     public CreateDepartmentResponse create(QYDepartment department) {
-        CreateDepartmentResponse response = null;
+        CreateDepartmentResponse response;
         String url = BASE_API_URL + "cgi-bin/department/create?access_token=#";
         BaseResponse r = executePost(url, JSONUtil.toJson(department));
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();

@@ -85,7 +85,7 @@ public class QYUserAPI extends QYBaseAPI {
      * @return
      */
     public GetQYUserInfoResponse get(String userId){
-        GetQYUserInfoResponse response = null;
+        GetQYUserInfoResponse response;
         String url = BASE_API_URL + "cgi-bin/user/get?access_token=#&userid=" + userId;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
@@ -101,7 +101,7 @@ public class QYUserAPI extends QYBaseAPI {
      * @return
      */
     public GetQYUserInfo4DepartmentResponse simpleList(Integer departmentId, boolean isLoop, Integer status ){
-        GetQYUserInfo4DepartmentResponse response = null;
+        GetQYUserInfo4DepartmentResponse response;
         String url = BASE_API_URL + "cgi-bin/user/simplelist?access_token=#&department_id=" + departmentId + "&fetch_child=" + (isLoop? 0 : 1) + "&status=" + status;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
@@ -117,7 +117,7 @@ public class QYUserAPI extends QYBaseAPI {
      * @return
      */
     public GetQYUserInfo4DepartmentResponse getList(Integer departmentId, boolean isLoop, Integer status){
-        GetQYUserInfo4DepartmentResponse response = null;
+        GetQYUserInfo4DepartmentResponse response;
         String url = BASE_API_URL + "cgi-bin/user/list?access_token=#&department_id=" + departmentId + "&fetch_child=" + (isLoop? 0 : 1) + "&status=" + status;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();

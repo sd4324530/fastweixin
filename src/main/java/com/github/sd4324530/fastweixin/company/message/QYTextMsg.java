@@ -20,6 +20,10 @@ public class QYTextMsg extends QYBaseMsg {
     @JSONField(name = "text")
     private Text text;
 
+    public QYTextMsg() {
+        this.setMsgType("text");
+    }
+
     public Text getText() {
         return text;
     }
@@ -28,9 +32,13 @@ public class QYTextMsg extends QYBaseMsg {
         this.text = text;
     }
 
-    public class Text{
+    public static class Text{
         @JSONField(name = "content")
         private String content;
+
+        public Text(String content) {
+            this.content = content;
+        }
 
         public String getContent() {
             return content;

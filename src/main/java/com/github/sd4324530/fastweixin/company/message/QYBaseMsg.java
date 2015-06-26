@@ -17,6 +17,11 @@ import java.io.Serializable;
  */
 public class QYBaseMsg implements Serializable {
 
+    public static final class Safe {
+        public static final String YES = "1";// 保密消息
+        public static final String NO  = "0";// 非保密消息
+    }
+
     @JSONField(name = "touser")
     private String toUser;
     @JSONField(name = "toparty")
@@ -28,7 +33,7 @@ public class QYBaseMsg implements Serializable {
     @JSONField(name = "agentid")
     private String agentId;
     @JSONField(name = "safe")
-    private String safe;
+    private String safe = Safe.NO;
 
     public String getToUser() {
         return toUser;
