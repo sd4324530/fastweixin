@@ -1,9 +1,7 @@
 package com.github.sd4324530.fastweixin;
 
-import com.github.sd4324530.fastweixin.company.api.QYAgentAPI;
-import com.github.sd4324530.fastweixin.company.api.QYDepartmentAPI;
-import com.github.sd4324530.fastweixin.company.api.QYMessageAPI;
-import com.github.sd4324530.fastweixin.company.api.QYUserAPI;
+import com.github.sd4324530.fastweixin.api.enums.MediaType;
+import com.github.sd4324530.fastweixin.company.api.*;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
 import com.github.sd4324530.fastweixin.company.api.entity.QYAgent;
 import com.github.sd4324530.fastweixin.company.api.entity.QYDepartment;
@@ -13,6 +11,8 @@ import com.github.sd4324530.fastweixin.company.api.response.*;
 import com.github.sd4324530.fastweixin.company.message.QYTextMsg;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
 
 /**
  *  
@@ -104,7 +104,21 @@ public class QYFastweixinTest {
         System.out.println(response.getQyAgent().toString());
     }
 
+//    @Test
+    public void uploadMedia(){
+        // 先要上传一个LOGO
+        String logoUrl = "/Users/jileilei/Desktop/1.jpg";
+        QYMediaAPI mediaAPI = new QYMediaAPI(config);
+        UploadMediaResponse response1 = mediaAPI.upload(MediaType.IMAGE, new File(logoUrl));
+        System.out.println(response1.getMediaId()); //1JsGQDLLuB02U0s6LftUVZURGWJwwrchKDfihbW2JOvb9hMVaDNL94W8aGdgfJu55wMm8FDUdvhXMwz7g6ZzgzA
+    }
+
+//    @Test
     public void createAgent(){
-        
+        QYAgent agent = new QYAgent("2", "测试应用", "测试应用", "http://www.8228.cn", 0, 0, 0);
+        String mediaId = "1JsGQDLLuB02U0s6LftUVZURGWJwwrchKDfihbW2JOvb9hMVaDNL94W8aGdgfJu55wMm8FDUdvhXMwz7g6ZzgzA";
+        QYAgentAPI agentAPI = new QYAgentAPI(config);
+        QYResultType resultType = agentAPI.create(agent, mediaId);
+        System.out.println(resultType.toString());
     }
 }

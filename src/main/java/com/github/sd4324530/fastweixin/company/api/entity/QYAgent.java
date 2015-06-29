@@ -46,6 +46,26 @@ public class QYAgent extends BaseModel {
     public QYAgent() {
     }
 
+    /**
+     * 创建新应用时候需要用到的参数
+     * @param agentId
+     * @param name
+     * @param description
+     * @param redirectDomain
+     * @param reportLocationFlag
+     * @param isReportUser
+     * @param isReportEnter
+     */
+    public QYAgent(String agentId, String name, String description, String redirectDomain, Integer reportLocationFlag, Integer isReportUser, Integer isReportEnter){
+        this.agentId = agentId;
+        this.name = name;
+        this.description = description;
+        this.redirectDomain = redirectDomain;
+        this.reportLocationFlag = reportLocationFlag;
+        this.isReportEnter = isReportEnter;
+        this.isReportUser = isReportUser;
+    }
+
     public QYAgent(String agentId, String name, String squareLogoUrl, String roundLogoUrl, String description, Map<String, Object> allowUserInfos, Map<String, Object> allowPartys, Map<String, Object> allowTags, Integer close, String redirectDomain, Integer reportLocationFlag, Integer isReportUser, Integer isReportEnter) {
         this.agentId = agentId;
         this.name = name;
