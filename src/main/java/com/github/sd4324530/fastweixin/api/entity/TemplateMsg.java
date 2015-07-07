@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 模版消息
  */
-public class TemplateMsg {
+public class TemplateMsg extends BaseModel {
     private String touser;
     private String templateId;
     private String url;

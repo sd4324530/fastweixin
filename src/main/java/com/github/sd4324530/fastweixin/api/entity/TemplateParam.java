@@ -3,7 +3,7 @@ package com.github.sd4324530.fastweixin.api.entity;
 /**
  * 模版参数
  */
-public class TemplateParam {
+public class TemplateParam extends BaseModel {
 
     /**
      * 名称

@@ -22,7 +22,7 @@ import java.util.Map;
 public class TemplateMsgAPI extends BaseAPI {
     private static final Logger LOG = LoggerFactory.getLogger(CustomAPI.class);
 
-    protected TemplateMsgAPI(ApiConfig config) {
+    public TemplateMsgAPI(ApiConfig config) {
         super(config);
     }
 
