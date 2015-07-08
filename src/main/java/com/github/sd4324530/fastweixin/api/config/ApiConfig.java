@@ -78,7 +78,9 @@ public final class ApiConfig extends Observable implements Serializable {
                 LOG.debug("准备刷新token.............");
                 initToken(now);
             }
-        } finally {
+        } catch (Exception e) {
+            LOG.warn("刷新Token出错.", e);
+            //如果刷新出现错误，才能把标记改为false，这样下次就会重新刷新，而不是在原本的finally中该
             tokenRefreshing.set(false);
         }
         return accessToken;
@@ -94,7 +96,9 @@ public final class ApiConfig extends Observable implements Serializable {
                     initJSToken(now);
                     jsRefreshing.set(false);
                 }
-            } finally {
+            } catch (Exception e) {
+                LOG.warn("刷新jsTicket出错.", e);
+                //如果刷新出现错误，才能把标记改为false，这样下次就会重新刷新，而不是在原本的finally中该
                 jsRefreshing.set(false);
             }
         } else {
