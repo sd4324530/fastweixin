@@ -1,5 +1,7 @@
 fastweixin
 ==========
+
+[![Join the chat at https://gitter.im/sd4324530/fastweixin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sd4324530/fastweixin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 作者:peiyu<br>
 [我的微博](http://weibo.com/1728407960)<br>
 QQ:125331682<br>
