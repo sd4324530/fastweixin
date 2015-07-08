@@ -13,6 +13,7 @@ csdn主页:[https://code.csdn.net/sd4324530/fastweixin](https://code.csdn.net/sd
 [![Build Status](https://api.travis-ci.org/sd4324530/fastweixin.png?branch=master)](https://travis-ci.org/sd4324530/fastweixin)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin)
 [![Circle CI](https://circleci.com/gh/sd4324530/fastweixin/tree/master.svg?style=svg)](https://circleci.com/gh/sd4324530/fastweixin/tree/master)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sd4324530/fastweixin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 #快速搭建微信公众平台服务器<br>
 简单封装了所有与微信服务器交互的消息:文本消息、图片消息、图文消息等等<br>
