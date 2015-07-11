@@ -2,6 +2,7 @@ package com.github.sd4324530.fastweixin.api.response;
 
 import com.github.sd4324530.fastweixin.api.entity.BaseModel;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
+import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 
 /**
@@ -23,11 +24,15 @@ public class BaseResponse extends BaseModel {
     }
 
     public String getErrmsg() {
+        String result = this.errmsg;
         //将接口返回的错误信息转换成中文，方便提示用户出错原因
         if (StrUtil.isNotBlank(this.errcode) && !ResultType.SUCCESS.getCode().toString().equals(this.errcode)) {
-            return ResultType.get(this.errcode).getDescription();
+            ResultType resultType = ResultType.get(this.errcode);
+            if(BeanUtil.nonNull(resultType)) {
+                result = resultType.getDescription();
+            }
         }
-        return this.errmsg;
+        return result;
     }
 
     public void setErrmsg(String errmsg) {

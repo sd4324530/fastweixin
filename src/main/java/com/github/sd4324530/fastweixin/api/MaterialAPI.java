@@ -155,7 +155,9 @@ public class MaterialAPI extends BaseAPI {
                 response.setErrmsg("请求失败");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("IO流异常", e);
+        } catch (Exception e) {
+            LOG.error("其他异常", e);
         }
 
         return response;
@@ -226,8 +228,10 @@ public class MaterialAPI extends BaseAPI {
                 response.setContent(inputStream, Integer.valueOf(length.getValue()));
                 response.setFileName(headers[0].getElements()[0].getParameterByName("filename").getValue());
             }
-        }catch (IOException e){
+        } catch (IOException e){
             LOG.error("IO异常处理", e);
+        } catch (Exception e) {
+            LOG.error("其他异常", e);
         }
     }
 }
