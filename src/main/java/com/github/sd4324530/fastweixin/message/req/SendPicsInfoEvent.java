@@ -1,12 +1,15 @@
 package com.github.sd4324530.fastweixin.message.req;
 
+import java.util.List;
+import java.util.Map;
+
 public class SendPicsInfoEvent extends BaseEvent {
 	
 	private String eventKey;
 	private Integer count;
-	private String picList;
+	private List<Map> picList;
 	
-	public SendPicsInfoEvent(String eventKey, Integer count, String picList) {
+	public SendPicsInfoEvent(String eventKey, Integer count, List<Map> picList) {
 		super();
 		this.eventKey = eventKey;
 		this.count = count;
@@ -29,18 +32,20 @@ public class SendPicsInfoEvent extends BaseEvent {
 		this.count = count;
 	}
 
-	public String getPicList() {
+	public List<Map> getPicList() {
 		return picList;
 	}
 
-	public void setPicList(String picList) {
+	public void setPicList(List<Map> picList) {
 		this.picList = picList;
 	}
 
-	@Override
+    @Override
     public String toString() {
-        return "MenuEvent [eventKey=" + eventKey + ", count=" + count + ", picList=" + picList + ", toUserName=" + toUserName
-                + ", fromUserName=" + fromUserName + ", createTime="
-                + createTime + ", msgType=" + msgType + "]";
+        return "SendPicsInfoEvent{" +
+                "eventKey='" + eventKey + '\'' +
+                ", count=" + count +
+                ", picList=" + picList +
+                '}';
     }
 }
