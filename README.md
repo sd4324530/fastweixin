@@ -1,7 +1,6 @@
 fastweixin
 ==========
 作者:peiyu<br>
-[我的微博](http://weibo.com/1728407960)<br>
 QQ:125331682<br>
 技术讨论QQ群:367162748<br>
 
@@ -10,6 +9,8 @@ QQ:125331682<br>
 csdn主页:[https://code.csdn.net/sd4324530/fastweixin](https://code.csdn.net/sd4324530/fastweixin)<br>
 
 ### Version
+[![@biezhi on weibo](https://img.shields.io/badge/weibo-%40biezhi-red.svg)](http://weibo.com/1728407960)
+[![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://api.travis-ci.org/sd4324530/fastweixin.png?branch=master)](https://travis-ci.org/sd4324530/fastweixin)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin)
 [![Circle CI](https://circleci.com/gh/sd4324530/fastweixin/tree/master.svg?style=svg)](https://circleci.com/gh/sd4324530/fastweixin/tree/master)
@@ -163,7 +164,3 @@ Maven 项目引入
     <version>1.3.2</version>
 </dependency>
 ```
-
-开源协议
-==========
-[Apache License](http://www.apache.org/licenses/LICENSE-2.0)
