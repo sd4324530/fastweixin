@@ -5,7 +5,9 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.*;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
+import com.github.sd4324530.fastweixin.message.BaseMsg;
 import com.github.sd4324530.fastweixin.message.MpNewsMsg;
+import com.github.sd4324530.fastweixin.message.TextMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
@@ -68,6 +70,7 @@ public class FastweixinTest {
 //        getShortUrl(config);
 //        uploadImageMaterial(config);
     }
+
 
     /**
      * 创建菜单
