@@ -19,6 +19,7 @@ public class GetUserInfoResponse extends BaseResponse {
     @JSONField(name = "subscribe_time")
     private Long    subscribeTime;
     private String  unionid;
+    private String remark;
     private Integer groupid;
 
     public Integer getSubscribe() {
@@ -109,7 +110,15 @@ public class GetUserInfoResponse extends BaseResponse {
         this.unionid = unionid;
     }
 
-	public Integer getGroupid() {
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Integer getGroupid() {
 		return groupid;
 	}
 

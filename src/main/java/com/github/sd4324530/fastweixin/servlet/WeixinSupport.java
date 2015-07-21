@@ -192,7 +192,7 @@ public abstract class WeixinSupport {
                 }
             } else if (EventType.SCANCODEPUSH.equals(eventType) || EventType.SCANCODEWAITMSG.equals(eventType)) {
                 String eventKey = (String) reqMap.get("EventKey");
-                Map<String, Object> scanCodeInfo = new HashMap<String, Object>();
+                Map<String, Object> scanCodeInfo = (Map<String, Object>)reqMap.get("ScanCodeInfo");
                 String scanType = (String) scanCodeInfo.get("ScanType");
                 String scanResult = (String) scanCodeInfo.get("ScanResult");
                 ScanCodeEvent event = new ScanCodeEvent(eventKey, scanType, scanResult);
@@ -203,12 +203,21 @@ public abstract class WeixinSupport {
                 }
             } else if (EventType.PICPHOTOORALBUM.equals(eventType) || EventType.PICSYSPHOTO.equals(eventType) || EventType.PICWEIXIN.equals(eventType)) {
                 String eventKey = (String) reqMap.get("EventKey");
-                Map<String, Object> sendPicsInfo = new HashMap<String, Object>();
+                Map<String, Object> sendPicsInfo = (Map<String, Object>)reqMap.get("SendPicsInfo");
                 int count = Integer.parseInt((String) sendPicsInfo.get("Count"));
-                String picList = (String) sendPicsInfo.get("PicList");
+                List<Map> picList = (List) sendPicsInfo.get("PicList");
                 SendPicsInfoEvent event = new SendPicsInfoEvent(eventKey, count, picList);
                 buildBasicEvent(reqMap, event);
                 msg = handlePSendPicsInfoEvent(event);
+                if (isNull(msg)) {
+                    msg = processEventHandle(event);
+                }
+            } else if (EventType.TEMPLATESENDJOBFINISH.equals(eventType)) {
+                String msgId = (String) reqMap.get("MsgID");
+                String status = (String) reqMap.get("Status");
+                TemplateMsgEvent event = new TemplateMsgEvent(msgId,status);
+                buildBasicEvent(reqMap, event);
+                msg = handleTemplateMsgEvent(event);
                 if (isNull(msg)) {
                     msg = processEventHandle(event);
                 }
@@ -464,6 +473,16 @@ public abstract class WeixinSupport {
      * @return 响应的消息对象
      */
     protected BaseMsg handlePSendPicsInfoEvent(SendPicsInfoEvent event) {
+        return handleDefaultEvent(event);
+    }
+
+    /**
+     * 处理模版消息发送事件，有需要时子类重写
+     *
+     * @param event 菜单弹出相册事件
+     * @return 响应的消息对象
+     */
+    protected BaseMsg handleTemplateMsgEvent(TemplateMsgEvent event) {
         return handleDefaultEvent(event);
     }
 
