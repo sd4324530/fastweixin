@@ -4,7 +4,7 @@ import com.github.sd4324530.fastweixin.message.util.MessageBuilder;
 
 import java.io.Serializable;
 
-public class Article implements Serializable{
+public class Article {
 
     private String title;
     private String description;
