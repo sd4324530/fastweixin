@@ -192,7 +192,7 @@ public abstract class WeixinSupport {
                 }
             } else if (EventType.SCANCODEPUSH.equals(eventType) || EventType.SCANCODEWAITMSG.equals(eventType)) {
                 String eventKey = (String) reqMap.get("EventKey");
-                Map<String, Object> scanCodeInfo = new HashMap<String, Object>();
+                Map<String, Object> scanCodeInfo = (Map<String, Object>)reqMap.get("ScanCodeInfo");
                 String scanType = (String) scanCodeInfo.get("ScanType");
                 String scanResult = (String) scanCodeInfo.get("ScanResult");
                 ScanCodeEvent event = new ScanCodeEvent(eventKey, scanType, scanResult);
@@ -203,9 +203,9 @@ public abstract class WeixinSupport {
                 }
             } else if (EventType.PICPHOTOORALBUM.equals(eventType) || EventType.PICSYSPHOTO.equals(eventType) || EventType.PICWEIXIN.equals(eventType)) {
                 String eventKey = (String) reqMap.get("EventKey");
-                Map<String, Object> sendPicsInfo = new HashMap<String, Object>();
+                Map<String, Object> sendPicsInfo = (Map<String, Object>)reqMap.get("SendPicsInfo");
                 int count = Integer.parseInt((String) sendPicsInfo.get("Count"));
-                String picList = (String) sendPicsInfo.get("PicList");
+                List<Map> picList = (List) sendPicsInfo.get("PicList");
                 SendPicsInfoEvent event = new SendPicsInfoEvent(eventKey, count, picList);
                 buildBasicEvent(reqMap, event);
                 msg = handlePSendPicsInfoEvent(event);

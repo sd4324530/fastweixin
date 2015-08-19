@@ -5,7 +5,9 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.*;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
+import com.github.sd4324530.fastweixin.message.BaseMsg;
 import com.github.sd4324530.fastweixin.message.MpNewsMsg;
+import com.github.sd4324530.fastweixin.message.TextMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
@@ -26,10 +28,12 @@ public class FastweixinTest {
 
     private ApiConfig config;
 
-//    @Before
+    @Before
     public void init() {
-        String appid = "wx8c33ff895df5d0d9";
-        String secret = "0705aafac0bef944de4c485d71fce900";
+//        String appid = "wx8c33ff895df5d0d9";
+//        String secret = "0705aafac0bef944de4c485d71fce900";
+        String appid = "wx337021cfcc3e32fb";
+        String secret = "e244f1244f0ba2798546e0450d3045ea";
         config = new ApiConfig(appid, secret);
         TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
         config.addHandle(configChangeHandle);
@@ -39,7 +43,7 @@ public class FastweixinTest {
      *AppID(应用ID)wx8c33ff895df5d0d9
      *AppSecret(应用密钥)0705aafac0bef944de4c485d71fce900
      */
-    @Test
+//    @Test
     public void test() {
         String appid = "wx8c33ff895df5d0d9";
         String secret = "0705aafac0bef944de4c485d71fce900";
@@ -68,6 +72,7 @@ public class FastweixinTest {
 //        getShortUrl(config);
 //        uploadImageMaterial(config);
     }
+
 
     /**
      * 创建菜单
@@ -383,4 +388,29 @@ public class FastweixinTest {
         menuAPI.deleteMenu();
     }
 
+//    @Test
+    public void setIndustry(){
+        IndustryType mainIndustry = IndustryType.INTERNET;
+        IndustryType sideIndustry = IndustryType.ONLINE_GAME;
+        TemplateAPI templateAPI = new TemplateAPI(config);
+        templateAPI.setIndustry(mainIndustry, sideIndustry);
+    }
+
+//    @Test
+    public void getTemplateId(){
+        TemplateAPI templateAPI = new TemplateAPI(config);
+        templateAPI.getTemplateId("TM00898");
+    }
+
+    @Test
+    public void sendTemplateMessage(){
+        String templateId = "AUmSXEnAARVd-1KHqpMYv4cw6Nwy56Aa2xApKTXB1Zc";
+        Map<String, TemplateKeyword> keywordMap = new HashMap<String, TemplateKeyword>();
+        keywordMap.put("first", TemplateKeyword.create("测试内容", "#173177"));
+        keywordMap.put("Good", TemplateKeyword.create("会员充值", "#173177"));
+        keywordMap.put("contentType", TemplateKeyword.create("80%", "#173177"));
+        keywordMap.put("remark", TemplateKeyword.create("测试消息，打扰见谅", "#173177"));
+        TemplateAPI templateAPI = new TemplateAPI(config);
+        templateAPI.send("o7o6Nju7ZGxCYIvlm8-b_bwPwi9Y", templateId, "http://www.8228.cn", "#FF0000", keywordMap);
+    }
 }
