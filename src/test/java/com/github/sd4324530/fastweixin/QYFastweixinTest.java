@@ -10,7 +10,6 @@ import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
 import com.github.sd4324530.fastweixin.company.api.response.*;
 import com.github.sd4324530.fastweixin.company.message.QYTextMsg;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.File;
 
@@ -34,7 +33,7 @@ public class QYFastweixinTest {
         config = new QYAPIConfig(corpId, corpSecret);
     }
 
-    @Test
+//    @Test
     public void getDepartmentList(){
         QYDepartmentAPI departmentAPI = new QYDepartmentAPI(config);
         GetDepartmentListResponse response = departmentAPI.getList(null);

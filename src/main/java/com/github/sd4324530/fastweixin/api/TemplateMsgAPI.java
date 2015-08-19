@@ -33,11 +33,9 @@ public class TemplateMsgAPI extends BaseAPI {
      */
     public ResultType setIndustry(Industry industry) {
         LOG.debug("设置行业......");
+        BeanUtil.requireNonNull(industry, "行业对象为空");
         String url = BASE_API_URL + "cgi-bin/template/api_set_industry?access_token=#";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("industry_id1", industry.getIndustryId1());
-        params.put("industry_id2", industry.getIndustryId2());
-        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        BaseResponse response = executePost(url, industry.toJsonString());
         return ResultType.get(response.getErrcode());
     }
 
@@ -72,21 +70,21 @@ public class TemplateMsgAPI extends BaseAPI {
         BeanUtil.requireNonNull(msg.getTopcolor(), "top color is null");
         BeanUtil.requireNonNull(msg.getUrl(), "url is null");
         String url = BASE_API_URL + "cgi-bin/message/template/send?access_token=#";
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("touser", msg.getTouser());
-        params.put("template_id", msg.getTemplateId());
-        params.put("url", msg.getUrl());
-        params.put("topcolor", msg.getTopcolor());
-        Map<String, Map<String,String>> data = new HashMap<String, Map<String,String>>();
-        for (TemplateParam param : msg.getData()) {
-            Map<String, String> d = new HashMap<String, String>();
-            d.put("value", param.getValue());
-            d.put("color", param.getColor());
-            data.put(param.getName(), d);
-        }
-        params.put("data", data);
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        params.put("touser", msg.getTouser());
+//        params.put("template_id", msg.getTemplateId());
+//        params.put("url", msg.getUrl());
+//        params.put("topcolor", msg.getTopcolor());
+//        Map<String, Map<String,String>> data = new HashMap<String, Map<String,String>>();
+//        for (TemplateParam param : msg.getData()) {
+//            Map<String, String> d = new HashMap<String, String>();
+//            d.put("value", param.getValue());
+//            d.put("color", param.getColor());
+//            data.put(param.getName(), d);
+//        }
+//        params.put("data", data);
 
-        BaseResponse r = executePost(url, JSONUtil.toJson(params));
+        BaseResponse r = executePost(url, msg.toJsonString());
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         SendTemplateResponse result = JSONUtil.toBean(resultJson, SendTemplateResponse.class);
         return result;

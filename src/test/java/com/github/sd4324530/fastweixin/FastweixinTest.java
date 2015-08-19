@@ -5,14 +5,11 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.*;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
-import com.github.sd4324530.fastweixin.message.BaseMsg;
 import com.github.sd4324530.fastweixin.message.MpNewsMsg;
-import com.github.sd4324530.fastweixin.message.TextMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -386,31 +383,5 @@ public class FastweixinTest {
     public void deleteMenu(){
         MenuAPI menuAPI = new MenuAPI(config);
         menuAPI.deleteMenu();
-    }
-
-//    @Test
-    public void setIndustry(){
-        IndustryType mainIndustry = IndustryType.INTERNET;
-        IndustryType sideIndustry = IndustryType.ONLINE_GAME;
-        TemplateAPI templateAPI = new TemplateAPI(config);
-        templateAPI.setIndustry(mainIndustry, sideIndustry);
-    }
-
-//    @Test
-    public void getTemplateId(){
-        TemplateAPI templateAPI = new TemplateAPI(config);
-        templateAPI.getTemplateId("TM00898");
-    }
-
-    @Test
-    public void sendTemplateMessage(){
-        String templateId = "AUmSXEnAARVd-1KHqpMYv4cw6Nwy56Aa2xApKTXB1Zc";
-        Map<String, TemplateKeyword> keywordMap = new HashMap<String, TemplateKeyword>();
-        keywordMap.put("first", TemplateKeyword.create("测试内容", "#173177"));
-        keywordMap.put("Good", TemplateKeyword.create("会员充值", "#173177"));
-        keywordMap.put("contentType", TemplateKeyword.create("80%", "#173177"));
-        keywordMap.put("remark", TemplateKeyword.create("测试消息，打扰见谅", "#173177"));
-        TemplateAPI templateAPI = new TemplateAPI(config);
-        templateAPI.send("o7o6Nju7ZGxCYIvlm8-b_bwPwi9Y", templateId, "http://www.8228.cn", "#FF0000", keywordMap);
     }
 }
