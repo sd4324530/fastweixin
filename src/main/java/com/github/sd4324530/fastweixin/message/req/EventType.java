@@ -15,6 +15,7 @@ public final class EventType {
     public static final String PICWEIXIN       = "pic_weixin";
     public static final String LOCATIONSELECT  = "location_select";
     public static final String TEMPLATESENDJOBFINISH  = "TEMPLATESENDJOBFINISH";
+    public static final String MASSSENDJOBFINISH="MASSSENDJOBFINISH";
 
     private EventType() {
     }

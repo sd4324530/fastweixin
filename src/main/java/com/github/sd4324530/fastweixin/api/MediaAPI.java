@@ -7,6 +7,7 @@ import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.NetWorkCenter;
+import com.github.sd4324530.fastweixin.util.StrUtil;
 import com.github.sd4324530.fastweixin.util.StreamUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
@@ -67,6 +68,17 @@ public class MediaAPI extends BaseAPI {
         params.put("articles", articles);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
+        return response;
+    }
+
+    /**
+     * 上传群发消息图片素材
+     */
+    public UploadImgResponse uploadImg(File file){
+        UploadImgResponse response;
+        String url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=#";
+        BaseResponse r = executePost(url, null, file);
+        response = JSONUtil.toBean(r.getErrmsg(), UploadImgResponse.class);
         return response;
     }
 

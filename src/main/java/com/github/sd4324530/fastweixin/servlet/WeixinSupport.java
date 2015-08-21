@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -218,6 +217,19 @@ public abstract class WeixinSupport {
                 TemplateMsgEvent event = new TemplateMsgEvent(msgId,status);
                 buildBasicEvent(reqMap, event);
                 msg = handleTemplateMsgEvent(event);
+                if (isNull(msg)) {
+                    msg = processEventHandle(event);
+                }
+            }else if(EventType.MASSSENDJOBFINISH.equals(eventType)){
+                String msgId=(String)reqMap.get("MsgID");
+                String status=(String)reqMap.get("Status");
+                Integer TotalCount=Integer.valueOf(String.valueOf(reqMap.get("TotalCount")));
+                Integer filterCount=Integer.valueOf(String.valueOf(reqMap.get("FilterCount")));
+                Integer sentCount=Integer.valueOf(String.valueOf(reqMap.get("SentCount")));
+                Integer errorCount=Integer.valueOf(String.valueOf(reqMap.get("ErrorCount")));
+                AllMessageEvent event=new AllMessageEvent(msgId,status,TotalCount,filterCount,sentCount,errorCount);
+                buildBasicEvent(reqMap, event);
+                msg=callBackAllMessage(event);
                 if (isNull(msg)) {
                     msg = processEventHandle(event);
                 }
@@ -495,6 +507,14 @@ public abstract class WeixinSupport {
     protected BaseMsg handleSubscribe(BaseEvent event) {
         return new TextMsg("感谢您的关注!");
     }
+
+    /**
+     * 接收群发消息的回调方法
+     *
+     * @param event 群发回调方法
+     * @return 响应消息对象
+     */
+    protected  BaseMsg callBackAllMessage(AllMessageEvent event){return  handleDefaultEvent(event);}
 
     /**
      * 处理取消关注事件，有需要时子类重写
