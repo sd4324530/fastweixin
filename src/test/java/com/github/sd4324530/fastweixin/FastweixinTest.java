@@ -5,14 +5,11 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.*;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
-import com.github.sd4324530.fastweixin.message.BaseMsg;
 import com.github.sd4324530.fastweixin.message.MpNewsMsg;
-import com.github.sd4324530.fastweixin.message.TextMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -387,6 +384,9 @@ public class FastweixinTest {
         MenuAPI menuAPI = new MenuAPI(config);
         menuAPI.deleteMenu();
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ff7b3c911c3f2c00e7f8682f187f2545c1c4dbc8
 }

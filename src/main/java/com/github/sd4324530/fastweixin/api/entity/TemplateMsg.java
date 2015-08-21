@@ -1,5 +1,7 @@
 package com.github.sd4324530.fastweixin.api.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  */
 public class TemplateMsg extends BaseModel {
     private String touser;
+    @JSONField(name = "template_id")
     private String templateId;
     private String url;
     private String topcolor;
