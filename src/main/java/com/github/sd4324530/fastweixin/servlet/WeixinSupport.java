@@ -227,7 +227,7 @@ public abstract class WeixinSupport {
                 Integer filterCount=Integer.valueOf(String.valueOf(reqMap.get("FilterCount")));
                 Integer sentCount=Integer.valueOf(String.valueOf(reqMap.get("SentCount")));
                 Integer errorCount=Integer.valueOf(String.valueOf(reqMap.get("ErrorCount")));
-                AllMessageEvent event=new AllMessageEvent(msgId,status,TotalCount,filterCount,sentCount,errorCount);
+                SendMessageEvent event=new SendMessageEvent(msgId,status,TotalCount,filterCount,sentCount,errorCount);
                 buildBasicEvent(reqMap, event);
                 msg=callBackAllMessage(event);
                 if (isNull(msg)) {
@@ -514,7 +514,7 @@ public abstract class WeixinSupport {
      * @param event 群发回调方法
      * @return 响应消息对象
      */
-    protected  BaseMsg callBackAllMessage(AllMessageEvent event){return  handleDefaultEvent(event);}
+    protected  BaseMsg callBackAllMessage(SendMessageEvent event){return  handleDefaultEvent(event);}
 
     /**
      * 处理取消关注事件，有需要时子类重写

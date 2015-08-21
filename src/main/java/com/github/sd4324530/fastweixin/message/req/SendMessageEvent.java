@@ -3,7 +3,7 @@ package com.github.sd4324530.fastweixin.message.req;
 /**
  * Created by jileilei on 15/8/10.
  */
-public class AllMessageEvent extends  BaseEvent{
+public class SendMessageEvent extends  BaseEvent{
     private String msgId;//群发的消息ID
     private String status;//群发消息状态
     private Integer totalCount;//发送总数
@@ -11,7 +11,7 @@ public class AllMessageEvent extends  BaseEvent{
     private Integer sentCount;//发送成功数量
     private Integer errorCount;//发送失败数量
 
-    public AllMessageEvent(String msgId, String status, Integer totalCount, Integer filterCount, Integer sentCount, Integer errorCount){
+    public SendMessageEvent(String msgId, String status, Integer totalCount, Integer filterCount, Integer sentCount, Integer errorCount){
     super();
     this.msgId=msgId;
     this.status=status;
