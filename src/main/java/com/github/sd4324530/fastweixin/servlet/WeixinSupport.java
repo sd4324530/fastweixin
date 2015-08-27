@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -261,6 +260,15 @@ public abstract class WeixinSupport {
                 if (isNull(msg)) {
                     msg = processMessageHandle(videoReqMsg);
                 }
+            } else if (msgType.equals(ReqType.SHORT_VIDEO)) {
+                String thumbMediaId = (String) reqMap.get("ThumbMediaId");
+                String mediaId = (String) reqMap.get("MediaId");
+                VideoReqMsg videoReqMsg = new VideoReqMsg(mediaId, thumbMediaId);
+                buildBasicReqMsg(reqMap, videoReqMsg);
+                msg = hadnleShortVideoMsg(videoReqMsg);
+                if (isNull(msg)) {
+                    msg = processMessageHandle(videoReqMsg);
+                }
             } else if (msgType.equals(ReqType.LOCATION)) {
                 double locationX = Double.parseDouble((String) reqMap.get("Location_X"));
                 double locationY = Double.parseDouble((String) reqMap.get("Location_Y"));
@@ -393,6 +401,16 @@ public abstract class WeixinSupport {
      * @return 响应消息对象
      */
     protected BaseMsg handleVideoMsg(VideoReqMsg msg) {
+        return handleDefaultMsg(msg);
+    }
+
+    /**
+     * 处理小视频消息，有需要时子类重写
+     *
+     * @param msg 请求消息对象
+     * @return 响应消息对象
+     */
+    protected BaseMsg hadnleShortVideoMsg(VideoReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
