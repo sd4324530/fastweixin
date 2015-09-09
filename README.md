@@ -165,4 +165,4 @@ Maven 项目引入
 ```
 
 ##感谢支持
-![image](https://github.com/sd4324530/fastweixin/blob/master/alipay.png)
+![image](http://121.40.140.41:8080/img/alipay.png)
