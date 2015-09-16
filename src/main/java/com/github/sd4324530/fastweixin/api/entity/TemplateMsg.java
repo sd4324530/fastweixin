@@ -3,6 +3,7 @@ package com.github.sd4324530.fastweixin.api.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 模版消息
@@ -14,7 +15,7 @@ public class TemplateMsg extends BaseModel {
     private String url;
     private String topcolor;
 
-    private List<TemplateParam> data;
+    private Map<String, TemplateParam> data;
 
     public String getTouser() {
         return touser;
@@ -48,11 +49,11 @@ public class TemplateMsg extends BaseModel {
         this.topcolor = topcolor;
     }
 
-    public List<TemplateParam> getData() {
+    public Map<String, TemplateParam> getData() {
         return data;
     }
 
-    public void setData(List<TemplateParam> data) {
+    public void setData(Map<String, TemplateParam> data) {
         this.data = data;
     }
 }
