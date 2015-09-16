@@ -80,8 +80,8 @@ public final class ApiConfig extends Observable implements Serializable {
             }
         } catch (Exception e) {
             LOG.warn("刷新Token出错.", e);
-            //如果刷新出现错误，才能把标记改为false，这样下次就会重新刷新，而不是在原本的finally中该
-            tokenRefreshing.set(false);
+        } finally {
+            this.tokenRefreshing.set(false);
         }
         return accessToken;
     }
@@ -94,12 +94,11 @@ public final class ApiConfig extends Observable implements Serializable {
                 if (now - this.jsTokenStartTime > 7100000 && jsRefreshing.compareAndSet(false, true)) {
                     getAccessToken();
                     initJSToken(now);
-                    jsRefreshing.set(false);
                 }
             } catch (Exception e) {
                 LOG.warn("刷新jsTicket出错.", e);
-                //如果刷新出现错误，才能把标记改为false，这样下次就会重新刷新，而不是在原本的finally中该
-                jsRefreshing.set(false);
+            } finally {
+                this.jsRefreshing.set(false);
             }
         } else {
             jsApiTicket = null;
