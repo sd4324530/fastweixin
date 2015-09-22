@@ -36,9 +36,9 @@ public class MenuButton extends BaseModel {
     /**
      * 菜单显示的永久素材的MaterialID,当MenuType值为media_id和view_limited时必需
      */
-    @JSONField(name="media_id")
-    private String materialId;
-    
+    @JSONField(name = "media_id")
+    private String mediaId;
+
     /**
      * 二级菜单列表，每个一级菜单下最多5个
      */
@@ -75,17 +75,17 @@ public class MenuButton extends BaseModel {
 
     public void setUrl(String url) {
         this.url = url;
-    }    
+    }
 
-    public String getMaterialId() {
-		return materialId;
-	}
+    public String getMediaId() {
+        return mediaId;
+    }
 
-	public void setMaterialId(String materialId) {
-		this.materialId = materialId;
-	}
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
 
-	public List<MenuButton> getSubButton() {
+    public List<MenuButton> getSubButton() {
         return subButton;
     }
 
