@@ -47,7 +47,17 @@ public enum MenuType {
     /**
      * 弹出地理位置选择器
      */
-    LOCATION_SELECT("location_select");
+    LOCATION_SELECT("location_select"),
+
+	/**
+     * 下发消息（除文本消息）
+	 */
+    MEDIA_ID("media_id"),
+
+    /**
+     * 跳转图文消息URL
+     */
+    VIEW_LIMITED("view_limited");
 
     String value;
 
