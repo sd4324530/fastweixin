@@ -44,7 +44,6 @@ public class QYAgentAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/agent/list?access_token=#";
         BaseResponse r = executeGet(url);
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        System.out.println(jsonResult);
         response = JSONUtil.toBean(jsonResult, GetQYAgentListResponse.class);
         return response;
     }
@@ -65,10 +64,14 @@ public class QYAgentAPI extends QYBaseAPI {
 
     /**
      * 设置应用信息
+     * -----------------------------------------------
+     * 设置应用信息方法使用新的update方法代替。
+     * -----------------------------------------------
      * @param agent 应用对象
      * @param mediaId 应用的logo
      * @return
      */
+    @Deprecated
     public QYResultType create(QYAgent agent, String mediaId){
         String url = BASE_API_URL + "cgi-bin/agent/set?access_token=#";
         final Map<String, Object> params = new HashMap<String, Object>();
@@ -80,6 +83,17 @@ public class QYAgentAPI extends QYBaseAPI {
         params.put("redirect_domain", agent.getRedirectDomain());
         params.put("isreportuser", agent.getIsReportUser());
         params.put("isreportenter", agent.getIsReportEnter());
+        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        return QYResultType.get(response.getErrcode());
+    }
+
+    /**
+     * 新的设置应用信息
+     * @param params
+     * @return
+     */
+    public QYResultType update(Map<String, Object> params){
+        String url = BASE_API_URL + "cgi-bin/agent/set?access_token=#";
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
         return QYResultType.get(response.getErrcode());
     }
