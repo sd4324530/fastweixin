@@ -384,9 +384,4 @@ public class FastweixinTest {
         MenuAPI menuAPI = new MenuAPI(config);
         menuAPI.deleteMenu();
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ff7b3c911c3f2c00e7f8682f187f2545c1c4dbc8
 }
