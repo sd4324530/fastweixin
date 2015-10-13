@@ -39,7 +39,7 @@ public class QYDepartmentAPI extends QYBaseAPI {
         if(parentId != null) {
             url = BASE_API_URL + "cgi-bin/department/list?access_token=#&id=" + parentId;
         }else{
-            url = BASE_API_URL + "cgi-bin/department/list?access_token=#&id=";
+            url = BASE_API_URL + "cgi-bin/department/list?access_token=#";
         }
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();

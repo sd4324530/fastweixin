@@ -28,14 +28,14 @@ public class QYDepartment extends BaseModel{
 
     public QYDepartment(String name, Integer parentId, Integer order) {
         this.name = name;
-        this.parentId = parentId;
+        this.parentId = (parentId == null || parentId < 1) ? 1 : parentId;
         this.order = order;
     }
 
     public QYDepartment(Integer id, String name, Integer parentId, Integer order) {
         this.id = id;
         this.name = name;
-        this.parentId = parentId;
+        this.parentId = (parentId == null || parentId < 1) ? 1 : parentId;
         this.order = order;
     }
 

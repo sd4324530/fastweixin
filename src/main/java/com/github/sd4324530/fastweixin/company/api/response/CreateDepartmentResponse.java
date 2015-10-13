@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.company.api.response;
 
-import com.github.sd4324530.fastweixin.api.entity.BaseModel;
+import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 
 /**
  *  
@@ -11,7 +11,7 @@ import com.github.sd4324530.fastweixin.api.entity.BaseModel;
  *  @version 1.0.beta
  *  ====================================================================
  */
-public class CreateDepartmentResponse extends BaseModel {
+public class CreateDepartmentResponse extends BaseResponse {
     private Integer id;
 
     public Integer getId() {

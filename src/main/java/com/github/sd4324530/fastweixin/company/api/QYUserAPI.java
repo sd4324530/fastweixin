@@ -111,8 +111,8 @@ public class QYUserAPI extends QYBaseAPI {
 
     /**
      * 通过部门列表获取部门成员信息
-     * @param departmentId
-     * @param isLoop
+     * @param departmentId 部门ID
+     * @param isLoop 是否递归子部门成员
      * @param status
      * @return
      */

@@ -136,6 +136,14 @@ public class QYUser extends BaseModel {
         this.avatar = avatar;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Map<String, Object> getExtattr() {
         return extattr;
     }

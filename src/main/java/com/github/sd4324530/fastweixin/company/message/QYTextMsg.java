@@ -32,6 +32,10 @@ public class QYTextMsg extends QYBaseMsg {
         this.text = text;
     }
 
+    public void setConetnt(String content){
+        this.text = new Text(content);
+    }
+
     public static class Text{
         @JSONField(name = "content")
         private String content;

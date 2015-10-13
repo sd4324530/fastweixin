@@ -32,8 +32,8 @@ public class FastweixinTest {
         String appid = "wx337021cfcc3e32fb";
         String secret = "e244f1244f0ba2798546e0450d3045ea";
         config = new ApiConfig(appid, secret);
-        //TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
-        //config.addHandle(configChangeHandle);
+        TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
+        config.addHandle(configChangeHandle);
     }
 
     /*
@@ -45,14 +45,14 @@ public class FastweixinTest {
         String appid = "wx8c33ff895df5d0d9";
         String secret = "0705aafac0bef944de4c485d71fce900";
         ApiConfig config = new ApiConfig(appid, secret);
-       // TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
-        //config.addHandle(configChangeHandle);
+        TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
+        config.addHandle(configChangeHandle);
 //        createMenu(config);
 //        getUserList(config);
 //        uploadMedia(config);
 //        downloadMedia(config);
 //        getUserInfo(config);
-        //getMenu(config);
+        getMenu(config);
 //        addCustomAccount(config);
 //        getOauthPageUrl(config);
 //        getToken(config);
