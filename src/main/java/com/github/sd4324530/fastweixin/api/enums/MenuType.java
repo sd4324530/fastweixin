@@ -47,7 +47,20 @@ public enum MenuType {
     /**
      * 弹出地理位置选择器
      */
-    LOCATION_SELECT("location_select");
+    LOCATION_SELECT("location_select"),
+
+
+    /*-----------------------------以下专门给第三方平台旗下未微信认证（具体而言，是资质认证未通过）的订阅号准备的事件类型，它们是没有事件推送的，能力相对受限，其他类型的公众号不必使用--------------------------*/
+
+    /**
+     * 下发消息（除文本消息）
+     */
+    MEDIA_ID("media_id"),
+
+    /**
+     * 跳转图文消息URL
+     */
+    VIEW_LIMITED("view_limited");
 
     String value;
 

@@ -35,9 +35,7 @@ public class DownloadMediaResponse extends BaseResponse {
             byte[] temp = byteOutputStream.toByteArray();
             if (temp.length > length) {
                 this.content = new byte[length];
-                for (int i = 0; i < length; i++) {
-                    this.content[i] = temp[i];
-                }
+                System.arraycopy(temp, 0, this.content, 0, length);
             } else {
                 this.content = temp;
             }
