@@ -25,7 +25,7 @@ public abstract class AbstractQYApiConfigChangeHandle implements ApiConfigChange
 
     /**
      * 子类实现，当配置变化时触发该方法
-     * @param notice
+     * @param notice 消息
      */
     public abstract void configChange(QYConfigChangeNotice notice);
 }
