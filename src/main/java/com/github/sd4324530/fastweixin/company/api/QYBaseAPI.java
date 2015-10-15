@@ -9,9 +9,6 @@ import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * API基类，提供一些通用方法
@@ -22,7 +19,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public abstract class QYBaseAPI {
 
-    protected static final String        BASE_API_URL = "https://qyapi.weixin.qq.com/";
+    protected static final String BASE_API_URL = "https://qyapi.weixin.qq.com/";
 
     protected final QYAPIConfig config;
 
