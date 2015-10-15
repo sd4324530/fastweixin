@@ -50,6 +50,7 @@ public class QYMediaAPI extends QYBaseAPI {
      * 上传媒体文件
      * @param file 媒体文件
      * @param type 媒体文件类型
+     * @return 上传结果
      */
     public UploadMediaResponse upload(MediaType type, File file){
         if(type == MediaType.NEWS){
@@ -65,8 +66,8 @@ public class QYMediaAPI extends QYBaseAPI {
 
     /**
      * 下载媒体文件
-     * @param mediaId
-     * @return
+     * @param mediaId 媒体ID
+     * @return 下载结果
      */
     public DownloadMediaResponse download(String mediaId){
         DownloadMediaResponse response = new DownloadMediaResponse();

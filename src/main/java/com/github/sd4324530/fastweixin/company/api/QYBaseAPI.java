@@ -23,11 +23,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public abstract class QYBaseAPI {
 
     protected static final String        BASE_API_URL = "https://qyapi.weixin.qq.com/";
-    //    private static final   Logger        LOG          = LoggerFactory.getLogger(BaseAPI.class);
-    //用于刷新token时锁住config，防止多次刷新
-    private final          ReadWriteLock lock         = new ReentrantReadWriteLock();
-    private final          Lock          readLock     = lock.readLock();
-//    private final          Lock          writeLock    = lock.writeLock();
 
     protected final QYAPIConfig config;
 
@@ -60,39 +55,15 @@ public abstract class QYBaseAPI {
      * @return 请求结果
      */
     protected BaseResponse executePost(String url, String json, File file) {
-        BaseResponse response = null;
+        BaseResponse response;
         BeanUtil.requireNonNull(url, "url is null");
-        String postUrl;
         List<File> files = null;
         if (null != file) {
             files = CollectionUtil.newArrayList(file);
         }
-        readLock.lock();
-        try {
-            //需要传token
-            postUrl = url.replace("#", config.getAccessToken());
-            response = NetWorkCenter.post(postUrl, json, files);
-        } finally {
-            readLock.unlock();
-        }
-
-//        if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
-//            refreshToken();
-//            readLock.lock();
-//            try {
-//                LOG.debug("接口调用重试....");
-//                TimeUnit.SECONDS.sleep(1);
-//                postUrl = url.replace("#", config.getAccessToken());
-//                response = NetWorkCenter.post(postUrl, json, files);
-//            } catch (InterruptedException e) {
-//                LOG.error("线程休眠异常", e);
-//            } catch (Exception e) {
-//                LOG.error("请求出现异常", e);
-//            } finally {
-//                readLock.unlock();
-//            }
-//        }
-
+        //需要传token
+        String postUrl = url.replace("#", config.getAccessToken());
+        response = NetWorkCenter.post(postUrl, json, files);
         return response;
     }
 
@@ -104,76 +75,14 @@ public abstract class QYBaseAPI {
      * @return 请求结果
      */
     protected BaseResponse executeGet(String url) {
-        BaseResponse response = null;
+        BaseResponse response;
         BeanUtil.requireNonNull(url, "url is null");
-        String getUrl;
-        readLock.lock();
-        try {
-            //需要传token
-            getUrl = url.replace("#", config.getAccessToken());
-            response = NetWorkCenter.get(getUrl);
-        } finally {
-            readLock.unlock();
-        }
+        //需要传token
+        String getUrl = url.replace("#", config.getAccessToken());
+        response = NetWorkCenter.get(getUrl);
 
-//        if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
-//            refreshToken();
-//            config.getAccessToken();
-//            readLock.lock();
-//            try {
-//                LOG.debug("接口调用重试....");
-//                TimeUnit.SECONDS.sleep(1);
-//                getUrl = url.replace("#", config.getAccessToken());
-//                response = NetWorkCenter.get(getUrl);
-//            } catch (InterruptedException e) {
-//                LOG.error("线程休眠异常", e);
-//            } catch (Exception e) {
-//                LOG.error("请求出现异常", e);
-//            } finally {
-//                readLock.unlock();
-//            }
-//        }
         return response;
     }
-
-//    /**
-//     * 通用get请求
-//     *
-//     * @param url  地址，其中token用#代替
-//     * @param json 参数
-//     * @return 请求结果
-//     */
-//    protected BaseResponse executeGet(String url, String json) {
-//        BaseResponse response = null;
-//        BeanUtil.requireNonNull(url, "url is null");
-//        String getUrl;
-//        readLock.lock();
-//        try {
-//            //需要传token
-//            getUrl = url.replace("#", config.getAccessToken());
-//            response = NetWorkCenter.get(getUrl);
-//        } finally {
-//            readLock.unlock();
-//        }
-//
-//        if (null == response || ResultType.ACCESS_TOKEN_TIMEOUT.getCode().toString().equals(response.getErrcode())) {
-//            refreshToken();
-//            readLock.lock();
-//            try {
-//                LOG.debug("接口调用重试....");
-//                TimeUnit.SECONDS.sleep(1);
-//                getUrl = url.replace("#", config.getAccessToken());
-//                response = NetWorkCenter.get(getUrl);
-//            } catch (InterruptedException e) {
-//                LOG.error("线程休眠异常", e);
-//            } catch (Exception e) {
-//                LOG.error("请求出现异常", e);
-//            } finally {
-//                readLock.unlock();
-//            }
-//        }
-//        return response;
-//    }
 
     /**
      * 判断本次请求是否成功
