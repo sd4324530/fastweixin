@@ -3,7 +3,6 @@ package com.github.sd4324530.fastweixin.api;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.Industry;
 import com.github.sd4324530.fastweixin.api.entity.TemplateMsg;
-import com.github.sd4324530.fastweixin.api.entity.TemplateParam;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.AddTemplateResponse;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
@@ -28,6 +27,7 @@ public class TemplateMsgAPI extends BaseAPI {
 
     /**
      * 设置行业
+     *
      * @param industry 行业参数
      * @return 操作结果
      */
@@ -41,6 +41,7 @@ public class TemplateMsgAPI extends BaseAPI {
 
     /**
      * 添加模版
+     *
      * @param shortTemplateId 模版短id
      * @return 操作结果
      */
@@ -58,6 +59,7 @@ public class TemplateMsgAPI extends BaseAPI {
 
     /**
      * 发送模版消息
+     *
      * @param msg 消息
      * @return 发送结果
      */
@@ -70,20 +72,6 @@ public class TemplateMsgAPI extends BaseAPI {
         BeanUtil.requireNonNull(msg.getTopcolor(), "top color is null");
         BeanUtil.requireNonNull(msg.getUrl(), "url is null");
         String url = BASE_API_URL + "cgi-bin/message/template/send?access_token=#";
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        params.put("touser", msg.getTouser());
-//        params.put("template_id", msg.getTemplateId());
-//        params.put("url", msg.getUrl());
-//        params.put("topcolor", msg.getTopcolor());
-//        Map<String, Map<String,String>> data = new HashMap<String, Map<String,String>>();
-//        for (TemplateParam param : msg.getData()) {
-//            Map<String, String> d = new HashMap<String, String>();
-//            d.put("value", param.getValue());
-//            d.put("color", param.getColor());
-//            data.put(param.getName(), d);
-//        }
-//        params.put("data", data);
-
         BaseResponse r = executePost(url, msg.toJsonString());
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         SendTemplateResponse result = JSONUtil.toBean(resultJson, SendTemplateResponse.class);
