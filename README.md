@@ -160,6 +160,10 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.3.3</version>
+    <version>1.3.4</version>
 </dependency>
 ```
+
+##感谢支持
+支付宝
+![image](http://121.40.140.41:8080/img/alipay.png)

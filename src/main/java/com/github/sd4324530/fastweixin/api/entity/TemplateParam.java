@@ -6,10 +6,6 @@ package com.github.sd4324530.fastweixin.api.entity;
 public class TemplateParam extends BaseModel {
 
     /**
-     * 名称
-     */
-    private String name;
-    /**
      * 值
      */
     private String value;
@@ -17,14 +13,6 @@ public class TemplateParam extends BaseModel {
      * 颜色
      */
     private String color;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getValue() {
         return value;
