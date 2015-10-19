@@ -91,10 +91,8 @@ public class QYMediaAPI extends QYBaseAPI {
                     response = JSONUtil.toBean(json, DownloadMediaResponse.class);
                 }
             }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOG.error("异常", e);
         }finally {
             try{
                 client.close();
