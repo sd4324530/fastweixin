@@ -6,6 +6,7 @@ import com.github.sd4324530.fastweixin.company.api.entity.QYDepartment;
 import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
 import com.github.sd4324530.fastweixin.company.api.response.CreateDepartmentResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetDepartmentListResponse;
+import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 /**
@@ -31,11 +32,11 @@ public class QYDepartmentAPI extends QYBaseAPI {
     /**
      * 获取部门列表
      * @param parentId 父级部门ID。可不填，不填表示顶级部门
-     * @return
+     * @return 部门列表
      */
     public GetDepartmentListResponse getList(Integer parentId){
         GetDepartmentListResponse response;
-        String url = null;
+        String url;
         if(parentId != null) {
             url = BASE_API_URL + "cgi-bin/department/list?access_token=#&id=" + parentId;
         }else{
@@ -50,12 +51,13 @@ public class QYDepartmentAPI extends QYBaseAPI {
     /**
      * 创建部门
      * @param department 部门信息
-     * @return
+     * @return 部门信息
      */
     public CreateDepartmentResponse create(QYDepartment department) {
+        BeanUtil.requireNonNull(department, "department is null");
         CreateDepartmentResponse response;
         String url = BASE_API_URL + "cgi-bin/department/create?access_token=#";
-        BaseResponse r = executePost(url, JSONUtil.toJson(department));
+        BaseResponse r = executePost(url, department.toJsonString());
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, CreateDepartmentResponse.class);
         return response;
@@ -63,21 +65,23 @@ public class QYDepartmentAPI extends QYBaseAPI {
 
     /**
      * 更新部门
-     * @param department
-     * @return
+     * @param department 需要更新的部门
+     * @return 更新结果
      */
     public QYResultType update(QYDepartment department){
+        BeanUtil.requireNonNull(department, "department is null");
         String url = BASE_API_URL + "cgi-bin/department/update?access_token=#";
-        BaseResponse r = executePost(url, JSONUtil.toJson(department));
+        BaseResponse r = executePost(url, department.toJsonString());
         return QYResultType.get(r.getErrcode());
     }
 
     /**
      * 删除部门
-     * @param id
-     * @return
+     * @param id 部门ID
+     * @return 删除结果
      */
     public QYResultType delete(Integer id){
+        BeanUtil.requireNonNull(id, "id is null");
         String url = BASE_API_URL + "cgi-bin/department/delete?access_token=#&id=" + id;
         BaseResponse r = executeGet(url);
         return QYResultType.get(r.getErrcode());

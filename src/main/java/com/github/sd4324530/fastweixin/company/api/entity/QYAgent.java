@@ -6,26 +6,26 @@ import com.github.sd4324530.fastweixin.api.entity.BaseModel;
 import java.util.Map;
 
 /**
- *  
- *  ====================================================================
- *  上海聚攒软件开发有限公司
- *  --------------------------------------------------------------------
- *  @author Nottyjay
- *  @version 1.0.beta
- *  ====================================================================
+ * ====================================================================
+ * 上海聚攒软件开发有限公司
+ * --------------------------------------------------------------------
+ *
+ * @author Nottyjay
+ * @version 1.0.beta
+ *          ====================================================================
  */
 public class QYAgent extends BaseModel {
 
     @JSONField(name = "agentid")
-    private String agentId;
+    private String              agentId;
     @JSONField(name = "name")
-    private String name;
+    private String              name;
     @JSONField(name = "square_logo_url")
-    private String squareLogoUrl;
+    private String              squareLogoUrl;
     @JSONField(name = "round_logo_url")
-    private String roundLogoUrl;
+    private String              roundLogoUrl;
     @JSONField(name = "description")
-    private String description;
+    private String              description;
     @JSONField(name = "allow_userinfos")
     private Map<String, Object> allowUserInfos;
     @JSONField(name = "allow_partys")
@@ -33,30 +33,31 @@ public class QYAgent extends BaseModel {
     @JSONField(name = "allow_tags")
     private Map<String, Object> allowTags;
     @JSONField(name = "close")
-    private Integer close;
+    private Integer             close;
     @JSONField(name = "redirect_domain")
-    private String redirectDomain;
+    private String              redirectDomain;
     @JSONField(name = "report_location_flag")
-    private Integer reportLocationFlag;
+    private Integer             reportLocationFlag;
     @JSONField(name = "isreportuser")
-    private Integer isReportUser;
+    private Integer             isReportUser;
     @JSONField(name = "isreportenter")
-    private Integer isReportEnter;
+    private Integer             isReportEnter;
 
     public QYAgent() {
     }
 
     /**
      * 创建新应用时候需要用到的参数
-     * @param agentId
-     * @param name
-     * @param description
-     * @param redirectDomain
-     * @param reportLocationFlag
-     * @param isReportUser
-     * @param isReportEnter
+     *
+     * @param agentId            ID
+     * @param name               名称
+     * @param description        应用详情
+     * @param redirectDomain     应用可信域名
+     * @param reportLocationFlag 企业应用是否打开地理位置上报 0：不上报；1：进入会话上报；2：持续上报
+     * @param isReportUser       是否接收用户变更通知。0：不接收；1：接收
+     * @param isReportEnter      是否上报用户进入应用事件。0：不接收；1：接收
      */
-    public QYAgent(String agentId, String name, String description, String redirectDomain, Integer reportLocationFlag, Integer isReportUser, Integer isReportEnter){
+    public QYAgent(String agentId, String name, String description, String redirectDomain, Integer reportLocationFlag, Integer isReportUser, Integer isReportEnter) {
         this.agentId = agentId;
         this.name = name;
         this.description = description;
@@ -67,19 +68,13 @@ public class QYAgent extends BaseModel {
     }
 
     public QYAgent(String agentId, String name, String squareLogoUrl, String roundLogoUrl, String description, Map<String, Object> allowUserInfos, Map<String, Object> allowPartys, Map<String, Object> allowTags, Integer close, String redirectDomain, Integer reportLocationFlag, Integer isReportUser, Integer isReportEnter) {
-        this.agentId = agentId;
-        this.name = name;
+        this(agentId, name, description, redirectDomain, reportLocationFlag, isReportEnter, isReportUser);
         this.squareLogoUrl = squareLogoUrl;
         this.roundLogoUrl = roundLogoUrl;
-        this.description = description;
         this.allowUserInfos = allowUserInfos;
         this.allowPartys = allowPartys;
         this.allowTags = allowTags;
         this.close = close;
-        this.redirectDomain = redirectDomain;
-        this.reportLocationFlag = reportLocationFlag;
-        this.isReportUser = isReportUser;
-        this.isReportEnter = isReportEnter;
     }
 
     public String getAgentId() {

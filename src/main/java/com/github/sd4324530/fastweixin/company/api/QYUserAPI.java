@@ -7,6 +7,7 @@ import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYUserInfo4DepartmentResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYUserInfoResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYUserInviteResponse;
+import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 
 import java.util.HashMap;
@@ -35,32 +36,35 @@ public class QYUserAPI extends QYBaseAPI {
 
     /**
      * 创建一个新用户
-     * @param user
-     * @return
+     * @param user 用户
+     * @return 创建结果
      */
     public QYResultType create(QYUser user){
+        BeanUtil.requireNonNull(user, "user is null");
         String url = BASE_API_URL + "cgi-bin/user/create?access_token=#";
-        BaseResponse response = executePost(url, JSONUtil.toJson(user));
+        BaseResponse response = executePost(url, user.toJsonString());
         return QYResultType.get(response.getErrcode());
     }
 
     /**
      * 更新用户信息
-     * @param user
-     * @return
+     * @param user 用户
+     * @return 更新结果
      */
     public QYResultType update(QYUser user){
+        BeanUtil.requireNonNull(user, "user is null");
         String url = BASE_API_URL + "cgi-bin/user/update?access_token=#";
-        BaseResponse response = executePost(url, JSONUtil.toJson(user));
+        BaseResponse response = executePost(url, user.toJsonString());
         return QYResultType.get(response.getErrcode());
     }
 
     /**
      * 删除用户
-     * @param userId
-     * @return
+     * @param userId 用户ID
+     * @return 删除结果
      */
     public QYResultType delete(String userId){
+        BeanUtil.requireNonNull(userId, "userId is null");
         String url = BASE_API_URL + "cgi-bin/user/delete?access_token=#&userid=" + userId;
         BaseResponse response = executeGet(url);
         return QYResultType.get(response.getErrcode());
@@ -68,8 +72,8 @@ public class QYUserAPI extends QYBaseAPI {
 
     /**
      * 批量删除用户
-     * @param userIds
-     * @return
+     * @param userIds 要删除的用户ID数组
+     * @return 删除结果
      */
     public QYResultType batchdelete(String[] userIds){
         String url = BASE_API_URL + "cgi-bin/user/batchdelete?access_token=#";
@@ -81,10 +85,11 @@ public class QYUserAPI extends QYBaseAPI {
 
     /**
      * 获取用户信息
-     * @param userId
-     * @return
+     * @param userId 用户ID
+     * @return 用户信息
      */
     public GetQYUserInfoResponse get(String userId){
+        BeanUtil.requireNonNull(userId, "userId is null");
         GetQYUserInfoResponse response;
         String url = BASE_API_URL + "cgi-bin/user/get?access_token=#&userid=" + userId;
         BaseResponse r = executeGet(url);
@@ -95,12 +100,12 @@ public class QYUserAPI extends QYBaseAPI {
 
     /**
      * 通过部门列表获取部门成员摘要。仅包含userid与name
-     * @param departmentId
-     * @param isLoop
-     * @param status
-     * @return
+     * @param departmentId 部门ID
+     * @param isLoop 是否递归获取子部门下面的成员
+     * @param status 0获取全部成员，1获取已关注成员列表，2获取禁用成员列表，4获取未关注成员列表。status可叠加，未填写则默认为4
+     * @return 部门成员
      */
-    public GetQYUserInfo4DepartmentResponse simpleList(Integer departmentId, boolean isLoop, Integer status ){
+    public GetQYUserInfo4DepartmentResponse simpleList(Integer departmentId, boolean isLoop, Integer status){
         GetQYUserInfo4DepartmentResponse response;
         String url = BASE_API_URL + "cgi-bin/user/simplelist?access_token=#&department_id=" + departmentId + "&fetch_child=" + (isLoop? 0 : 1) + "&status=" + status;
         BaseResponse r = executeGet(url);
@@ -112,9 +117,9 @@ public class QYUserAPI extends QYBaseAPI {
     /**
      * 通过部门列表获取部门成员信息
      * @param departmentId 部门ID
-     * @param isLoop 是否递归子部门成员
-     * @param status
-     * @return
+     * @param isLoop 是否递归获取子部门下面的成员
+     * @param status 0获取全部成员，1获取已关注成员列表，2获取禁用成员列表，4获取未关注成员列表。status可叠加，未填写则默认为4
+     * @return 部门成员详情信息
      */
     public GetQYUserInfo4DepartmentResponse getList(Integer departmentId, boolean isLoop, Integer status){
         GetQYUserInfo4DepartmentResponse response;
@@ -127,13 +132,15 @@ public class QYUserAPI extends QYBaseAPI {
 
     /**
      * 邀请成员关注。返回值type为1时表示微信邀请，2为邮件邀请
-     * @param userid
-     * @return
+     * @param userid 用户ID
+     * @return 邀请结果
      */
     public GetQYUserInviteResponse invite(String userid){
-        GetQYUserInviteResponse response = null;
+        BeanUtil.requireNonNull(userid, "userid is null");
+        GetQYUserInviteResponse response;
         String url = BASE_API_URL + "cgi-bin/invite/send?access_token=#";
         final Map<String, String> params = new HashMap<String, String>();
+        params.put("userid", userid);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetQYUserInviteResponse.class);

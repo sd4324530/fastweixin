@@ -43,7 +43,6 @@ public abstract class WeixinControllerSupport extends WeixinSupport {
      *
      * @param request http 请求对象
      * @param response http 响应对象
-     * @return 响应给微信服务器的消息报文
      * @throws ServletException 异常
      * @throws IOException      IO异常
      */

@@ -6,6 +6,7 @@ import com.github.sd4324530.fastweixin.company.api.entity.QYAgent;
 import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYAgentInfoResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYAgentListResponse;
+import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class QYAgentAPI extends QYBaseAPI {
 
     /**
      * 获取全部应用列表
-     * @return
+     * @return 应用列表
      */
     public GetQYAgentListResponse getAll(){
         GetQYAgentListResponse response;
@@ -51,9 +52,10 @@ public class QYAgentAPI extends QYBaseAPI {
     /**
      * 获取应用信息
      * @param agentId 应用ID
-     * @return
+     * @return 应用信息
      */
     public GetQYAgentInfoResponse getInfo(String agentId){
+        BeanUtil.requireNonNull(agentId, "agentId is null");
         GetQYAgentInfoResponse response;
         String url = BASE_API_URL + "cgi-bin/agent/get?access_token=#&agentid=" + agentId;
         BaseResponse r = executeGet(url);
@@ -69,7 +71,7 @@ public class QYAgentAPI extends QYBaseAPI {
      * -----------------------------------------------
      * @param agent 应用对象
      * @param mediaId 应用的logo
-     * @return
+     * @return 创建结果
      */
     @Deprecated
     public QYResultType create(QYAgent agent, String mediaId){

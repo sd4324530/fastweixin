@@ -204,6 +204,7 @@ public class MaterialAPI extends BaseAPI {
     /**
      * 删除一个永久素材
      * @param mediaId 素材ID
+     * @return 删除结果
      */
     public ResultType deleteMaterial(String mediaId) {
         String url = BASE_API_URL + "cgi-bin/material/del_material?access_token=#";

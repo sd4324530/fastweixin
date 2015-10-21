@@ -18,44 +18,46 @@ import java.util.Observable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- *  
- *  ====================================================================
- *  上海聚攒软件开发有限公司
- *  --------------------------------------------------------------------
- *  @author Nottyjay
- *  @version 1.0.beta
- *  ====================================================================
+ * ====================================================================
+ * 上海聚攒软件开发有限公司
+ * --------------------------------------------------------------------
+ *
+ * @author Nottyjay
+ * @version 1.0.beta
+ *          ====================================================================
  */
-public final class QYAPIConfig extends Observable implements Serializable{
+public final class QYAPIConfig extends Observable implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(QYAPIConfig.class);
 
-    private final Integer CACHE_TIME = 7100000;
+    private final Integer       CACHE_TIME      = 7100000;
     private final AtomicBoolean tokenRefreshing = new AtomicBoolean(false);
-    private final AtomicBoolean jsRefreshing = new AtomicBoolean(false);
+    private final AtomicBoolean jsRefreshing    = new AtomicBoolean(false);
 
-    private final String corpid;
-    private final String corpsecret;
-    private String accessToken;
-    private String jsApiTicket;
-    private boolean enableJsApi;
-    private long jsTokenStartTime;
-    private long weixinTokenStartTime;
+    private final String  corpid;
+    private final String  corpsecret;
+    private       String  accessToken;
+    private       String  jsApiTicket;
+    private       boolean enableJsApi;
+    private       long    jsTokenStartTime;
+    private       long    weixinTokenStartTime;
 
     /**
      * 构造方法一，实现同时获取AccessToken。不启用jsApi
-     * @param corpID
-     * @param corpSecret
+     *
+     * @param corpID     corpID
+     * @param corpSecret corpSecret
      */
-    public QYAPIConfig(String corpID, String corpSecret){
+    public QYAPIConfig(String corpID, String corpSecret) {
         this(corpID, corpSecret, false);
     }
 
     /**
      * 构造方法二，实现同时获取AccessToken，启用jsApi
-     * @param corpid
-     * @param corpsecret
-     * @param enableJsApi
+     *
+     * @param corpid      corpid
+     * @param corpsecret  corpsecret
+     * @param enableJsApi enableJsApi
      */
     public QYAPIConfig(String corpid, String corpsecret, boolean enableJsApi) {
         this.corpid = corpid;
@@ -71,35 +73,36 @@ public final class QYAPIConfig extends Observable implements Serializable{
         return corpsecret;
     }
 
-    public String getAccessToken(){
+    public String getAccessToken() {
         long now = System.currentTimeMillis();
         long time = now - this.weixinTokenStartTime;
-        try{
-            if(time > CACHE_TIME && tokenRefreshing.compareAndSet(false, true)){
+        try {
+            if (time > CACHE_TIME && tokenRefreshing.compareAndSet(false, true)) {
                 LOG.debug("准备刷新tokean.........");
                 initToken(now);
             }
-        }finally {
+        } catch (Exception e) {
+            LOG.error("刷新token异常", e);
             tokenRefreshing.set(false);
         }
         return accessToken;
     }
 
-    public String getJsApiTicket(){
-        if(enableJsApi){
+    public String getJsApiTicket() {
+        if (enableJsApi) {
             long now = System.currentTimeMillis();
             long time = now - this.jsTokenStartTime;
-            try{
-                if(now - this.jsTokenStartTime > CACHE_TIME && jsRefreshing.compareAndSet(false, true)){
+            try {
+                if (now - this.jsTokenStartTime > CACHE_TIME && jsRefreshing.compareAndSet(false, true)) {
                     LOG.debug("准备刷新JSTokean..........");
                     getAccessToken();
                     initJSToken(now);
-                    jsRefreshing.set(false);
                 }
-            }finally {
+            } catch (Exception e) {
+                LOG.error("刷新jsToken异常", e);
                 jsRefreshing.set(false);
             }
-        }else{
+        } else {
             jsApiTicket = null;
         }
         return jsApiTicket;
@@ -115,31 +118,31 @@ public final class QYAPIConfig extends Observable implements Serializable{
             this.jsApiTicket = null;
     }
 
-    public void addHandle(final ApiConfigChangeHandle handle){
+    public void addHandle(final ApiConfigChangeHandle handle) {
         super.addObserver(handle);
     }
 
-    public void removeHandle(final ApiConfigChangeHandle handle){
+    public void removeHandle(final ApiConfigChangeHandle handle) {
         super.deleteObserver(handle);
     }
 
-    public void removeAllHandle(){
+    public void removeAllHandle() {
         super.deleteObservers();
     }
 
-    private void initToken(final long refreshTime){
+    private void initToken(final long refreshTime) {
         LOG.debug("开始初始化access_token..........");
         // 记住原本的事件，用于出错回滚
         final long oldTime = this.weixinTokenStartTime;
         this.weixinTokenStartTime = refreshTime;
         String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=" + corpid + "&corpsecret=" + corpsecret;
-        NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback(){
+        NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
             public void onResponse(int resultCode, String resultJson) {
-                if(HttpStatus.SC_OK == resultCode){
+                if (HttpStatus.SC_OK == resultCode) {
                     GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
                     LOG.debug("获取access_token:{}", response.getAccessToken());
-                    if(null == response.getAccessToken()){
+                    if (null == response.getAccessToken()) {
                         // 刷新时间回滚
                         weixinTokenStartTime = oldTime;
                         throw new WeixinException("微信企业号token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
@@ -151,22 +154,23 @@ public final class QYAPIConfig extends Observable implements Serializable{
                 }
             }
         });
+        tokenRefreshing.set(false);
     }
 
-    private void initJSToken(final long refreshTime){
+    private void initJSToken(final long refreshTime) {
         LOG.debug("初始化 jsapi_ticket.........");
         // 记住原本的事件，用于出错回滚
         final long oldTime = this.jsTokenStartTime;
         this.jsTokenStartTime = refreshTime;
         String url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=" + accessToken;
-        NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback(){
+        NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
 
             @Override
             public void onResponse(int resultCode, String resultJson) {
-                if(HttpStatus.SC_OK == resultCode){
+                if (HttpStatus.SC_OK == resultCode) {
                     GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
                     LOG.debug("获取jsapi_ticket:{}", response.getTicket());
-                    if(StrUtil.isBlank(response.getTicket())){
+                    if (StrUtil.isBlank(response.getTicket())) {
                         //刷新时间回滚
                         jsTokenStartTime = oldTime;
                         throw new WeixinException("微信企业号jsToken获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
@@ -178,5 +182,6 @@ public final class QYAPIConfig extends Observable implements Serializable{
                 }
             }
         });
+        jsRefreshing.set(false);
     }
 }
