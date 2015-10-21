@@ -3,6 +3,7 @@ package com.github.sd4324530.fastweixin.company.message;/**
  */
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.github.sd4324530.fastweixin.api.entity.BaseModel;
 
 import java.io.Serializable;
 
@@ -15,7 +16,7 @@ import java.io.Serializable;
  * @version 1.0.beta
  * ====================================================================
  */
-public class QYBaseMsg implements Serializable {
+public class QYBaseMsg extends BaseModel {
 
     public static final class Safe {
         public static final String YES = "1";// 保密消息
