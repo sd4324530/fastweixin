@@ -13,18 +13,18 @@ import java.util.Map;
  * 上海聚攒软件开发有限公司
  * --------------------------------------------------------------------
  *
- * @author Nottyjay
+ * @author wwj
  * @version 1.0.beta
  * ====================================================================
  */
-public class QYNewsMsg extends QYBaseMsg {
+public class QYMpNewsMsg extends QYBaseMsg {
 
     private static final Integer MAX_ARTICLE_COUNT = 10;
 
-    @JSONField(name = "news")
+    @JSONField(name = "mpnews")
     private Map<String, Object> news;
 
-    public QYNewsMsg() {
+    public QYMpNewsMsg() {
         news = new HashMap<String, Object>();
     }
 
@@ -36,7 +36,7 @@ public class QYNewsMsg extends QYBaseMsg {
         this.news = news;
     }
 
-    public void setArticles(List<QYArticle> articles){
+    public void setMpArticles(List<QYMpArticle> articles){
         if(articles.size() > MAX_ARTICLE_COUNT){
             articles = articles.subList(0, MAX_ARTICLE_COUNT);
         }
