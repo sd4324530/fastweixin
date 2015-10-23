@@ -1,5 +1,7 @@
 package com.github.sd4324530.fastweixin.util;
 
+import java.util.List;
+
 /**
  * 对象常用方法工具类
  *
@@ -41,7 +43,7 @@ public final class BeanUtil {
      * @return 非空的对象
      */
     public static Object requireNonNull(Object object, String errorMessage) {
-        if (null == object) {
+        if (null == object || ((object instanceof List) ? ((((List) object).size()==0) ? true : false) : false)) {
             throw new NullPointerException(errorMessage);
         }
         return object;
