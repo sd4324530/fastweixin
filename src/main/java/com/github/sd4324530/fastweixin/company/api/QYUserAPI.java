@@ -4,11 +4,13 @@ import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
 import com.github.sd4324530.fastweixin.company.api.entity.QYUser;
 import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
+import com.github.sd4324530.fastweixin.company.api.response.GetOauthUserInfoResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYUserInfo4DepartmentResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYUserInfoResponse;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYUserInviteResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
+import com.github.sd4324530.fastweixin.util.StrUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -144,6 +146,25 @@ public class QYUserAPI extends QYBaseAPI {
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetQYUserInviteResponse.class);
+        return response;
+    }
+
+    /**
+     * 通过Oauth授权获得的CODE获取成员信息。仅包含UserId、OpenId、DeviceId三个。
+     * 企业成员授权时会获得UserId，非企业成员授权会获得OpenId。
+     * DeviceId为设备编号，重装微信时会发生变更，升级时不变
+     * @param code
+     * @return
+     */
+    public GetOauthUserInfoResponse getOauthUserInfo(String code){
+        if(StrUtil.isBlank(code)){
+            throw new NullPointerException("code is null");
+        }
+        GetOauthUserInfoResponse response;
+        String url = BASE_API_URL + "cgi-bin/user/getuserinfo?access_token=#&code=" + code;
+        BaseResponse r = executeGet(url);
+        String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(jsonResult, GetOauthUserInfoResponse.class);
         return response;
     }
 }
