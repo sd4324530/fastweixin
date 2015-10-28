@@ -31,8 +31,8 @@ public class QYFastweixinTest {
 
     @Before
     public void initConfig(){
-        String corpId = "wx7e0a6276e0a2e235";
-        String corpSecret = "36CdZB1Y4cGPEm1NRwASULdwxK7l_F-lUk9YWOc3kbG2yN-0EsC7Q0EnbriDluz0";
+        String corpId = "";
+        String corpSecret = "";
         config = new QYAPIConfig(corpId, corpSecret);
     }
 
