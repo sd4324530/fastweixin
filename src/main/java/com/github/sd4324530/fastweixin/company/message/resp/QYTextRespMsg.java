@@ -22,7 +22,7 @@ public class QYTextRespMsg extends QYBaseRespMsg {
     }
 
     public QYTextRespMsg(String content){
-
+        setContentBuilder(content);
     }
 
     public StringBuilder getContentBuilder() {
