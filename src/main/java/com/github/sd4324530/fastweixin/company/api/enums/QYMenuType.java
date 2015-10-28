@@ -63,4 +63,13 @@ public enum QYMenuType {
     public String toString() {
         return this.value;
     }
+
+    public static QYMenuType getType(String value){
+        for(QYMenuType qytype : QYMenuType.class.getEnumConstants()){
+            if(qytype.toString().equals(value)){
+                return qytype;
+            }
+        }
+        return null;
+    }
 }
