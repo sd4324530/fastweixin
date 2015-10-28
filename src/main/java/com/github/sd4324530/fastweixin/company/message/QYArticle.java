@@ -12,4 +12,8 @@ import com.github.sd4324530.fastweixin.message.Article;
  *  ====================================================================
  */
 public class QYArticle extends Article {
+
+    public QYArticle(String title, String description, String picUrl, String url) {
+        super(title, description, picUrl, url);
+    }
 }

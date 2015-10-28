@@ -10,7 +10,7 @@ import com.github.sd4324530.fastweixin.message.util.MessageBuilder;
  *  --------------------------------------------------------------------
  *  @author Nottyjay
  *  @version 1.0.beta
- *  @since
+ *  @since 1.3.6
  *  ====================================================================
  */
 public class QYTextRespMsg extends QYBaseRespMsg {
