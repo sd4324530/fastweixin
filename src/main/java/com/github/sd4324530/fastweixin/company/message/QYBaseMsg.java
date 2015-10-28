@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @version 1.0.beta
  * ====================================================================
  */
-public class QYBaseMsg extends BaseModel {
+public class QYBaseMsg extends BaseModel implements Serializable {
 
     public static final class Safe {
         public static final String YES = "1";// 保密消息

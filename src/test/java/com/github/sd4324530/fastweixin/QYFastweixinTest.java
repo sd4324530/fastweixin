@@ -31,8 +31,8 @@ public class QYFastweixinTest {
 
     @Before
     public void initConfig(){
-        String corpId = "";
-        String corpSecret = "";
+        String corpId = "wx7e0a6276e0a2e235";
+        String corpSecret = "36CdZB1Y4cGPEm1NRwASULdwxK7l_F-lUk9YWOc3kbG2yN-0EsC7Q0EnbriDluz0";
         config = new QYAPIConfig(corpId, corpSecret);
     }
 
@@ -200,7 +200,7 @@ public class QYFastweixinTest {
         Assert.assertEquals(Integer.valueOf(0), resultType.getCode());
     }
 
-//    @Test
+    @Test
     public void listMenu(){
         QYMenuAPI menuAPI = new QYMenuAPI(config);
         GetQYMenuResponse response = menuAPI.list("1");
@@ -213,4 +213,6 @@ public class QYFastweixinTest {
         QYResultType resultType = menuAPI.delete("1");
         Assert.assertEquals(Integer.valueOf(0), resultType.getCode());
     }
+
+
 }
