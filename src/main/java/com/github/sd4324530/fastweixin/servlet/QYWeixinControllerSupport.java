@@ -48,9 +48,9 @@ public abstract class QYWeixinControllerSupport extends QYWeixinSupport {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     protected final String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        if(StrUtil.isBlank(legalStr(request))){
-            return "";
-        }
+//        if(StrUtil.isBlank(legalStr(request))){
+//            return "";
+//        }
         String result = processRequest(request);
         response.getWriter().write(result);
         return null;

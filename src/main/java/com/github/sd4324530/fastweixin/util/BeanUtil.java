@@ -43,7 +43,7 @@ public final class BeanUtil {
      * @return 非空的对象
      */
     public static Object requireNonNull(Object object, String errorMessage) {
-        if (null == object || ((object instanceof List) ? ((((List) object).size()==0) ? true : false) : false)) {
+        if (null == object) {
             throw new NullPointerException(errorMessage);
         }
         return object;

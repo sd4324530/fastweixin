@@ -24,6 +24,10 @@ public class QYTextMsg extends QYBaseMsg {
         this.setMsgType("text");
     }
 
+    public QYTextMsg(String content) {
+        this.text = new Text(content);
+    }
+
     public Text getText() {
         return text;
     }
