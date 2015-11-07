@@ -1,5 +1,7 @@
 package com.github.sd4324530.fastweixin.util;
 
+import java.util.List;
+
 /**
  * 对象常用方法工具类
  *

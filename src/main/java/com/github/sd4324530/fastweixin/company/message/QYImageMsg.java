@@ -18,6 +18,8 @@ public class QYImageMsg extends QYBaseMsg{
     @JSONField(name = "image")
     private Image image;
 
+    public QYImageMsg() { this.setMsgType("image"); }
+
     public Image getImage() {
         return image;
     }
@@ -26,9 +28,13 @@ public class QYImageMsg extends QYBaseMsg{
         this.image = image;
     }
 
+    public void setMediaId(String mediaId) { this.image = new Image(mediaId); }
+
     public class Image{
         @JSONField(name = "media_id")
         private String mediaId;
+
+        public Image(String mediaId) {this.mediaId = mediaId;}
 
         public String getMediaId() {
             return mediaId;

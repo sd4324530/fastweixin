@@ -3,29 +3,24 @@ package com.github.sd4324530.fastweixin.company.api.response;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 
 /**
- *  
+ *  Response -- 创建新标签
  *  ====================================================================
  *  上海聚攒软件开发有限公司
  *  --------------------------------------------------------------------
  *  @author Nottyjay
  *  @version 1.0.beta
+ *  @since 1.3.6
  *  ====================================================================
  */
-public class CreateDepartmentResponse extends BaseResponse {
-    private Integer id;
+public class CreateTagResponse extends BaseResponse {
 
-    public Integer getId() {
-        return id;
+    private Integer tagid;
+
+    public Integer getTagid() {
+        return tagid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "CreateDepartmentResponse{" +
-                "id=" + id +
-                '}';
+    public void setTagid(Integer tagid) {
+        this.tagid = tagid;
     }
 }

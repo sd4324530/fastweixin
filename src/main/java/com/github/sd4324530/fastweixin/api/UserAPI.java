@@ -1,6 +1,7 @@
 package com.github.sd4324530.fastweixin.api;
 
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.entity.UserInfo;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -195,6 +197,22 @@ public class UserAPI extends BaseAPI {
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetUserInfoResponse.class);
         return response;
+    }
+
+    /**
+     *批量获取关注者信息
+     *
+     * @param userInfoList 关注者ID列表
+     * @return 关注者信息对象列表
+     */
+    public GetUserInfoListResponse getUserInfoList(List<UserInfo> userInfoList){
+        String url = BASE_API_URL + "cgi-bin/user/info/batchget?access_token=#";
+        Map<String, List<UserInfo>> param = new HashMap<String, List<UserInfo>>();
+        param.put("user_list", userInfoList);
+        BaseResponse r=executePost(url, JSONUtil.toJson(param));
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        GetUserInfoListResponse getUserInfoListResponse=JSONUtil.toBean(resultJson,GetUserInfoListResponse.class);
+        return getUserInfoListResponse;
     }
 
     /**

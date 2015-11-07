@@ -1,31 +1,27 @@
 package com.github.sd4324530.fastweixin.company.api.response;
 
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
+import com.github.sd4324530.fastweixin.company.api.entity.QYMenu;
 
 /**
- *  
+ *  Response -- 获取菜单
  *  ====================================================================
  *  上海聚攒软件开发有限公司
  *  --------------------------------------------------------------------
  *  @author Nottyjay
  *  @version 1.0.beta
+ *  @since 1.3.6
  *  ====================================================================
  */
-public class CreateDepartmentResponse extends BaseResponse {
-    private Integer id;
+public class GetQYMenuResponse extends BaseResponse {
 
-    public Integer getId() {
-        return id;
+    private QYMenu menu;
+
+    public QYMenu getMenu() {
+        return menu;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "CreateDepartmentResponse{" +
-                "id=" + id +
-                '}';
+    public void setMenu(QYMenu menu) {
+        this.menu = menu;
     }
 }

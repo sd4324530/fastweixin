@@ -1,6 +1,15 @@
-package com.github.sd4324530.fastweixin.message.req;
-
-public final class EventType {
+package com.github.sd4324530.fastweixin.company.message.req;
+/**
+ *  微信企业号事件消息类型
+ *  ====================================================================
+ *  上海聚攒软件开发有限公司
+ *  --------------------------------------------------------------------
+ *  @author Nottyjay
+ *  @version 1.0.beta
+ *  @since 1.3.6
+ *  ====================================================================
+ */
+public final class QYEventType {
 
     public static final String SUBSCRIBE       = "subscribe";
     public static final String UNSUBSCRIBE     = "unsubscribe";
@@ -16,8 +25,9 @@ public final class EventType {
     public static final String LOCATIONSELECT  = "location_select";
     public static final String TEMPLATESENDJOBFINISH  = "TEMPLATESENDJOBFINISH";
     public static final String MASSSENDJOBFINISH="MASSSENDJOBFINISH";
+    public static final String ENTERAGENT      = "enter_agent";
+    public static final String BATCHJOBRESULT  = "batch_job_result";
 
-    private EventType() {
+    private QYEventType() {
     }
-
 }

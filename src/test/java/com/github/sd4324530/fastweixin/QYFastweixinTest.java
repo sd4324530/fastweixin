@@ -3,15 +3,18 @@ package com.github.sd4324530.fastweixin;
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
 import com.github.sd4324530.fastweixin.company.api.*;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
-import com.github.sd4324530.fastweixin.company.api.entity.QYAgent;
-import com.github.sd4324530.fastweixin.company.api.entity.QYDepartment;
-import com.github.sd4324530.fastweixin.company.api.entity.QYUser;
+import com.github.sd4324530.fastweixin.company.api.entity.*;
+import com.github.sd4324530.fastweixin.company.api.enums.QYMenuType;
 import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
 import com.github.sd4324530.fastweixin.company.api.response.*;
 import com.github.sd4324530.fastweixin.company.message.QYTextMsg;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *  
@@ -78,6 +81,23 @@ public class QYFastweixinTest {
     }
 
 //    @Test
+    public void getUserList(){
+        QYUserAPI userAPI = new QYUserAPI(config);
+        GetQYUserInfo4DepartmentResponse response = userAPI.getList(1, false, 0);
+        if("0".equals(response.getErrcode())) {
+            List<QYUser> users = response.getUserList();
+            for (QYUser user : users) {
+                Integer[] departments = user.getDepartment();
+                for (Integer departmentId : departments) {
+                    System.out.println(user.getName() + ":\t" + departmentId);
+                }
+            }
+        }else{
+            System.out.println(QYResultType.get(response.getErrcode()).getDescription());
+        }
+    }
+
+//    @Test
     public void sendMessage(){
         QYTextMsg qyTextMsg = new QYTextMsg();
         qyTextMsg.setText(new QYTextMsg.Text("测试消息"));
@@ -120,4 +140,79 @@ public class QYFastweixinTest {
         QYResultType resultType = agentAPI.create(agent, mediaId);
         System.out.println(resultType.toString());
     }
+
+//    @Test
+    public void createTag(){
+        QYTagAPI tagAPI = new QYTagAPI(config);
+
+        QYTag tag = new QYTag("开发");
+        CreateTagResponse response = tagAPI.create(tag);
+        Assert.assertNotNull(response.getTagid());
+    }
+
+//    @Test
+    public void deleteTag(){
+        QYTagAPI tagAPI = new QYTagAPI(config);
+        QYResultType resultType = tagAPI.delete(1);
+        Assert.assertEquals(Integer.valueOf(0), resultType.getCode());
+    }
+
+//    @Test
+    public void getTagInfo(){
+        QYTagAPI tagAPI = new QYTagAPI(config);
+        GetTagInfoResponse response = tagAPI.get(1);
+        Assert.assertEquals(Integer.valueOf(0), Integer.valueOf(response.getErrcode()));
+    }
+
+//    @Test
+    public void addTagUser(){
+        QYTagAPI tagAPI = new QYTagAPI(config);
+        AddTagUsersResponse response = tagAPI.addTagUsers(1, Arrays.asList("CLY123", "CLY"), null);
+        System.out.println(response.getInvalidlist());
+        Assert.assertEquals(Integer.valueOf(0), Integer.valueOf(response.getErrcode()));
+    }
+
+//    @Test
+    public void delTagUser(){
+        QYTagAPI tagAPI = new QYTagAPI(config);
+        DelTagUsersResponse response = tagAPI.delTagUsers(1, Arrays.asList("CLY", "CLY123"), null);
+        System.out.println(response.getInvalidlist());
+        Assert.assertEquals(Integer.valueOf(0), Integer.valueOf(response.getErrcode()));
+    }
+
+//    @Test
+    public void listTag(){
+        QYTagAPI tagAPI = new QYTagAPI(config);
+        GetTagListResponse response = tagAPI.list();
+        Assert.assertEquals(Integer.valueOf(0), Integer.valueOf(response.getErrcode()));
+    }
+
+//    @Test
+    public void createMenu(){
+        QYMenu menu = new QYMenu();
+        QYMenuButton button = new QYMenuButton();
+        button.setType(QYMenuType.VIEW);
+        button.setName("邦成");
+        button.setUrl("http://www.epansun.com");
+        menu.addButton(button);
+        QYMenuAPI menuAPI = new QYMenuAPI(config);
+        QYResultType resultType = menuAPI.create(menu, "1");
+        Assert.assertEquals(Integer.valueOf(0), resultType.getCode());
+    }
+
+    @Test
+    public void listMenu(){
+        QYMenuAPI menuAPI = new QYMenuAPI(config);
+        GetQYMenuResponse response = menuAPI.list("1");
+        Assert.assertNotEquals(Integer.valueOf(0), Integer.valueOf(response.getMenu().getButton().size()));
+    }
+
+//    @Test
+    public void deleteMenu(){
+        QYMenuAPI menuAPI = new QYMenuAPI(config);
+        QYResultType resultType = menuAPI.delete("1");
+        Assert.assertEquals(Integer.valueOf(0), resultType.getCode());
+    }
+
+
 }
