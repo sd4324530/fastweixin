@@ -1,7 +1,5 @@
 package com.github.sd4324530.fastweixin.company.message.req;
 
-import com.github.sd4324530.fastweixin.message.req.BaseReq;
-
 /**
  *  企业号基础消息模型
  *  ====================================================================
