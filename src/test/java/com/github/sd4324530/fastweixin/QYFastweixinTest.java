@@ -200,7 +200,7 @@ public class QYFastweixinTest {
         Assert.assertEquals(Integer.valueOf(0), resultType.getCode());
     }
 
-    @Test
+//    @Test
     public void listMenu(){
         QYMenuAPI menuAPI = new QYMenuAPI(config);
         GetQYMenuResponse response = menuAPI.list("1");
