@@ -141,7 +141,9 @@ public abstract class QYWeixinSupport{
 
         if(msgType.equals(QYReqType.EVENT)){
             String eventType = (String)reqMap.get("Event");
-            if(QYEventType.SUBSCRIBE.equals(eventType)){
+            LOG.debug("收到消息，事件类型：{} " , eventType);
+
+            if(QYEventType.SUBSCRIBE.equalsIgnoreCase(eventType)){
                 QYBaseEvent event = new QYBaseEvent();
                 buildBasicEvent(reqMap, event);
                 msg = handleSubScribe(event);
@@ -149,14 +151,14 @@ public abstract class QYWeixinSupport{
                     msg = processEventHandle(event);
                 }
 
-            }else if(QYEventType.UNSUBSCRIBE.equals(eventType)){
+            }else if(QYEventType.UNSUBSCRIBE.equalsIgnoreCase(eventType)){
                 QYBaseEvent event = new QYBaseEvent();
                 buildBasicEvent(reqMap, event);
                 msg = handleUnsubscribe(event);
                 if(BeanUtil.isNull(msg)){
                     msg = processEventHandle(event);
                 }
-            }else if(QYEventType.CLICK.equals(eventType)){
+            }else if(QYEventType.CLICK.equalsIgnoreCase(eventType)){
                 String eventKey = (String)reqMap.get("EventKey");
                 LOG.debug("eventKey:{}", eventKey);
                 QYMenuEvent event = new QYMenuEvent(eventKey);
@@ -165,7 +167,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processEventHandle(event);
                 }
-            }else if(QYEventType.VIEW.equals(eventType)){
+            }else if(QYEventType.VIEW.equalsIgnoreCase(eventType)){
                 String eventKey = (String)reqMap.get("EventKey");
                 LOG.debug("eventKey:{}", eventKey);
                 QYMenuEvent event = new QYMenuEvent(eventKey);
@@ -174,7 +176,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processEventHandle(event);
                 }
-            }else if(QYEventType.LOCATION.equals(eventType)){
+            }else if(QYEventType.LOCATION.equalsIgnoreCase(eventType)){
                 double latitude = Double.parseDouble((String)reqMap.get("Latitude"));
                 double longitude = Double.parseDouble((String)reqMap.get("Longitude"));
                 double precision = Double.parseDouble((String)reqMap.get("Precision"));
@@ -184,7 +186,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processEventHandle(event);
                 }
-            }else if(QYEventType.SCANCODEPUSH.equals(eventType) || QYEventType.SCANCODEWAITMSG.equals(eventType)){
+            }else if(QYEventType.SCANCODEPUSH.equalsIgnoreCase(eventType) || QYEventType.SCANCODEWAITMSG.equalsIgnoreCase(eventType)){
                 String eventKey = (String)reqMap.get("EventKey");
                 Map<String, Object> scanCodeInfo = (Map<String, Object>)reqMap.get("ScanCodeInfo");
                 String scanType = (String)scanCodeInfo.get("ScanType");
@@ -195,7 +197,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processEventHandle(event);
                 }
-            }else if(QYEventType.PICPHOTOORALBUM.equals(eventType) || QYEventType.PICSYSPHOTO.equals(eventType) || QYEventType.PICWEIXIN.equals(eventType)){
+            }else if(QYEventType.PICPHOTOORALBUM.equalsIgnoreCase(eventType) || QYEventType.PICSYSPHOTO.equalsIgnoreCase(eventType) || QYEventType.PICWEIXIN.equalsIgnoreCase(eventType)){
                 String eventKey = (String)reqMap.get("EventKey");
                 Map<String, Object> sendPicsInfo = (Map<String, Object>)reqMap.get("SendPicsInfo");
                 int count = Integer.parseInt((String)sendPicsInfo.get("Count"));
@@ -206,14 +208,14 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processEventHandle(event);
                 }
-            }else if(QYEventType.ENTERAGENT.equals(eventType)){
+            }else if(QYEventType.ENTERAGENT.equalsIgnoreCase(eventType)){
                 QYEnterAgentEvent event = new QYEnterAgentEvent();
                 buildBasicEvent(reqMap, event);
                 msg = handleEnterAgentEvent(event);
                 if(BeanUtil.isNull(msg)){
                     msg = processEventHandle(event);
                 }
-            }else if(QYEventType.BATCHJOBRESULT.equals(eventType)){
+            }else if(QYEventType.BATCHJOBRESULT.equalsIgnoreCase(eventType)){
                 Map<String, Object> batchJob = (Map<String, Object>)reqMap.get("BatchJob");
                 String jobId = (String)batchJob.get("JobId");
                 String jobType = (String)batchJob.get("JobType");
@@ -227,7 +229,7 @@ public abstract class QYWeixinSupport{
                 }
             }
         }else{
-            if(QYReqType.TEXT.equals(msgType)){
+            if(QYReqType.TEXT.equalsIgnoreCase(msgType)){
                 String content = (String)reqMap.get("Content");
                 LOG.debug("文本消息内容：{}", content);
                 QYTextReqMsg textReqMsg = new QYTextReqMsg(content);
@@ -236,7 +238,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processMessageHandle(textReqMsg);
                 }
-            }else if(QYReqType.IMAGE.equals(msgType)){
+            }else if(QYReqType.IMAGE.equalsIgnoreCase(msgType)){
                 String picUrl = (String)reqMap.get("PicUrl");
                 String mediaId = (String)reqMap.get("MediaId");
                 QYImageReqMsg imageReqMsg = new QYImageReqMsg(picUrl, mediaId);
@@ -245,7 +247,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processMessageHandle(imageReqMsg);
                 }
-            }else if(QYReqType.VOICE.equals(msgType)){
+            }else if(QYReqType.VOICE.equalsIgnoreCase(msgType)){
                 String format = (String)reqMap.get("Format");
                 String mediaId = (String)reqMap.get("MediaId");
                 QYVoiceReqMsg voiceReqMsg = new QYVoiceReqMsg(mediaId, format);
@@ -254,7 +256,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processMessageHandle(voiceReqMsg);
                 }
-            }else if(QYReqType.VIDEO.equals(msgType)){
+            }else if(QYReqType.VIDEO.equalsIgnoreCase(msgType)){
                 String thumbMediaId = (String)reqMap.get("ThumbMediaId");
                 String mediaId = (String)reqMap.get("MediaId");
                 QYVideoReqMsg videoReqMsg = new QYVideoReqMsg(mediaId, thumbMediaId);
@@ -263,7 +265,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processMessageHandle(videoReqMsg);
                 }
-            }else if(QYReqType.SHORT_VIDEO.equals(msgType)){
+            }else if(QYReqType.SHORT_VIDEO.equalsIgnoreCase(msgType)){
                 String thumbMediaId = (String)reqMap.get("ThumbMediaId");
                 String mediaId = (String)reqMap.get("MediaId");
                 QYVideoReqMsg videoReqMsg = new QYVideoReqMsg(mediaId, thumbMediaId);
@@ -272,7 +274,7 @@ public abstract class QYWeixinSupport{
                 if(BeanUtil.isNull(msg)){
                     msg = processMessageHandle(videoReqMsg);
                 }
-            }else if(QYReqType.LOCATION.equals(msgType)){
+            }else if(QYReqType.LOCATION.equalsIgnoreCase(msgType)){
                 double locationX = Double.parseDouble((String) reqMap.get("Location_X"));
                 double locationY = Double.parseDouble((String)reqMap.get("Location_Y"));
                 int scale = Integer.parseInt((String)reqMap.get("scale"));
