@@ -25,7 +25,7 @@ public class FastweixinTest {
 
     private ApiConfig config;
 
-    @Before
+//    @Before
     public void init() {
 //        String appid = "wx8c33ff895df5d0d9";
 //        String secret = "0705aafac0bef944de4c485d71fce900";
