@@ -1,4 +1,8 @@
 language: java
+before_install:
+  - pip install codecov
+after_success:
+  - codecov
 install: mvn install -DskipTests=true -Dgpg.skip=true
 jdk:
   - openjdk6
