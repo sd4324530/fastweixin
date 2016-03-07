@@ -19,11 +19,15 @@ public class Menu extends BaseModel {
 
     /**
      * 菜单匹配规则
+     *
+     * @since 1.3.7
      */
     private Matchrule matchrule;
 
     /**
      * 菜单ID，查询时会返回，删除个性化菜单时会用到
+     *
+     * @since 1.3.7
      */
     @JSONField(name = "menuid")
     private String menuId;

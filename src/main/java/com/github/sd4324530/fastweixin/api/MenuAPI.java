@@ -42,7 +42,7 @@ public class MenuAPI extends BaseAPI {
     public ResultType createMenu(Menu menu) {
         BeanUtil.requireNonNull(menu, "menu is null");
         String url = BASE_API_URL;
-        if(BeanUtil.isNull(menu.getMatchrule())) {
+        if (BeanUtil.isNull(menu.getMatchrule())) {
             //普通菜单
             LOG.debug("创建普通菜单.....");
             url += "cgi-bin/menu/create?access_token=#";
@@ -78,7 +78,7 @@ public class MenuAPI extends BaseAPI {
                             Object type = JSONPath.eval(sub, "$.type");
                             JSONPath.set(sub, "$.type", type.toString().toUpperCase());
                         }
-                    }else{
+                    } else {
                         Object type = JSONPath.eval(button, "$.type");
                         JSONPath.set(button, "$.type", type.toString().toUpperCase());
                     }
@@ -108,6 +108,7 @@ public class MenuAPI extends BaseAPI {
      *
      * @param menuId 个性化菜单ID
      * @return 调用结果
+     * @since 1.3.7
      */
     public ResultType deleteConditionalMenu(String menuId) {
         BeanUtil.requireNonNull(menuId, "menuid is null");
@@ -121,12 +122,15 @@ public class MenuAPI extends BaseAPI {
 
     /**
      * 测试个性化菜单
+     *
      * @param userId 可以是粉丝的OpenID，也可以是粉丝的微信号
      * @return 该用户可以看到的菜单
+     * @since 1.3.7
      */
     public GetMenuResponse tryMatchMenu(String userId) {
         BeanUtil.requireNonNull(userId, "userId is null");
-        GetMenuResponse response = null;
+        LOG.debug("测试个性化菜单.....");
+        GetMenuResponse response;
         String url = BASE_API_URL + "cgi-bin/menu/trymatch?access_token=#";
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", userId);
