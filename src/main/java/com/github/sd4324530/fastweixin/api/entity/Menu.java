@@ -1,5 +1,6 @@
 package com.github.sd4324530.fastweixin.api.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.sd4324530.fastweixin.exception.WeixinException;
 
 import java.util.List;
@@ -16,6 +17,17 @@ public class Menu extends BaseModel {
      */
     private List<MenuButton> button;
 
+    /**
+     * 菜单匹配规则
+     */
+    private Matchrule matchrule;
+
+    /**
+     * 菜单ID，查询时会返回，删除个性化菜单时会用到
+     */
+    @JSONField(name = "menuid")
+    private String menuId;
+
     public List<MenuButton> getButton() {
         return button;
     }
@@ -25,5 +37,21 @@ public class Menu extends BaseModel {
             throw new WeixinException("主菜单最多3个");
         }
         this.button = button;
+    }
+
+    public Matchrule getMatchrule() {
+        return matchrule;
+    }
+
+    public void setMatchrule(Matchrule matchrule) {
+        this.matchrule = matchrule;
+    }
+
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 }
