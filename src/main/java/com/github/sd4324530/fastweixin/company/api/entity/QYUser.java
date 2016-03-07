@@ -30,7 +30,9 @@ public class QYUser extends BaseModel {
     private String gender;// 性别
     private String email;// 邮箱
     private String weixinid;// 微信号。不是微信名称
-    private String avatar;
+    @JSONField(name = "avatar_mediaid")
+    private String avatarMdiaid;//创建用户时头像的mediaid
+    private String avatar;//更新用户时，用户头像链接地址
     private Integer status;// 关注状态: 1=已关注，2=已冻结，4=未关注
     private Map<String, Object> extattr;
 
@@ -150,5 +152,13 @@ public class QYUser extends BaseModel {
 
     public void setExtattr(Map<String, Object> extattr) {
         this.extattr = extattr;
+    }
+
+    public String getAvatarMdiaid() {
+        return avatarMdiaid;
+    }
+
+    public void setAvatarMdiaid(String avatarMdiaid) {
+        this.avatarMdiaid = avatarMdiaid;
     }
 }
