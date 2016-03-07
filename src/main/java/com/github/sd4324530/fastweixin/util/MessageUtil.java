@@ -17,6 +17,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -133,18 +134,23 @@ public final class MessageUtil {
                 if("Count".equals(tagName)){
                     sendPicsInfoMap.put(tagName, reader.getElementText());
                 }else if("PicList".equals(tagName)){
-                    StringBuilder sb = new StringBuilder();
+//                    StringBuilder sb = new StringBuilder();
+                    List<Map<String, String>> picList = CollectionUtil.newArrayList();
                     while(reader.hasNext()){
                         XMLEvent event1 = reader.nextEvent();
                         if(event1.isStartElement() && "PicMd5Sum".equals(event1.asStartElement().getName()
                                 .toString())){
-                            sb.append(reader.getElementText());
-                            sb.append(",");
+                            Map<String, String> picMap = new HashMap<String, String>();
+                            picMap.put("PicMd5Sum", reader.getElementText());
+//                            sb.append(reader.getElementText());
+//                            sb.append(",");
+                            picList.add(picMap);
                         }else if(event1.isEndElement() && "PicList".equals(event1.asEndElement().getName().toString())){
                             break;
                         }
                     }
-                    sendPicsInfoMap.put(tagName, sb.substring(0, sb.length()));
+//                    sendPicsInfoMap.put(tagName, sb.substring(0, sb.length()));
+                    sendPicsInfoMap.put(tagName, picList);
                 }
             }
         }
