@@ -149,21 +149,13 @@ public class CustomAPI extends BaseAPI {
 
     /**
      * 删除客服帐号
-     * @param customAccount 客服帐号信息
+     * @param accountName 客服帐号名
      * @return 删除结果
      */
-    public ResultType deleteCustomAccount(CustomAccount customAccount) {
+    public ResultType deleteCustomAccount(String accountName) {
         LOG.debug("删除客服帐号信息......");
-        BeanUtil.requireNonNull(customAccount.getAccountName(), "帐号必填");
-        BeanUtil.requireNonNull(customAccount.getNickName(), "昵称必填");
-        String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("kf_account", customAccount.getAccountName());
-        params.put("nickname", customAccount.getNickName());
-        if(StrUtil.isNotBlank(customAccount.getPassword())) {
-            params.put("password", customAccount.getPassword());
-        }
-        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#&kf_account=" + accountName;
+        BaseResponse response = executePost(url, null);
         return ResultType.get(response.getErrcode());
     }
 
