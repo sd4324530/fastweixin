@@ -7,7 +7,11 @@ import com.github.sd4324530.fastweixin.company.api.entity.*;
 import com.github.sd4324530.fastweixin.company.api.enums.QYMenuType;
 import com.github.sd4324530.fastweixin.company.api.enums.QYResultType;
 import com.github.sd4324530.fastweixin.company.api.response.*;
+import com.github.sd4324530.fastweixin.company.message.QYArticle;
+import com.github.sd4324530.fastweixin.company.message.QYNewsMsg;
 import com.github.sd4324530.fastweixin.company.message.QYTextMsg;
+import com.github.sd4324530.fastweixin.util.CollectionUtil;
+import com.github.sd4324530.fastweixin.util.JSONUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +33,7 @@ public class QYFastweixinTest {
 
     private QYAPIConfig config;
 
-    @Before
+//    @Before
     public void initConfig(){
         String corpId = "";
         String corpSecret = "";
@@ -105,6 +109,20 @@ public class QYFastweixinTest {
         qyTextMsg.setAgentId("1");
         QYMessageAPI messageAPI = new QYMessageAPI(config);
         GetQYSendMessageResponse response = messageAPI.send(qyTextMsg);
+    }
+
+//    @Test
+    public void sendNewsMessage() {
+        QYNewsMsg msg = new QYNewsMsg();
+        msg.setToUser("touser");
+        msg.setToParty("toparty");
+        msg.setToTag("totag");
+        msg.setMsgType("news");
+        msg.setAgentId("1");
+        QYArticle article = new QYArticle("t", "d", "p", "u");
+        QYArticle article2 = new QYArticle("t2", "d2", "p2", "u2");
+        msg.setArticles(CollectionUtil.newArrayList(article, article2));
+        System.out.println(JSONUtil.toJson(msg));
     }
 
 //    @Test
