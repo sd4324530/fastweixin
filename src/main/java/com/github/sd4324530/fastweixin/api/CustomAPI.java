@@ -187,7 +187,7 @@ public class CustomAPI extends BaseAPI {
     public GetCustomAccountsResponse getCustomAccountList() {
         LOG.debug("获取所有客服帐号信息....");
         GetCustomAccountsResponse response;
-        String url = BASE_API_URL + "customservice/getkflist?access_token=#";
+        String url = BASE_API_URL + "cgi-bin/customservice/getkflist?access_token=#";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetCustomAccountsResponse.class);
