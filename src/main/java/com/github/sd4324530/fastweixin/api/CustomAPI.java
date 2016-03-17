@@ -157,13 +157,12 @@ public class CustomAPI extends BaseAPI {
         BeanUtil.requireNonNull(customAccount.getAccountName(), "帐号必填");
         BeanUtil.requireNonNull(customAccount.getNickName(), "昵称必填");
         String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("kf_account", customAccount.getAccountName());
-        params.put("nickname", customAccount.getNickName());
+        url += "&kf_account="+customAccount.getAccountName();
+        url += "&nickname="+customAccount.getNickName();
         if(StrUtil.isNotBlank(customAccount.getPassword())) {
-            params.put("password", customAccount.getPassword());
+          url += "&password="+customAccount.getPassword();
         }
-        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        BaseResponse response = executeGet(url);
         return ResultType.get(response.getErrcode());
     }
 
@@ -195,7 +194,7 @@ public class CustomAPI extends BaseAPI {
     public GetCustomAccountsResponse getCustomAccountList() {
         LOG.debug("获取所有客服帐号信息....");
         GetCustomAccountsResponse response;
-        String url = BASE_API_URL + "customservice/getkflist?access_token=#";
+        String url = BASE_API_URL + "cgi-bin/customservice/getkflist?access_token=#";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetCustomAccountsResponse.class);
