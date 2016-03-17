@@ -157,13 +157,12 @@ public class CustomAPI extends BaseAPI {
         BeanUtil.requireNonNull(customAccount.getAccountName(), "帐号必填");
         BeanUtil.requireNonNull(customAccount.getNickName(), "昵称必填");
         String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("kf_account", customAccount.getAccountName());
-        params.put("nickname", customAccount.getNickName());
+        url += "&kf_account="+customAccount.getAccountName();
+        url += "&nickname="+customAccount.getNickName();
         if(StrUtil.isNotBlank(customAccount.getPassword())) {
-            params.put("password", customAccount.getPassword());
+          url += "&password="+customAccount.getPassword();
         }
-        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        BaseResponse response = executeGet(url);
         return ResultType.get(response.getErrcode());
     }
 
