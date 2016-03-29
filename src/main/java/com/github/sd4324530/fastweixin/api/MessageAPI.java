@@ -80,7 +80,8 @@ public class MessageAPI extends BaseAPI {
             // TODO 此处方法特别
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
-        return JSONUtil.toBean(response.getErrmsg(), GetSendMessageResponse.class);
+        String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
+        return JSONUtil.toBean(response.toJsonString(), GetSendMessageResponse.class);
     }
 
     /**
