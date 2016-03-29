@@ -81,7 +81,7 @@ public class MessageAPI extends BaseAPI {
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
         String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
-        return JSONUtil.toBean(response.toJsonString(), GetSendMessageResponse.class);
+        return JSONUtil.toBean(resultJson, GetSendMessageResponse.class);
     }
 
     /**
