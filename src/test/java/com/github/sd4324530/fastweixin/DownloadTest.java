@@ -28,7 +28,7 @@ public class DownloadTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(DownloadTest.class);
 
-    @Test
+//    @Test
     public void download(){
         String url = "http://103.7.29.197/vweixinp.tc.qq.com/1007_efd683683fdd41ea9a999ea9ad81f239.f10.mp4?vkey=E79319C2D663CACB3A26812DBE3DC05F33EE92DEA914480FB88A77EF92832D1EDA51FFD2B275A7E9&sha=0&save=1";
         RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(NetWorkCenter.CONNECT_TIMEOUT).setConnectTimeout(NetWorkCenter.CONNECT_TIMEOUT).setSocketTimeout(NetWorkCenter.CONNECT_TIMEOUT).build();
