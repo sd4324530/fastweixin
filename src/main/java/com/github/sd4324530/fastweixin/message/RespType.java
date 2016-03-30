@@ -14,4 +14,6 @@ public class RespType {
 
     public static final String NEWS = "news";
 
+    public static final String KF = "transfer_customer_service";
+
 }
