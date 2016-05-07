@@ -395,6 +395,41 @@ public enum ResultType {
     GROUP_COUNT_TOO_MANY(45018, "分组数量超过上限"),
 
     /**
+     * 创建的标签数过多，请注意不能超过100个
+     */
+    TAG_NAME_TOO_MANY(45056, "创建的标签数过多，请注意不能超过100个"),
+
+    /**
+     * 该标签下粉丝数超过10w，不允许直接删除
+     */
+    CAN_NOT_DELETE_TAG(45057, "该标签下粉丝数超过10w，不允许直接删除"),
+
+    /**
+     * 不能修改0/1/2这三个系统默认保留的标签
+     */
+    CAN_NOT_MODIFY_TAG(45058, "不能修改0/1/2这三个系统默认保留的标签"),
+
+    /**
+     * 有粉丝身上的标签数已经超过限制
+     */
+    FANS_TAGS_TOO_MANY(45059, "有粉丝身上的标签数已经超过限制"),
+
+    /**
+     * 标签名非法，请注意不能和其他标签重名
+     */
+    ILLEGAL_TAG_NAME(45157, "标签名非法，请注意不能和其他标签重名"),
+
+    /**
+     * 标签名长度超过30个字节
+     */
+    TAG_NAME_TOO_LONG(45158, "标签名长度超过30个字节"),
+
+    /**
+     * 非法的tag_id
+     */
+    ILLEGAL_TAG_ID(45159, "非法的tag_id"),
+
+    /**
      * 不存在媒体数据
      */
     NOT_EXIST_MEDIA_DATA(46001, "不存在媒体数据"),
@@ -423,6 +458,11 @@ public enum ResultType {
      * api功能未授权
      */
     API_NOT_ALLOW_CALL(48001, "api功能未授权"),
+
+    /**
+     * 传入的openid不属于此AppID
+     */
+    OPENID_APPID_NOT_MATCH(49003, "传入的openid不属于此AppID"),
 
     /**
      * 用户未授权该api

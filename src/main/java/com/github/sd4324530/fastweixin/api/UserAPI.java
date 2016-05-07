@@ -4,7 +4,9 @@ import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.UserInfo;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
+import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
+import com.github.sd4324530.fastweixin.util.CollectionUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.slf4j.Logger;
@@ -35,7 +37,7 @@ public class UserAPI extends BaseAPI {
      * @return 关注者列表对象
      */
     public GetUsersResponse getUsers(String nextOpenid) {
-        GetUsersResponse response = null;
+        GetUsersResponse response;
         LOG.debug("获取关注者列表.....");
         String url = BASE_API_URL + "cgi-bin/user/get?access_token=#";
         if (StrUtil.isNotBlank(nextOpenid)) {
@@ -72,7 +74,7 @@ public class UserAPI extends BaseAPI {
      * @return 返回对象，包含分组的ID和名称信息
      */
     public CreateGroupResponse createGroup(String name) {
-        CreateGroupResponse response = null;
+        CreateGroupResponse response;
         BeanUtil.requireNonNull(name, "name is null");
         LOG.debug("创建分组.....");
         String url = BASE_API_URL + "cgi-bin/groups/create?access_token=#";
@@ -92,7 +94,7 @@ public class UserAPI extends BaseAPI {
      * @return 所有分组信息列表对象
      */
     public GetGroupsResponse getGroups() {
-        GetGroupsResponse response = null;
+        GetGroupsResponse response;
         LOG.debug("获取所有分组信息.....");
         String url = BASE_API_URL + "cgi-bin/groups/get?access_token=#";
         BaseResponse r = executeGet(url);
@@ -190,7 +192,7 @@ public class UserAPI extends BaseAPI {
      */
     public GetUserInfoResponse getUserInfo(String openid) {
         BeanUtil.requireNonNull(openid, "openid is null");
-        GetUserInfoResponse response = null;
+        GetUserInfoResponse response;
         LOG.debug("获取关注者信息.....");
         String url = BASE_API_URL + "cgi-bin/user/info?access_token=#&lang=zh_CN&openid=" + openid;
         BaseResponse r = executeGet(url);
@@ -228,6 +230,47 @@ public class UserAPI extends BaseAPI {
         Map<String, Integer> groups = new HashMap<String, Integer>();
         groups.put("id", groupId);
         param.put("group", groups);
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.get(response.getErrcode());
+    }
+
+    /**
+     * 批量为用户打上标签
+     * 标签功能目前支持公众号为用户打上最多三个标签。
+     * @param openidList 用户openid列表
+     * @param tagId 标签ID
+     * @return 结果
+     */
+    public ResultType batchTagsToUser(List<String> openidList, Integer tagId) {
+        BeanUtil.requireNonNull(tagId, "tagId is null");
+        if(CollectionUtil.isEmpty(openidList)) {
+            throw new WeixinException("openId列表为空");
+        }
+        LOG.debug("批量为用户打上标签.....");
+        String url = BASE_API_URL + "cgi-bin/tags/members/batchtagging?access_token=#";
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("openid_list", openidList);
+        param.put("tagid", tagId);
+        BaseResponse response = executePost(url, JSONUtil.toJson(param));
+        return ResultType.get(response.getErrcode());
+    }
+
+    /**
+     * 批量为用户取消标签
+     * @param openidList 用户openid列表
+     * @param tagId 标签ID
+     * @return 结果
+     */
+    public ResultType batchDeleteTagsToUser(List<String> openidList, Integer tagId) {
+        BeanUtil.requireNonNull(tagId, "tagId is null");
+        if(CollectionUtil.isEmpty(openidList)) {
+            throw new WeixinException("openId列表为空");
+        }
+        LOG.debug("批量为用户取消标签.....");
+        String url = BASE_API_URL + "cgi-bin/tags/members/batchuntagging?access_token=#";
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("openid_list", openidList);
+        param.put("tagid", tagId);
         BaseResponse response = executePost(url, JSONUtil.toJson(param));
         return ResultType.get(response.getErrcode());
     }
