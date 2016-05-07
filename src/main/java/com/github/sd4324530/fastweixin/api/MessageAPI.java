@@ -10,8 +10,6 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.soap.Text;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +37,9 @@ public class MessageAPI extends BaseAPI {
      * @param groupId 群组ID
      * @param openIds 群发用户
      * @return 群发结果
+     * @deprecated 微信不再建议使用群组概念,用标签代替
      */
+    @Deprecated
     public GetSendMessageResponse sendMessageToUser(BaseMsg message, boolean isToAll, String groupId, String[] openIds){
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
@@ -50,6 +50,58 @@ public class MessageAPI extends BaseAPI {
         if(!isToAll){
             BeanUtil.requireNonNull(groupId, "groupId is null");
             filterMap.put("group_id", groupId);
+        }
+        params.put("filter", filterMap);
+        if(message instanceof MpNewsMsg){
+            params.put("msgtype", "mpnews");
+            MpNewsMsg msg = (MpNewsMsg)message;
+            Map<String, Object> mpNews = new HashMap<String, Object>();
+            mpNews.put("media_id", msg.getMediaId());
+            params.put("mpnews", mpNews);
+        }else if(message instanceof TextMsg){
+            params.put("msgtype", "text");
+            TextMsg msg = (TextMsg)message;
+            Map<String ,Object> text = new HashMap<String, Object>();
+            text.put("content", msg.getContent());
+            params.put("text", text);
+        }else if(message instanceof VoiceMsg){
+            params.put("msgtype", "voice");
+            VoiceMsg msg = (VoiceMsg)message;
+            Map<String, Object> voice = new HashMap<String ,Object>();
+            voice.put("media_id", msg.getMediaId());
+            params.put("voice", voice);
+        }else if(message instanceof ImageMsg){
+            params.put("msgtype", "image");
+            ImageMsg msg = (ImageMsg)message;
+            Map<String, Object> image = new HashMap<String, Object>();
+            image.put("media_id", msg.getMediaId());
+            params.put("image", image);
+        }else if(message instanceof VideoMsg){
+            // TODO 此处方法特别
+        }
+        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+        String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
+        return JSONUtil.toBean(resultJson, GetSendMessageResponse.class);
+    }
+
+    /**
+     * 群发消息给用户。
+     * 本方法调用需要账户为微信已认证账户
+     * @param message 消息主体
+     * @param isToAll 是否发送给全部用户。false时需要填写tagId，true时可忽略tagId树形
+     * @param tagId 标签ID
+     * @return 群发结果
+     */
+    public GetSendMessageResponse sendMessageToUser(BaseMsg message, boolean isToAll, Integer tagId){
+        BeanUtil.requireNonNull(message, "message is null");
+        LOG.debug("群发消息......");
+        String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
+        final Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<String, Object>();
+        filterMap.put("is_to_all", isToAll);
+        if(!isToAll){
+            BeanUtil.requireNonNull(tagId, "tagId is null");
+            filterMap.put("tag_id", tagId);
         }
         params.put("filter", filterMap);
         if(message instanceof MpNewsMsg){
