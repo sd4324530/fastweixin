@@ -1,6 +1,5 @@
-package com.github.sd4324530.fastweixin;
+package com.github.sd4324530.fastweixin.api;
 
-import com.github.sd4324530.fastweixin.api.BaseAPI;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
