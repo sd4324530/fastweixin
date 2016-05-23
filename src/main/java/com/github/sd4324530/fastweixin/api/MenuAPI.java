@@ -135,8 +135,30 @@ public class MenuAPI extends BaseAPI {
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", userId);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
-        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetMenuResponse.class);
+//        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+//        response = JSONUtil.toBean(resultJson, GetMenuResponse.class);
+        if (isSuccess(r.getErrcode())) {
+            JSONObject jsonObject = JSONUtil.getJSONFromString(r.getErrmsg());
+            //通过jsonpath不断修改type的值，才能正常解析- -
+            List buttonList = (List) JSONPath.eval(jsonObject, "$.menu.button");
+            if (CollectionUtil.isNotEmpty(buttonList)) {
+                for (Object button : buttonList) {
+                    List subList = (List) JSONPath.eval(button, "$.sub_button");
+                    if (CollectionUtil.isNotEmpty(subList)) {
+                        for (Object sub : subList) {
+                            Object type = JSONPath.eval(sub, "$.type");
+                            JSONPath.set(sub, "$.type", type.toString().toUpperCase());
+                        }
+                    } else {
+                        Object type = JSONPath.eval(button, "$.type");
+                        JSONPath.set(button, "$.type", type.toString().toUpperCase());
+                    }
+                }
+            }
+            response = JSONUtil.toBean(jsonObject.toJSONString(), GetMenuResponse.class);
+        } else {
+            response = JSONUtil.toBean(r.toJsonString(), GetMenuResponse.class);
+        }
         return response;
     }
 }
