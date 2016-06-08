@@ -10,7 +10,6 @@ import com.github.sd4324530.fastweixin.util.NetWorkCenter;
 import com.github.sd4324530.fastweixin.util.StreamUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -60,7 +59,8 @@ public class QYMediaAPI extends QYBaseAPI {
         UploadMediaResponse response;
         String url = BASE_API_URL + "cgi-bin/media/upload?access_token=#&type=" + type.toString();
         BaseResponse r = executePost(url, null, file);
-        response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, UploadMediaResponse.class);
         return response;
     }
 
