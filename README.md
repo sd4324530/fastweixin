@@ -1,8 +1,8 @@
 fastweixin
 ==========
 作者:peiyu<br>
-QQ:125331682<br>
-技术讨论QQ群:367162748<br>
+QQ:[125331682](http://wpa.qq.com/msgrd?v=3&uin=125331682&site=qq&menu=yes)<br>
+技术讨论QQ群:[367162748](http://shang.qq.com/wpa/qunwpa?idkey=e279a5147f3cb248a536e118464c72068d9f6ef33278987e6f88a17aab603cbb)<br>
 
 项目主页:[https://github.com/sd4324530/fastweixin](https://github.com/sd4324530/fastweixin)<br>
 开源中国主页:[http://git.oschina.net/pyinjava/fastweixin](http://git.oschina.net/pyinjava/fastweixin)<br>
