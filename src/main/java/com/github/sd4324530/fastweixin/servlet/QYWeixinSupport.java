@@ -2,25 +2,19 @@ package com.github.sd4324530.fastweixin.servlet;
 
 import com.github.sd4324530.fastweixin.company.handle.QYEventHandle;
 import com.github.sd4324530.fastweixin.company.handle.QYMessageHandle;
-import com.github.sd4324530.fastweixin.company.message.QYBaseMsg;
-import com.github.sd4324530.fastweixin.company.message.QYTextMsg;
 import com.github.sd4324530.fastweixin.company.message.req.*;
 import com.github.sd4324530.fastweixin.company.message.resp.QYBaseRespMsg;
 import com.github.sd4324530.fastweixin.company.message.resp.QYTextRespMsg;
-import com.github.sd4324530.fastweixin.handle.MessageHandle;
 import com.github.sd4324530.fastweixin.message.aes.AesException;
 import com.github.sd4324530.fastweixin.message.aes.WXBizMsgCrypt;
-import com.github.sd4324530.fastweixin.message.req.ScanCodeEvent;
 import com.github.sd4324530.fastweixin.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Struct;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +33,9 @@ public abstract class QYWeixinSupport{
 
     private static final Object LOCK = new Object();
 
-    protected String fromUserName, toUserName;
+//    protected String fromUserName, toUserName;
 
-    private WXBizMsgCrypt wxcpt;
+//    private WXBizMsgCrypt wxcpt;
 
     /**
      * 子类提供token用于绑定微信企业平台
@@ -131,8 +125,8 @@ public abstract class QYWeixinSupport{
      */
     public String processRequest(HttpServletRequest request){
         Map<String, Object> reqMap = MessageUtil.parseXml(request, getToken(), getCropId(), getAESKey());
-        fromUserName = (String)reqMap.get("FromUserName");
-        toUserName = (String)reqMap.get("ToUserName");
+        String fromUserName = (String)reqMap.get("FromUserName");
+        String toUserName = (String)reqMap.get("ToUserName");
         String msgType = (String)reqMap.get("MsgType");
 
         LOG.debug("收到消息，消息类型：{}", msgType);
