@@ -269,9 +269,9 @@ public abstract class QYWeixinSupport{
             }else if(QYReqType.LOCATION.equals(msgType)){
                 double locationX = Double.parseDouble((String) reqMap.get("Location_X"));
                 double locationY = Double.parseDouble((String)reqMap.get("Location_Y"));
-                int scale = Integer.parseInt((String)reqMap.get("scale"));
+                int scale = Integer.parseInt((String)reqMap.get("Scale"));
                 String label = (String)reqMap.get("Label");
-                QYLocationReqMsg locationReqMsg = new QYLocationReqMsg(locationX, locationX, scale, label);
+                QYLocationReqMsg locationReqMsg = new QYLocationReqMsg(locationX, locationY, scale, label);
                 buildBasicReqMsg(reqMap, locationReqMsg);
                 msg = handleLocationMsg(locationReqMsg);
                 if(BeanUtil.isNull(msg)){
