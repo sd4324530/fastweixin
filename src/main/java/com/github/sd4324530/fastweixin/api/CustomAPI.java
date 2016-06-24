@@ -100,6 +100,12 @@ public class CustomAPI extends BaseAPI {
             }
             news.put("articles", articles);
             params.put("news", news);
+        } else if (message instanceof MpNewsMsg) {
+        	MpNewsMsg msg = (MpNewsMsg) message;
+            params.put("msgtype", "mpnews");
+            Map<String, String> news = new HashMap<String, String>();
+            news.put("media_id", msg.getMediaId());
+            params.put("mpnews", news);
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
         return ResultType.get(response.getErrcode());
