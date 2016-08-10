@@ -32,7 +32,7 @@ public class QrcodeAPI extends BaseAPI {
      *
      * @param actionName    二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久
      * @param sceneId       场景值ID，临时二维码时为32位非0整型，永久二维码时最大值为100000（目前参数只支持1--100000）
-     * @param expireSeconds 该二维码有效时间，以秒为单位。 最大不超过1800
+     * @param expireSeconds 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天），此字段如果不填，则默认有效期为30秒
      * @return 二维码对象
      */
     public QrcodeResponse createQrcode(QrcodeType actionName, String sceneId, Integer expireSeconds) {
@@ -45,7 +45,7 @@ public class QrcodeAPI extends BaseAPI {
      * @param actionName    二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久
      * @param sceneId       场景值ID，临时二维码时为32位非0整型，永久二维码时最大值为100000（目前参数只支持1--100000）
      * @param sceneStr      场景值ID（字符串形式的ID），字符串类型，长度限制为1到64，仅永久二维码支持此字段
-     * @param expireSeconds 该二维码有效时间，以秒为单位。 最大不超过1800
+     * @param expireSeconds 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天），此字段如果不填，则默认有效期为30秒
      * @return 二维码对象
      */
     public QrcodeResponse createQrcode(QrcodeType actionName, String sceneId, String sceneStr, Integer expireSeconds) {
