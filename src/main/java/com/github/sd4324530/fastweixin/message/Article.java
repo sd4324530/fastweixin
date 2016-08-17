@@ -2,8 +2,6 @@ package com.github.sd4324530.fastweixin.message;
 
 import com.github.sd4324530.fastweixin.message.util.MessageBuilder;
 
-import java.io.Serializable;
-
 public class Article {
 
     private String title;
