@@ -21,7 +21,7 @@ public class GetQYUserInfoResponse extends BaseResponse {
     private String userId;
     @JSONField(name = "name")
     private String name;
-    @JSONField(name = "departmnent")
+    @JSONField(name = "department")
     private Integer[] departments;
     @JSONField(name = "position")
     private String position;
