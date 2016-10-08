@@ -160,7 +160,7 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.3.12</version>
+    <version>1.3.13</version>
 </dependency>
 ```
 
