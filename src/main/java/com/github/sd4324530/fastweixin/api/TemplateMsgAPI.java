@@ -19,7 +19,7 @@ import java.util.Map;
  * 模版消息 api
  */
 public class TemplateMsgAPI extends BaseAPI {
-    private static final Logger LOG = LoggerFactory.getLogger(CustomAPI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TemplateMsgAPI.class);
 
     public TemplateMsgAPI(ApiConfig config) {
         super(config);
