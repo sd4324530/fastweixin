@@ -2,7 +2,6 @@ package com.github.sd4324530.fastweixin.api.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +12,7 @@ public class TemplateMsg extends BaseModel {
     @JSONField(name = "template_id")
     private String templateId;
     private String url;
+    @Deprecated
     private String topcolor;
 
     private Map<String, TemplateParam> data;
@@ -41,10 +41,12 @@ public class TemplateMsg extends BaseModel {
         this.url = url;
     }
 
+    @Deprecated
     public String getTopcolor() {
         return topcolor;
     }
 
+    @Deprecated
     public void setTopcolor(String topcolor) {
         this.topcolor = topcolor;
     }
