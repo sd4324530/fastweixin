@@ -532,6 +532,7 @@ public abstract class QYWeixinSupport{
         req.setFromUserName((String) reqMap.get("FromUserName"));
         req.setToUserName((String) reqMap.get("ToUserName"));
         req.setCreateTime(Long.parseLong((String) reqMap.get("CreateTime")));
+        req.setAgentId((String) reqMap.get("AgentID"));
     }
 
 }
