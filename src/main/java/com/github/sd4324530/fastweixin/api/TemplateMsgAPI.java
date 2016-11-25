@@ -70,7 +70,7 @@ public class TemplateMsgAPI extends BaseAPI {
         BeanUtil.requireNonNull(msg.getTemplateId(), "template_id is null");
         BeanUtil.requireNonNull(msg.getData(), "data is null");
         BeanUtil.requireNonNull(msg.getTopcolor(), "top color is null");
-        BeanUtil.requireNonNull(msg.getUrl(), "url is null");
+//        BeanUtil.requireNonNull(msg.getUrl(), "url is null");
         String url = BASE_API_URL + "cgi-bin/message/template/send?access_token=#";
         BaseResponse r = executePost(url, msg.toJsonString());
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
