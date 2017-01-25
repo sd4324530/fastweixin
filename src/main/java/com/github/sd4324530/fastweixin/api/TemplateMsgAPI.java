@@ -1,19 +1,21 @@
 package com.github.sd4324530.fastweixin.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.Industry;
 import com.github.sd4324530.fastweixin.api.entity.TemplateMsg;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.AddTemplateResponse;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
+import com.github.sd4324530.fastweixin.api.response.PrivateTemplate;
 import com.github.sd4324530.fastweixin.api.response.SendTemplateResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 模版消息 api
@@ -78,5 +80,16 @@ public class TemplateMsgAPI extends BaseAPI {
         return result;
     }
 
-
+    /**
+     * 获取已添加至帐号下所有模板列表
+     * @return
+     */
+    public PrivateTemplate[] getAllPrivateTemplate(){
+        String url = BASE_API_URL + "cgi-bin/template/get_all_private_template?access_token=#";
+        BaseResponse r = executePost(url, null);
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        PrivateTemplate[] templates = JSONUtil.toBean(JSONUtil.toJson(JSONUtil.getJSONFromString(resultJson).get("template_list")), PrivateTemplate[].class);
+        return templates;
+    }
+    
 }
