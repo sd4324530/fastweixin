@@ -48,7 +48,7 @@ public class TemplateMsgAPI extends BaseAPI {
      * @return 操作结果
      */
     public AddTemplateResponse addTemplate(String shortTemplateId) {
-        LOG.debug("获取模版id......");
+        LOG.debug("添加模版......");
         BeanUtil.requireNonNull(shortTemplateId, "短模版id必填");
         String url = BASE_API_URL + "cgi-bin/template/api_add_template?access_token=#";
         Map<String, String> params = new HashMap<String, String>();
@@ -66,8 +66,7 @@ public class TemplateMsgAPI extends BaseAPI {
      * @return 发送结果
      */
     public SendTemplateResponse send(TemplateMsg msg) {
-
-        LOG.debug("获取模版id......");
+        LOG.debug("发送模版消息......");
         BeanUtil.requireNonNull(msg.getTouser(), "openid is null");
         BeanUtil.requireNonNull(msg.getTemplateId(), "template_id is null");
         BeanUtil.requireNonNull(msg.getData(), "data is null");
@@ -82,14 +81,33 @@ public class TemplateMsgAPI extends BaseAPI {
 
     /**
      * 获取已添加至帐号下所有模板列表
-     * @return
+     *
+     * @return 所有模板
      */
-    public PrivateTemplate[] getAllPrivateTemplate(){
+    public PrivateTemplate[] getAllPrivateTemplate() {
+        LOG.debug("获取已添加至帐号下所有模板列表......");
         String url = BASE_API_URL + "cgi-bin/template/get_all_private_template?access_token=#";
-        BaseResponse r = executePost(url, null);
+        BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         PrivateTemplate[] templates = JSONUtil.toBean(JSONUtil.toJson(JSONUtil.getJSONFromString(resultJson).get("template_list")), PrivateTemplate[].class);
         return templates;
     }
-    
+
+    /**
+     * 删除模板
+     *
+     * @param templateId 模板ID
+     * @return 删除结果
+     */
+    public BaseResponse delTemplate(String templateId) {
+        LOG.debug("删除模板......");
+        BeanUtil.requireNonNull(templateId, "templateId is null");
+        String url = BASE_API_URL + "cgi-bin/template/del_private_template?access_token=#";
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("template_id", templateId);
+        BaseResponse r = executePost(url, JSONUtil.toJson(map));
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        return JSONUtil.toBean(resultJson, BaseResponse.class);
+    }
+
 }
