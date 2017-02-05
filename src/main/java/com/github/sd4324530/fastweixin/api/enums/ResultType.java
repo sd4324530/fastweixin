@@ -395,6 +395,11 @@ public enum ResultType {
     GROUP_COUNT_TOO_MANY(45018, "分组数量超过上限"),
 
     /**
+     * 客服接口下行条数超过上限
+     */
+    CUSTOMER_SERVICE_DOWN_TOO_MANY(45047, "客服接口下行条数超过上限"),
+
+    /**
      * 创建的标签数过多，请注意不能超过100个
      */
     TAG_NAME_TOO_MANY(45056, "创建的标签数过多，请注意不能超过100个"),
