@@ -40,21 +40,21 @@ public abstract class QYWeixinSupport{
     /**
      * 子类提供token用于绑定微信企业平台
      *
-     * @return
+     * @return token
      */
     protected abstract String getToken();
 
     /**
      * 子类提供cropId用于绑定微信企业平台
      *
-     * @return
+     * @return cropId
      */
     protected abstract String getCropId();
 
     /**
      * 加密的密钥，消息解密时需要
      *
-     * @return
+     * @return 密钥
      */
     protected abstract String getAESKey();
 
@@ -88,8 +88,8 @@ public abstract class QYWeixinSupport{
 
     /**
      * 绑定服务器的方法
-     * @param request
-     * @param response
+     * @param request 请求
+     * @param response 响应
      */
     public void bindServer(HttpServletRequest request, HttpServletResponse response){
         PrintWriter pw = null;
@@ -301,7 +301,7 @@ public abstract class QYWeixinSupport{
     /**
      * 自定义的消息事件处理
      * @param msg 微信消息
-     * @return
+     * @return 响应结果
      */
     private QYBaseRespMsg processMessageHandle(QYBaseReqMsg msg){
         if(CollectionUtil.isEmpty(messageHandles)){
@@ -331,8 +331,8 @@ public abstract class QYWeixinSupport{
 
     /**
      * 自定义的消息事件处理
-     * @param event
-     * @return
+     * @param event 事件
+     * @return 响应结果
      */
     private QYBaseRespMsg processEventHandle(QYBaseEvent event){
         if(CollectionUtil.isEmpty(eventHandles)){

@@ -91,8 +91,8 @@ public class QYAgentAPI extends QYBaseAPI {
 
     /**
      * 新的设置应用信息
-     * @param params
-     * @return
+     * @param params 参数
+     * @return 返回结果
      */
     public QYResultType update(Map<String, Object> params){
         String url = BASE_API_URL + "cgi-bin/agent/set?access_token=#";

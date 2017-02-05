@@ -153,8 +153,8 @@ public class QYUserAPI extends QYBaseAPI {
      * 通过Oauth授权获得的CODE获取成员信息。仅包含UserId、OpenId、DeviceId三个。
      * 企业成员授权时会获得UserId，非企业成员授权会获得OpenId。
      * DeviceId为设备编号，重装微信时会发生变更，升级时不变
-     * @param code
-     * @return
+     * @param code code
+     * @return 用户信息
      */
     public GetOauthUserInfoResponse getOauthUserInfo(String code){
         if(StrUtil.isBlank(code)){
