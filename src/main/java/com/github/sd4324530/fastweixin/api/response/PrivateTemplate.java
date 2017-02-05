@@ -1,17 +1,13 @@
 package com.github.sd4324530.fastweixin.api.response;
 
-import java.io.Serializable;
-
 import com.alibaba.fastjson.annotation.JSONField;
+import com.github.sd4324530.fastweixin.api.entity.BaseModel;
 
 /**
  * 获取已添加至帐号下所有模板
  * @author wuwentao
- * @date 2017年1月25日
  */
-public class PrivateTemplate implements Serializable {
-	
-	private static final long serialVersionUID = -8761076945643537134L;
+public class PrivateTemplate extends BaseModel {
 	
     /**
 	 * 模板ID

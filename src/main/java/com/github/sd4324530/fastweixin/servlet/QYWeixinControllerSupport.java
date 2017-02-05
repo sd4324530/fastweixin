@@ -29,8 +29,8 @@ public abstract class QYWeixinControllerSupport extends QYWeixinSupport {
     /**
      * 绑定微信服务器
      *
-     * @param request
-     * @return
+     * @param request 请求
+     * @return 结果
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -41,9 +41,11 @@ public abstract class QYWeixinControllerSupport extends QYWeixinSupport {
     /**
      * 微信消息交互处理
      *
-     * @param request
-     * @param response
-     * @return
+     * @param request 请求
+     * @param response 响应
+     * @return 结果
+     * @throws ServletException servlet异常
+     * @throws IOException IO异常
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -59,8 +61,8 @@ public abstract class QYWeixinControllerSupport extends QYWeixinSupport {
     /**
      * 验证请求URL是否正确的方法
      *
-     * @param request
-     * @return
+     * @param request 请求
+     * @return 结果
      */
     protected String legalStr(HttpServletRequest request){
         String echoStr = "";
