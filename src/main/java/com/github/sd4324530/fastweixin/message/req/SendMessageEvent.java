@@ -11,7 +11,11 @@ public class SendMessageEvent extends  BaseEvent{
     private Integer sentCount;//发送成功数量
     private Integer errorCount;//发送失败数量
 
-    public SendMessageEvent(String msgId, String status, Integer totalCount, Integer filterCount, Integer sentCount, Integer errorCount){
+    public SendMessageEvent() {
+		super();
+	}
+    
+	public SendMessageEvent(String msgId, String status, Integer totalCount, Integer filterCount, Integer sentCount, Integer errorCount){
     super();
     this.msgId=msgId;
     this.status=status;
