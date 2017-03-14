@@ -25,12 +25,14 @@ public class FastweixinTest {
 
     private ApiConfig config;
 
-//    @Before
+    //@Before
     public void init() {
-//        String appid = "wx8c33ff895df5d0d9";
-//        String secret = "0705aafac0bef944de4c485d71fce900";
-        String appid = "wx337021cfcc3e32fb";
-        String secret = "e244f1244f0ba2798546e0450d3045ea";
+    	//String appid = "wx8c33ff895df5d0d9";
+    	//String secret = "0705aafac0bef944de4c485d71fce900";
+        //String appid = "wx337021cfcc3e32fb";
+        //String secret = "e244f1244f0ba2798546e0450d3045ea";
+    	String appid = "wx576a805a0915e550";
+    	String secret = "3d0ac1e2bb795504f0b2e30ab7047e4a";
         config = new ApiConfig(appid, secret);
         TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
         config.addHandle(configChangeHandle);
