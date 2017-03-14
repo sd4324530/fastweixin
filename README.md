@@ -1,5 +1,7 @@
 fastweixin
 ==========
+
+[![Join the chat at https://gitter.im/sd4324530/fastweixin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sd4324530/fastweixin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 作者:peiyu<br>
 QQ:[125331682](http://wpa.qq.com/msgrd?v=3&uin=125331682&site=qq&menu=yes)<br>
 技术讨论QQ群:[367162748](http://shang.qq.com/wpa/qunwpa?idkey=e279a5147f3cb248a536e118464c72068d9f6ef33278987e6f88a17aab603cbb)<br>
