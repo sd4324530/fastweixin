@@ -15,7 +15,7 @@ csdn主页:[https://code.csdn.net/sd4324530/fastweixin](https://code.csdn.net/sd
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sd4324530/fastweixin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-#快速搭建微信公众平台服务器<br>
+# 快速搭建微信公众平台服务器<br>
 简单封装了所有与微信服务器交互的消息:文本消息、图片消息、图文消息等等<br>
 提供了基于`springmvc`以及基于`servlet`框架的控制器，集成了微信服务器绑定、监听所有类型消息的方法<br>
 使用时继承，重写即可，十分方便<br>
@@ -36,7 +36,7 @@ v1.3.0重构了微信消息接收控制器，将WeixinSupport类完全独立抽�
 所以WeixinServletSupport类不再兼容之前的版本，具体使用方法如下:<br>
 
 
-##基于`springmvc`项目的集成方法
+## 基于`springmvc`项目的集成方法
 ```Java
 @RestController
 @RequestMapping("/weixin")
@@ -87,7 +87,7 @@ public class WeixinController extends WeixinControllerSupport {
 }
 ```
 
-##基于`servlet`项目的集成方法
+## 基于`servlet`项目的集成方法
 ```Java
 public class WeixinServlet extends WeixinServletSupport {
         @Override
@@ -125,7 +125,7 @@ web.xml配置
 </servlet-mapping>
 ```
 
-##基于`Jfinal`框架项目的集成方法
+## 基于`Jfinal`框架项目的集成方法
 ```Java
 public class MyJfinalController extends Controller {
     //用户自行实现的消息处理器
@@ -160,10 +160,10 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.3.14</version>
+    <version>1.3.15</version>
 </dependency>
 ```
 
-##感谢支持
+## 感谢支持
 支付宝<br>
 ![image](https://github.com/sd4324530/fastweixin/blob/master/alipay.png)
