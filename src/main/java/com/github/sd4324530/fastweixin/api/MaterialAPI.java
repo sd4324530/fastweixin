@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.api;
 
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.entity.Article;
 import com.github.sd4324530.fastweixin.api.enums.MaterialType;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
@@ -43,7 +43,7 @@ public class MaterialAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MaterialAPI.class);
 
-    public MaterialAPI(ApiConfig config) {
+    public MaterialAPI(ApiConfigInterface config) {
         super(config);
     }
 

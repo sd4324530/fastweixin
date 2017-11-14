@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.api;
 
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.entity.UserInfo;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.*;
@@ -26,7 +26,7 @@ public class UserAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserAPI.class);
 
-    public UserAPI(ApiConfig config) {
+    public UserAPI(ApiConfigInterface config) {
         super(config);
     }
 

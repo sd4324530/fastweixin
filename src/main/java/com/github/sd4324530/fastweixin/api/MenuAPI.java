@@ -2,7 +2,7 @@ package com.github.sd4324530.fastweixin.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.entity.Menu;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
@@ -28,7 +28,7 @@ public class MenuAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MenuAPI.class);
 
-    public MenuAPI(ApiConfig config) {
+    public MenuAPI(ApiConfigInterface config) {
         super(config);
     }
 

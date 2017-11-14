@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.api;
 
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.GetSignatureResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
@@ -18,7 +18,7 @@ public class JsAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(JsAPI.class);
 
-    public JsAPI(ApiConfig config) {
+    public JsAPI(ApiConfigInterface config) {
         super(config);
     }
 
