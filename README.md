@@ -1,7 +1,9 @@
 fastweixin
 ==========
 作者:peiyu
+
 QQ:[125331682](http://wpa.qq.com/msgrd?v=3&uin=125331682&site=qq&menu=yes)
+
 技术讨论QQ群:[367162748](http://shang.qq.com/wpa/qunwpa?idkey=e279a5147f3cb248a536e118464c72068d9f6ef33278987e6f88a17aab603cbb)
 
 码云主页:[https://gitee.com/pyinjava/fastweixin](https://gitee.com/pyinjava/fastweixin)
