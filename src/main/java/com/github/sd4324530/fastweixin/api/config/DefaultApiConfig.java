@@ -174,6 +174,8 @@ public class DefaultApiConfig extends Observable implements ApiConfig, Serializa
             public void onSuccess(TokenResponse response) {
                 LOG.debug("获取access_token:{}", response.getToken());
                 accessToken = response.getToken();
+                // 刷新token的实际有效时间
+                tokenExpireTime = Long.valueOf((response.getExpiresIn() - 100) * 1000);
                 //设置通知点
                 setChanged();
                 notifyObservers(new ConfigChangeNotice(appid, ChangeType.ACCESS_TOKEN, accessToken));
@@ -208,6 +210,8 @@ public class DefaultApiConfig extends Observable implements ApiConfig, Serializa
             public void onSuccess(TokenResponse response) {
                 LOG.debug("获取jsapi_ticket:{}", response.getToken());
                 jsApiTicket = response.getToken();
+                // 刷新token的实际有效时间
+                tokenExpireTime = Long.valueOf((response.getExpiresIn() - 100) * 1000);
                 //设置通知点
                 setChanged();
                 notifyObservers(new ConfigChangeNotice(appid, ChangeType.JS_TOKEN, jsApiTicket));
