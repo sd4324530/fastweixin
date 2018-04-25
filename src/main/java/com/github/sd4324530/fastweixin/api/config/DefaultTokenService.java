@@ -15,8 +15,7 @@ public class DefaultTokenService implements TokenService {
 
     @Override
     public void getAccessToken(ApiConfig apiConfig, final TokenResponseCallback callback) {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" +
-                apiConfig.getAppid() + "&secret=" + apiConfig.getSecret();
+        String url = this.generateAccessTokenUrl(apiConfig);
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
             public void onResponse(int resultCode, String resultJson) {
@@ -36,8 +35,7 @@ public class DefaultTokenService implements TokenService {
 
     @Override
     public void getJsApiTicket(ApiConfig apiConfig, final TokenResponseCallback callback) {
-        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" +
-                apiConfig.getAccessToken() + "&type=jsapi";
+        String url = this.generateJsApiTicketUrl(apiConfig);
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
             public void onResponse(int resultCode, String resultJson) {
@@ -53,6 +51,28 @@ public class DefaultTokenService implements TokenService {
                 }
             }
         });
+    }
+
+    /**
+     * 获取AccessToken接口的url
+     *
+     * @param apiConfig API配置
+     * @return
+     */
+    protected String generateAccessTokenUrl(ApiConfig apiConfig) {
+        return "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" +
+                apiConfig.getAppid() + "&secret=" + apiConfig.getSecret();
+    }
+
+    /**
+     * 获取JsApiTicket接口url
+     *
+     * @param apiConfig API配置
+     * @return
+     */
+    protected String generateJsApiTicketUrl(ApiConfig apiConfig) {
+        return "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" +
+                apiConfig.getAccessToken() + "&type=jsapi";
     }
 
 }

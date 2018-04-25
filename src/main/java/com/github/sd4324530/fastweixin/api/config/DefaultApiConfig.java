@@ -67,6 +67,21 @@ public class DefaultApiConfig extends Observable implements ApiConfig, Serializa
      * @param enableJsApi 是否启动js api
      */
     public DefaultApiConfig(String appid, String secret, boolean enableJsApi) {
+        this(appid, secret, enableJsApi, null);
+    }
+
+    /**
+     * 构造方法三，实现同时获取access_token，启用jsApi，指定获取token的服务
+     *
+     * @param appid        公众号appid
+     * @param secret       公众号secret
+     * @param enableJsApi  是否启动js api
+     * @param tokenService token获取服务
+     */
+    public DefaultApiConfig(String appid, String secret, boolean enableJsApi, TokenService tokenService) {
+        if (null != tokenService) {
+            this.tokenService = tokenService;
+        }
         this.appid = appid;
         this.secret = secret;
         this.enableJsApi = enableJsApi;
@@ -96,7 +111,8 @@ public class DefaultApiConfig extends Observable implements ApiConfig, Serializa
              * 2.刷新标识判断，如果已经在刷新了，则也直接跳过，避免多次重复刷新，如果没有在刷新，则开始刷新
              */
 
-            if (time > tokenExpireTime && this.tokenRefreshing.compareAndSet(false, true)) {
+            if (null == accessToken ||
+                    (time > tokenExpireTime && this.tokenRefreshing.compareAndSet(false, true))) {
                 LOG.debug("准备刷新token.............");
                 initToken(now);
             }
@@ -114,7 +130,8 @@ public class DefaultApiConfig extends Observable implements ApiConfig, Serializa
             long now = System.currentTimeMillis();
             try {
                 //官方给出的超时时间是7200秒，这里用7100秒来做，防止出现已经过期的情况
-                if (now - this.jsTokenStartTime > jsExpireTime && this.jsRefreshing.compareAndSet(false, true)) {
+                if (null == jsApiTicket ||
+                        (now - this.jsTokenStartTime > jsExpireTime && this.jsRefreshing.compareAndSet(false, true))) {
                     getAccessToken();
                     initJSToken(now);
                 }
@@ -185,7 +202,7 @@ public class DefaultApiConfig extends Observable implements ApiConfig, Serializa
             public void onFailure(TokenResponse response) {
                 //刷新时间回滚
                 weixinTokenStartTime = oldTime;
-                throw new WeixinException("微信公众号token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
+                throw new WeixinException("token获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
             }
         });
 
@@ -221,7 +238,7 @@ public class DefaultApiConfig extends Observable implements ApiConfig, Serializa
             public void onFailure(TokenResponse response) {
                 //刷新时间回滚
                 jsTokenStartTime = oldTime;
-                throw new WeixinException("微信公众号jsToken获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
+                throw new WeixinException("jsToken获取出错，错误信息:" + response.getErrcode() + "," + response.getErrmsg());
             }
         });
 
