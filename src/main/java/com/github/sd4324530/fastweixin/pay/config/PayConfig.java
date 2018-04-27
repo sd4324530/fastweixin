@@ -1,7 +1,5 @@
 package com.github.sd4324530.fastweixin.pay.config;
 
-import jdk.internal.util.xml.impl.Input;
-
 import java.io.InputStream;
 
 /**
