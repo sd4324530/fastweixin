@@ -2,6 +2,7 @@ package com.github.sd4324530.fastweixin;
 
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
 import com.github.sd4324530.fastweixin.company.api.*;
+import com.github.sd4324530.fastweixin.company.api.config.DefaultQYAPIConfig;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
 import com.github.sd4324530.fastweixin.company.api.entity.*;
 import com.github.sd4324530.fastweixin.company.api.enums.QYMenuType;
@@ -37,7 +38,7 @@ public class QYFastweixinTest {
     public void initConfig(){
         String corpId = "";
         String corpSecret = "";
-        config = new QYAPIConfig(corpId, corpSecret);
+        config = new DefaultQYAPIConfig(corpId, corpSecret);
     }
 
 //    @Test
