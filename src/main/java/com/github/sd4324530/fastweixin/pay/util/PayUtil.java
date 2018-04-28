@@ -1,4 +1,6 @@
-package com.github.sd4324530.fastweixin.pay;
+package com.github.sd4324530.fastweixin.pay.util;
+
+import com.github.sd4324530.fastweixin.CommonConstants;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,7 +27,7 @@ public class PayUtil {
      * @return
      */
     public static String sign(Map<String, Object> params, String key) {
-        return sign(params, key, PayConstants.SignType.MD5);
+        return sign(params, key, CommonConstants.SignType.MD5);
     }
 
     /**
@@ -36,7 +38,7 @@ public class PayUtil {
      * @param signType 签名方式
      * @return
      */
-    public static String sign(Map<String, Object> params, String key, PayConstants.SignType signType) {
+    public static String sign(Map<String, Object> params, String key, CommonConstants.SignType signType) {
         Set<String> keySet = params.keySet();
         String[] keyArray = keySet.toArray(new String[keySet.size()]);
         Arrays.sort(keyArray);
@@ -53,9 +55,9 @@ public class PayUtil {
         }
         sb.append("&key=").append(key);
 
-        if (signType == PayConstants.SignType.MD5) {
+        if (signType == CommonConstants.SignType.MD5) {
             return toMD5(sb.toString());
-        } else if (signType == PayConstants.SignType.HMACSHA256) {
+        } else if (signType == CommonConstants.SignType.HMACSHA256) {
             return toHMACSHA256(sb.toString(), key);
         } else {
             throw new RuntimeException(String.format("Invalid sign_type: %s", signType));

@@ -1,5 +1,6 @@
 package com.github.sd4324530.fastweixin.pay.request;
 
+import com.github.sd4324530.fastweixin.CommonConstants;
 import com.github.sd4324530.fastweixin.pay.config.PayConfig;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -28,10 +29,10 @@ import java.security.SecureRandom;
  */
 public class DefaultPayRequestService implements PayRequestService {
 
-    /* 连接超时时间，默认30秒 */
-    protected int connectTimeout = 30 * 1000;
-    /* 读取超时时间，默认30秒 */
-    protected int readTimeout = 30 * 1000;
+    /* 连接超时时间 */
+    protected Integer connectTimeout;
+    /* 读取超时时间 */
+    protected Integer readTimeout;
 
     /* 代理服务器地址 */
     protected String proxyHost;
@@ -84,17 +85,9 @@ public class DefaultPayRequestService implements PayRequestService {
                     null, null, null);
 
             HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
+            RequestConfig requestConfig = this.buildRequestConfig();
+
             HttpPost httpPost = new HttpPost(url);
-
-            RequestConfig.Builder configBuilder = RequestConfig.custom();
-            configBuilder.setSocketTimeout(readTimeout).setConnectTimeout(connectTimeout);
-            // 代理设置
-            if (null != proxyHost && null != proxyPort) {
-                HttpHost proxy = new HttpHost(proxyHost, proxyPort);
-                configBuilder.setProxy(proxy);
-            }
-
-            RequestConfig requestConfig = configBuilder.build();
             httpPost.setConfig(requestConfig);
             httpPost.addHeader("Content-Type", "text/xml");
             httpPost.setEntity(new StringEntity(reqBody, "UTF-8"));
@@ -118,6 +111,34 @@ public class DefaultPayRequestService implements PayRequestService {
     @Override
     public PayRequestResult requestWithoutCert(PayConfig config, String url, String reqBody) {
         return this.request(config, url, reqBody, false);
+    }
+
+    /**
+     * 构造RequestConfig，当未指定配置参数时取全局配置
+     *
+     * @return
+     */
+    protected RequestConfig buildRequestConfig() {
+        RequestConfig.Builder configBuilder = RequestConfig.custom();
+
+        // 超时配置
+        Integer readTimeout = defaultValue(this.readTimeout, CommonConstants.READ_TIMEOUT);
+        Integer connectTimeout = defaultValue(this.connectTimeout, CommonConstants.CONNECT_TIMEOUT);
+        configBuilder.setSocketTimeout(readTimeout).setConnectTimeout(connectTimeout);
+
+        // 代理设置
+        String proxyHost = defaultValue(this.proxyHost, CommonConstants.PROXY_HOST);
+        Integer proxyPort = defaultValue(this.proxyPort, CommonConstants.PROXY_PORT);
+        if (null != proxyHost && null != proxyPort) {
+            HttpHost proxy = new HttpHost(proxyHost, proxyPort);
+            configBuilder.setProxy(proxy);
+        }
+
+        return configBuilder.build();
+    }
+
+    protected <T> T defaultValue(T val, T defaultVal) {
+        return null != val ? val : defaultVal;
     }
 
 }
