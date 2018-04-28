@@ -33,8 +33,19 @@ public class XmlUtil {
      * @return
      */
     public static String mapToXml(Map<String, Object> map) {
+        return mapToXml(map, true);
+    }
+
+    /**
+     * Map转换成XML
+     *
+     * @param map        待转换的Map
+     * @param ignoreNull 是否忽略空节点
+     * @return
+     */
+    public static String mapToXml(Map<String, Object> map, boolean ignoreNull) {
         Document document = createDocument();
-        parseMap(map, document, document);
+        parseMap(map, document, document, ignoreNull);
         return toXml(document);
     }
 
@@ -53,13 +64,14 @@ public class XmlUtil {
     }
 
     /**
-     * 解析Map
+     * 解析Map，生成xml节点
      *
      * @param map        待解析的Map
      * @param parentNode 父节点
      * @param document   Document对象，用于创建节点
+     * @param ignoreNull 是否忽略空节点
      */
-    private static void parseMap(Map<String, Object> map, Node parentNode, Document document) {
+    private static void parseMap(Map<String, Object> map, Node parentNode, Document document, boolean ignoreNull) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String name = entry.getKey();
             Object value = entry.getValue();
@@ -67,28 +79,43 @@ public class XmlUtil {
             if (value instanceof Collection) {
                 Collection<Object> list = (Collection<Object>) value;
                 for (Object o : list) {
-                    Element node = document.createElement(name);
-                    if (o instanceof Map) {
-                        parseMap((Map<String, Object>) o, node, document);
-                    } else {
-                        node.appendChild(document.createTextNode(null == o ? "" : o.toString()));
-                    }
-                    parentNode.appendChild(node);
+                    // List中的子元素只能是Map或基本类型数据
+                    parseMap(name, o, parentNode, document, ignoreNull);
                 }
-            } else if (value instanceof Map) {
-                Element node = document.createElement(name);
-                parseMap((Map<String, Object>) value, node, document);
-                parentNode.appendChild(node);
             } else {
-                Element node = document.createElement(name);
-                node.appendChild(document.createTextNode(null == value ? "" : value.toString()));
+                parseMap(name, value, parentNode, document, ignoreNull);
+            }
+        }
+    }
+
+    /**
+     * Map中的键值对解析成xml节点
+     *
+     * @param name       当前解析的节点名
+     * @param value      当前解析的对象
+     * @param parentNode 父节点
+     * @param document   Document对象，用于创建节点
+     * @param ignoreNull 是否忽略空节点
+     */
+    private static void parseMap(String name, Object value, Node parentNode, Document document, boolean ignoreNull) {
+        Element node = document.createElement(name);
+        if (value instanceof Map) {
+            Map<String, Object> valueMap = (Map<String, Object>) value;
+            if (valueMap.size() > 0 || (!ignoreNull)) {
+                parseMap(valueMap, node, document, ignoreNull);
+                parentNode.appendChild(node);
+            }
+        } else {
+            String text = null == value ? "" : value.toString();
+            if (text.trim().length() > 0 || (!ignoreNull)) {
+                node.appendChild(document.createTextNode(text));
                 parentNode.appendChild(node);
             }
         }
     }
 
     /**
-     * 解析节点
+     * 解析xml节点
      *
      * @param node      待解析的Node
      * @param parentMap 父节点Map

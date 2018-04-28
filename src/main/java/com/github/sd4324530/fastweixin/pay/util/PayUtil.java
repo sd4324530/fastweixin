@@ -45,11 +45,11 @@ public class PayUtil {
 
         StringBuilder sb = new StringBuilder();
         for (String k : keyArray) {
-            if (sb.length() > 0) {
-                sb.append("&");
-            }
-            Object val = params.get(key);
+            Object val = params.get(k);
             if (null != val && val.toString().trim().length() > 0) {
+                if (sb.length() > 0) {
+                    sb.append("&");
+                }
                 sb.append(k).append("=").append(val.toString().trim());
             }
         }
