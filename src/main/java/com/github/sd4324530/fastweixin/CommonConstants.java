@@ -54,6 +54,9 @@ public class CommonConstants {
     /* 发放红包使用场景：税务刮奖 */
     public final static String RP_PRODUCT_8 = "PRODUCT_8";
 
+    /* 红包金额设置方式：全部随机 */
+    public final static String ALL_RAND = "ALL_RAND";
+
     static {
         // 初始化全局配置
         String connectTimeout = "10000";

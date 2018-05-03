@@ -54,6 +54,7 @@ public class RedPackAPI extends BasePayAPI {
     public RedPackInfoResponse getRedPackInfo(RedPackInfoRequest request) {
         request.setMch_id(payConfig.getMchID());
         request.setAppid(payConfig.getAppID());
+        request.setBill_type("MCHT");
 
         return this.doRequest(
                 "https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo",

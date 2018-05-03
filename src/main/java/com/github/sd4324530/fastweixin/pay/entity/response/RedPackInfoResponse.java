@@ -1,5 +1,9 @@
 package com.github.sd4324530.fastweixin.pay.entity.response;
 
+import com.github.sd4324530.fastweixin.util.ObjectUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -168,6 +172,55 @@ public class RedPackInfoResponse extends BaseResponse {
 
     public void setHblist(Map<String, Object> hblist) {
         this.hblist = hblist;
+    }
+
+    public List<HbInfo> getHbInfoList() {
+        List<HbInfo> list = new ArrayList<HbInfo>();
+        if (null != hblist && hblist.size() > 0) {
+            Object hbinfo = hblist.get("hbinfo");
+            if (hbinfo instanceof Collection) {
+                for (Object o : (Collection) hbinfo) {
+                    list.add(ObjectUtil.map2Object((Map<String, Object>) o, HbInfo.class));
+                }
+            } else {
+                list.add(ObjectUtil.map2Object((Map<String, Object>) hbinfo, HbInfo.class));
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * 红包信息
+     */
+    public static class HbInfo {
+        private String openid;
+        private int amount;
+        private String rcv_time;
+
+        public String getOpenid() {
+            return openid;
+        }
+
+        public void setOpenid(String openid) {
+            this.openid = openid;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
+        }
+
+        public String getRcv_time() {
+            return rcv_time;
+        }
+
+        public void setRcv_time(String rcv_time) {
+            this.rcv_time = rcv_time;
+        }
     }
 
 }
