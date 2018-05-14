@@ -57,6 +57,12 @@ public class CommonConstants {
     /* 红包金额设置方式：全部随机 */
     public final static String ALL_RAND = "ALL_RAND";
 
+    /* 状态码：成功 */
+    public final static String SUCCESS = "SUCCESS";
+    /* 状态码：失败 */
+    public final static String FAIL = "FAIL";
+
+
     static {
         // 初始化全局配置
         String connectTimeout = "10000";
