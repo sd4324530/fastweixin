@@ -19,6 +19,11 @@ public abstract class BaseResponse implements Serializable {
     /* 错误代码描述 */
     private String err_code_des;
 
+    /* 请求的xml */
+    private String requestXml;
+    /* 响应的xml */
+    private String responseXml;
+
     public String getReturn_code() {
         return return_code;
     }
@@ -57,6 +62,22 @@ public abstract class BaseResponse implements Serializable {
 
     public void setErr_code_des(String err_code_des) {
         this.err_code_des = err_code_des;
+    }
+
+    public String getRequestXml() {
+        return requestXml;
+    }
+
+    public void setRequestXml(String requestXml) {
+        this.requestXml = requestXml;
+    }
+
+    public String getResponseXml() {
+        return responseXml;
+    }
+
+    public void setResponseXml(String responseXml) {
+        this.responseXml = responseXml;
     }
 
 }

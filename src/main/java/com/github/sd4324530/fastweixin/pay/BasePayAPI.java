@@ -3,6 +3,7 @@ package com.github.sd4324530.fastweixin.pay;
 import com.github.sd4324530.fastweixin.exception.WeixinException;
 import com.github.sd4324530.fastweixin.pay.config.PayConfig;
 import com.github.sd4324530.fastweixin.pay.entity.request.*;
+import com.github.sd4324530.fastweixin.pay.entity.response.BaseResponse;
 import com.github.sd4324530.fastweixin.pay.request.PayRequestResult;
 import com.github.sd4324530.fastweixin.pay.request.PayRequestService;
 import com.github.sd4324530.fastweixin.pay.util.PayUtil;
@@ -51,7 +52,7 @@ public abstract class BasePayAPI {
      * @param <T>
      * @return
      */
-    protected <T> T doRequest(String url, BaseRequest data, boolean useCert, Class<T> clazz) {
+    protected <T extends BaseResponse> T doRequest(String url, BaseRequest data, boolean useCert, Class<T> clazz) {
         // 生成随机字符串
         data.setNonce_str(PayUtil.generateRandomStr());
 
@@ -62,21 +63,23 @@ public abstract class BasePayAPI {
         params.put("sign", sign);
         Map<String, Object> reqParams = new LinkedHashMap<String, Object>();
         reqParams.put("xml", params);
-        String xml = XmlUtil.mapToXml(reqParams);
+        String reqXml = XmlUtil.mapToXml(reqParams);
 
-        LOG.info("支付API请求接口：{}，发送报文：\n{}", url, xml);
-        PayRequestResult result = payRequestService.request(payConfig, url, xml, useCert);
+        LOG.info("支付API请求接口：{}，发送报文：\n{}", url, reqXml);
+        PayRequestResult result = payRequestService.request(payConfig, url, reqXml, useCert);
         int statusCode = result.getStatusCode();
-        String resp = result.getResult();
-        LOG.info("支付API请求接口：{}，返回状态码：{}，报文：\n{}", url, statusCode, resp);
+        String respXml = result.getResult();
+        LOG.info("支付API请求接口：{}，返回状态码：{}，报文：\n{}", url, statusCode, respXml);
 
         if (HttpStatus.SC_OK != statusCode) {
             throw new WeixinException("接口[" + url + "]请求出错，错误码：" + statusCode);
         }
 
-        Map<String, Object> respMap = XmlUtil.xmlToMap(resp);
+        Map<String, Object> respMap = XmlUtil.xmlToMap(respXml);
         respMap = (Map<String, Object>) respMap.get("xml");
         T respObj = ObjectUtil.map2Object(respMap, clazz);
+        respObj.setRequestXml(reqXml);
+        respObj.setResponseXml(respXml);
 
         return respObj;
     }
