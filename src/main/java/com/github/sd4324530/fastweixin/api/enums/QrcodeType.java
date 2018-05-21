@@ -13,6 +13,10 @@ public enum QrcodeType {
      */
     QR_SCENE,
 
+	 /**
+     * 带有字符串参数的临时二维码
+     */
+	QR_STR_SCENE,
     /**
      * 永久二维码
      */
