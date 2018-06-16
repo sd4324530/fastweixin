@@ -1,66 +1,42 @@
 fastweixin
 ==========
-作者:peiyu
+作者:peiyu<br>
+QQ:[125331682](http://wpa.qq.com/msgrd?v=3&uin=125331682&site=qq&menu=yes)<br>
+技术讨论QQ群:[367162748](http://shang.qq.com/wpa/qunwpa?idkey=e279a5147f3cb248a536e118464c72068d9f6ef33278987e6f88a17aab603cbb)<br>
 
-QQ:[125331682](http://wpa.qq.com/msgrd?v=3&uin=125331682&site=qq&menu=yes)
-
-技术讨论QQ群:[367162748](http://shang.qq.com/wpa/qunwpa?idkey=e279a5147f3cb248a536e118464c72068d9f6ef33278987e6f88a17aab603cbb)
-
-码云主页:[https://gitee.com/pyinjava/fastweixin](https://gitee.com/pyinjava/fastweixin)
-
+项目主页:[https://github.com/sd4324530/fastweixin](https://github.com/sd4324530/fastweixin)<br>
+开源中国主页:[http://git.oschina.net/pyinjava/fastweixin](http://git.oschina.net/pyinjava/fastweixin)<br>
+csdn主页:[https://code.csdn.net/sd4324530/fastweixin](https://code.csdn.net/sd4324530/fastweixin)<br>
 
 [![Build Status](https://api.travis-ci.org/sd4324530/fastweixin.png?branch=master)](https://travis-ci.org/sd4324530/fastweixin)
 [![@peiyu on weibo](https://img.shields.io/badge/weibo-%40peiyu-red.svg)](http://weibo.com/1728407960)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.sd4324530/fastweixin)
 [![Circle CI](https://circleci.com/gh/sd4324530/fastweixin/tree/master.svg?style=svg)](https://circleci.com/gh/sd4324530/fastweixin/tree/master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sd4324530/fastweixin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-# 快速搭建微信公众平台服务器
-简单封装了所有与微信服务器交互的消息:文本消息、图片消息、图文消息等等
-提供了基于`springmvc`以及基于`servlet`框架的控制器，集成了微信服务器绑定、监听所有类型消息的方法
-使用时继承，重写即可，十分方便
-支持高级接口的API，框架中提供MenuAPI、CustomAPI、QrcodeAPI、UserAPI、MediaAPI、OauthAPI用于实现所有高级接口功能，使用极其简单
+#快速搭建微信公众平台服务器<br>
+简单封装了所有与微信服务器交互的消息:文本消息、图片消息、图文消息等等<br>
+提供了基于`springmvc`以及基于`servlet`框架的控制器，集成了微信服务器绑定、监听所有类型消息的方法<br>
+使用时继承，重写即可，十分方便<br>
+v1.2.0开始支持高级接口的API，https请求基于org.apache.httpcomponents 4.3.X，json解析基于fastjson 1.1.X<br>
+框架中提供MenuAPI、CustomAPI、QrcodeAPI、UserAPI、MediaAPI、OauthAPI用于实现所有高级接口功能，使用极其简单<br>
+内部实现token过期自动刷新，不用再关注token细节<br>
 
-内部实现token过期自动刷新，不用再关注token细节
+v1.2.6开始支持微信消息安全模式，但由于jdk的限制，导致想使用安全模式，必须修改jdk内部的jar包<br>
+在官方网站下载：<br>
+[JCE无限制权限策略文件JDK7](http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html)<br>
+[JCE无限制权限策略文件JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)<br>
 
-支持微信消息安全模式，但由于jdk的限制，导致想使用安全模式，必须修改jdk内部的jar包
-官方网站下载：
+下载后解压，可以看到local_policy.jar和US_export_policy.jar以及readme.txt<br>
+如果安装了JRE，将两个jar文件放到%JRE_HOME%\lib\security目录下覆盖原来的文件<br>
+如果安装了JDK，将两个jar文件放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件<br>
 
-[JCE无限制权限策略文件JDK7](http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html)
-
-[JCE无限制权限策略文件JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)
-
-
-
-下载后解压，可以看到local_policy.jar和US_export_policy.jar以及readme.txt
-如果安装了JRE，将两个jar文件放到%JRE_HOME%\lib\security目录下覆盖原来的文件
-如果安装了JDK，将两个jar文件放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件
-
-## 详细文档（感谢[luozhuang](http://blog.csdn.net/luozhuang) 的整理）
-
-[【fastweixin框架教程1】一分钟快速搭建微信公众平台JAVA服务器](http://blog.csdn.net/luozhuang/article/details/51321485)
-
-[【fastweixin框架教程2】weblogic javax.xml 解析xml问题](http://blog.csdn.net/luozhuang/article/details/51322065)
-
-[【fastweixin框架教程3】JAVA进行HTTPS网站访问，PKIX path building failed解决方法](http://blog.csdn.net/luozhuang/article/details/51322127)
-
-[【fastweixin框架教程4】AccessToken、QYAPIConfig管理](http://blog.csdn.net/luozhuang/article/details/51322177)
-
-[【fastweixin框架教程5】企业号成员部门管理](http://blog.csdn.net/luozhuang/article/details/51322220)
-
-[【fastweixin框架教程6】微信企业号给关注的用户主动发送推送消息](http://blog.csdn.net/luozhuang/article/details/51322292)
-
-[【fastweixin框架教程7】微信企业号自定义菜单接口开发](http://blog.csdn.net/luozhuang/article/details/51322516)
-
-[【fastweixin框架教程8】微信企业号临时素材管理](http://blog.csdn.net/luozhuang/article/details/51444137)
-
-[【fastweixin框架教程9】扩展API实例——QYOauthAPI](http://blog.csdn.net/luozhuang/article/details/51444222)
+v1.3.0重构了微信消息接收控制器，将WeixinSupport类完全独立抽象出来，不再依赖web框架<br>
+所以WeixinServletSupport类不再兼容之前的版本，具体使用方法如下:<br>
 
 
-
-
-## 基于`springmvc`项目的集成方法
+##基于`springmvc`项目的集成方法
 ```Java
 @RestController
 @RequestMapping("/weixin")
@@ -111,7 +87,7 @@ public class WeixinController extends WeixinControllerSupport {
 }
 ```
 
-## 基于`servlet`项目的集成方法
+##基于`servlet`项目的集成方法
 ```Java
 public class WeixinServlet extends WeixinServletSupport {
         @Override
@@ -134,7 +110,7 @@ public class MyServletWeixinSupport extends WeixinSupport {
     }
 }
 ```
-
+<br>
 web.xml配置
 
 ```xml
@@ -149,7 +125,7 @@ web.xml配置
 </servlet-mapping>
 ```
 
-## 基于`Jfinal`框架项目的集成方法
+##基于`Jfinal`框架项目的集成方法
 ```Java
 public class MyJfinalController extends Controller {
     //用户自行实现的消息处理器
@@ -184,6 +160,10 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastweixin</artifactId>
-    <version>1.3.15</version>
+    <version>1.3.14</version>
 </dependency>
 ```
+
+##感谢支持
+支付宝<br>
+![image](https://github.com/sd4324530/fastweixin/blob/master/alipay.png)

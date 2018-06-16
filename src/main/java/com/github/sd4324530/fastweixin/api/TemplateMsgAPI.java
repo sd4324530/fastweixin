@@ -6,7 +6,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSONArray;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.Industry;
 import com.github.sd4324530.fastweixin.api.entity.TemplateMsg;
@@ -71,7 +70,7 @@ public class TemplateMsgAPI extends BaseAPI {
         BeanUtil.requireNonNull(msg.getTouser(), "openid is null");
         BeanUtil.requireNonNull(msg.getTemplateId(), "template_id is null");
         BeanUtil.requireNonNull(msg.getData(), "data is null");
-//        BeanUtil.requireNonNull(msg.getTopcolor(), "top color is null");
+        BeanUtil.requireNonNull(msg.getTopcolor(), "top color is null");
 //        BeanUtil.requireNonNull(msg.getUrl(), "url is null");
         String url = BASE_API_URL + "cgi-bin/message/template/send?access_token=#";
         BaseResponse r = executePost(url, msg.toJsonString());
@@ -90,7 +89,7 @@ public class TemplateMsgAPI extends BaseAPI {
         String url = BASE_API_URL + "cgi-bin/template/get_all_private_template?access_token=#";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        PrivateTemplate[] templates = JSONArray.toJavaObject((JSONArray)JSONUtil.getJSONFromString(resultJson).get("template_list"), PrivateTemplate[].class);
+        PrivateTemplate[] templates = JSONUtil.toBean(JSONUtil.toJson(JSONUtil.getJSONFromString(resultJson).get("template_list")), PrivateTemplate[].class);
         return templates;
     }
 

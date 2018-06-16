@@ -235,20 +235,4 @@ public class MaterialAPI extends BaseAPI {
             LOG.error("其他异常", e);
         }
     }
-    
-    /**
-     * 获得永久素材的信息、只获取信息、不进行下载
-     * @param mediaId
-     * @return
-     */
-    public DownloadMaterialResponse getMaterial(String mediaId) {
-		DownloadMaterialResponse materialresponse = null;
-        String url = BASE_API_URL + "cgi-bin/material/get_material?access_token=#";
-        Map<String, String> param = new HashMap<String, String>();
-        param.put("media_id", mediaId);
-        BaseResponse r = executePost(url, JSONUtil.toJson(param));
-        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        materialresponse = JSONUtil.toBean(resultJson, DownloadMaterialResponse.class);
-        return materialresponse;
-	} 
 }
