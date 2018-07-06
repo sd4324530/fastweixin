@@ -60,7 +60,15 @@ public enum MenuType {
     /**
      * 跳转图文消息URL
      */
-    VIEW_LIMITED("view_limited");
+    VIEW_LIMITED("view_limited"),
+
+    /**
+     * 跳转公众号关联小程序
+     * 此时MenuButton 的url为http://mp.weixin.qq.com
+     */
+    MINIPROGRAM("miniprogram"),
+
+    ;
 
     String value;
 
