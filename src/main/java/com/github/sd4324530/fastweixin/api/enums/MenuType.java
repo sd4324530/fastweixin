@@ -17,6 +17,11 @@ public enum MenuType {
      */
     VIEW("view"),
 
+    /**
+     * 微信小程序
+     */
+    MINI_PROGRAM("miniprogram"),
+
     /*-------------------------以下仅支持微信iPhone5.4.1以上版本，和Android5.4以上版本的微信用户------------------------*/
 
     /**

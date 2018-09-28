@@ -8,18 +8,21 @@ package com.github.sd4324530.fastweixin.api.enums;
  */
 public enum QrcodeType {
 
-    /**
-     * 临时二维码
-     */
-    QR_SCENE,
+	/**
+	 * 临时二维码
+	 */
+	QR_SCENE,
+	/**
+	 * 临时的字符串参数值
+	 */
+	QR_STR_SCENE,
+	/**
+	 * 永久二维码
+	 */
+	QR_LIMIT_SCENE,
 
-    /**
-     * 永久二维码
-     */
-    QR_LIMIT_SCENE,
-
-    /**
-     * 永久的字符串参数值
-     */
-    QR_LIMIT_STR_SCENE
+	/**
+	 * 永久的字符串参数值
+	 */
+	QR_LIMIT_STR_SCENE
 }
