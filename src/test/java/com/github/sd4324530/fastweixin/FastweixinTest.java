@@ -2,6 +2,7 @@ package com.github.sd4324530.fastweixin;
 
 import com.github.sd4324530.fastweixin.api.*;
 import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.DefaultApiConfig;
 import com.github.sd4324530.fastweixin.api.entity.*;
 import com.github.sd4324530.fastweixin.api.enums.*;
 import com.github.sd4324530.fastweixin.api.response.*;
@@ -9,7 +10,6 @@ import com.github.sd4324530.fastweixin.message.MpNewsMsg;
 import com.github.sd4324530.fastweixin.util.StrUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class FastweixinTest {
 //        String secret = "0705aafac0bef944de4c485d71fce900";
         String appid = "wx337021cfcc3e32fb";
         String secret = "e244f1244f0ba2798546e0450d3045ea";
-        config = new ApiConfig(appid, secret);
+        config = new DefaultApiConfig(appid, secret);
         TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
         config.addHandle(configChangeHandle);
     }
@@ -44,7 +44,7 @@ public class FastweixinTest {
     public void test() {
         String appid = "wx8c33ff895df5d0d9";
         String secret = "0705aafac0bef944de4c485d71fce900";
-        ApiConfig config = new ApiConfig(appid, secret);
+        ApiConfig config = new DefaultApiConfig(appid, secret);
         TestConfigChangeHandle configChangeHandle = new TestConfigChangeHandle();
         config.addHandle(configChangeHandle);
 //        createMenu(config);
