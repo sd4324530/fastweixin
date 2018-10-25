@@ -1,7 +1,9 @@
 package com.github.sd4324530.fastweixin.util;
 
+import com.github.sd4324530.fastweixin.CommonConstants;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
@@ -40,7 +42,7 @@ public final class NetWorkCenter {
      * 2.请求方法里加入超时时间参数
      * 或者说是否没必要定制,10秒是一个比较适中的选择，但有些请求可能就是需要快速给出结果T_T
      */
-    public static final  int     CONNECT_TIMEOUT = 10 * 1000;
+    public static final  int     CONNECT_TIMEOUT = CommonConstants.CONNECT_TIMEOUT;
     /**
      * 日志输出组件
      */
@@ -206,8 +208,17 @@ public final class NetWorkCenter {
         }
 
         LOG.debug("-----------------请求地址:{}-----------------", url);
-        //配置请求参数
-        RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(CONNECT_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(CONNECT_TIMEOUT).build();
+
+        // 配置请求参数
+        RequestConfig.Builder configbuilder = RequestConfig.custom();
+        configbuilder.setConnectionRequestTimeout(CONNECT_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(CONNECT_TIMEOUT);
+        // 设置代理
+        if (null != CommonConstants.PROXY_HOST && null != CommonConstants.PROXY_PORT) {
+            HttpHost proxy = new HttpHost(CommonConstants.PROXY_HOST, CommonConstants.PROXY_PORT);
+            configbuilder.setProxy(proxy);
+        }
+        RequestConfig config = configbuilder.build();
+
         CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
         HttpUriRequest request = null;
         switch (method) {
