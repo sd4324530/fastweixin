@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.api;
 
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.response.*;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
@@ -24,7 +24,7 @@ public class DataCubeAPI extends BaseAPI {
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-    public DataCubeAPI(ApiConfig config) {
+    public DataCubeAPI(ApiConfigInterface config) {
         super(config);
     }
 

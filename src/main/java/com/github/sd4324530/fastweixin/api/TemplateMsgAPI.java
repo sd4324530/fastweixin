@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONArray;
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.entity.Industry;
 import com.github.sd4324530.fastweixin.api.entity.TemplateMsg;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
@@ -24,7 +24,7 @@ import com.github.sd4324530.fastweixin.util.JSONUtil;
 public class TemplateMsgAPI extends BaseAPI {
     private static final Logger LOG = LoggerFactory.getLogger(TemplateMsgAPI.class);
 
-    public TemplateMsgAPI(ApiConfig config) {
+    public TemplateMsgAPI(ApiConfigInterface config) {
         super(config);
     }
 

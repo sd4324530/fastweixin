@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.api;
 
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.entity.Article;
 import com.github.sd4324530.fastweixin.api.enums.MediaType;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
@@ -36,7 +36,7 @@ public class MediaAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MediaAPI.class);
 
-    public MediaAPI(ApiConfig config) {
+    public MediaAPI(ApiConfigInterface config) {
         super(config);
     }
 

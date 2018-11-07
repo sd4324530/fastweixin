@@ -1,6 +1,6 @@
 package com.github.sd4324530.fastweixin.api;
 
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.enums.ResultType;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.util.BeanUtil;
@@ -21,14 +21,14 @@ public abstract class BaseAPI {
 
     protected static final String BASE_API_URL = "https://api.weixin.qq.com/";
 
-    protected final ApiConfig config;
+    protected final ApiConfigInterface config;
 
     /**
      * 构造方法，设置apiConfig
      *
      * @param config 微信API配置对象
      */
-    protected BaseAPI(ApiConfig config) {
+    protected BaseAPI(ApiConfigInterface config) {
         this.config = config;
     }
 

@@ -2,7 +2,7 @@ package com.github.sd4324530.fastweixin.api;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.util.CollectionUtil;
 import com.github.sd4324530.fastweixin.util.JSONUtil;
@@ -23,7 +23,7 @@ public class SystemAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(SystemAPI.class);
 
-    public SystemAPI(ApiConfig config) {
+    public SystemAPI(ApiConfigInterface config) {
         super(config);
     }
 

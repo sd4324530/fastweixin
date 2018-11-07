@@ -1,7 +1,7 @@
 package com.github.sd4324530.fastweixin.company.api;
 
 import com.github.sd4324530.fastweixin.api.BaseAPI;
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
+import com.github.sd4324530.fastweixin.api.config.ApiConfigInterface;
 import com.github.sd4324530.fastweixin.api.response.BaseResponse;
 import com.github.sd4324530.fastweixin.company.api.config.QYAPIConfig;
 import com.github.sd4324530.fastweixin.company.api.response.GetQYSendMessageResponse;
