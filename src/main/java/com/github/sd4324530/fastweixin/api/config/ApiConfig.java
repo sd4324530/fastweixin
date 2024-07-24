@@ -96,6 +96,8 @@ public final class ApiConfig extends Observable implements Serializable {
             LOG.warn("刷新Token出错.", e);
             //刷新工作出现有异常，将标识设置回false
             this.tokenRefreshing.set(false);
+            // 如果多个应用同时使用该appId，比如更新了secret,如果超时了 但是刷新失败了 仍会返回过期的accessToken，可能会导致accessToken管理混乱
+            this.accessToken = null;
         }
         return accessToken;
     }
